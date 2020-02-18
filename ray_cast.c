@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 20:18:17 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/18 17:36:56 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/18 18:28:19 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int		add_shade(double distance, int color)
 	return (color);
 }
 
-void	ft_draw(t_vars *vars)
+int			ft_draw(t_vars *vars)
 {
 	for (int x = 0; x < screenWidth; x++)
 	{
@@ -295,6 +295,7 @@ void	ft_draw(t_vars *vars)
 		ft_mlx_draw_line(vars, x, drawStart, drawEnd, color);
 	} //end for loop
 	printf("ft_draw done\n");
+	return (0);
 }
 
 int			key_press_hook(int keycode, t_vars *vars)
@@ -375,12 +376,12 @@ int			main(int argc, char *argv[])
 	vars.img_addr = mlx_get_data_addr(vars.img, &vars.img_bits_per_pixel, &vars.img_line_length,
 						&vars.img_endian);
     
+	ft_draw(&vars);
 	while (!vars.done)
 	{
-		ft_draw(&vars);
 		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+		mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
 		mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
-		
 		mlx_loop(vars.mlx);
 	}
 	mlx_destroy_window(vars.mlx, vars.win);
