@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 20:18:17 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/18 18:28:19 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/19 15:38:40 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,7 @@
 **  gcc -Wextra -Wall libmlx.a -framework OpenGl -framework AppKit -lz -L minilibx_opengl_20191021/ main.c 
 */
 
-#include "mlx.h"
-#include "keys.h"
-#include <stdio.h>
-#include <math.h>
-
-#define screenWidth 1280
-#define screenHeight 960
-#define mapWidth 24
-#define mapHeight 24
-
-#define RGB_Red create_trgb(0, 255, 0, 0);
-#define RGB_Green create_trgb(0, 0, 255, 0);
-#define RGB_Blue create_trgb(0, 0, 0, 255);
-#define RGB_White create_trgb(0, 255, 255, 255);
-#define RGB_Yellow create_trgb(0, 255, 255, 0);
+#include "cub3d.h"
 
 // typedef struct	s_data {
 // 	void		*img;
@@ -100,31 +86,6 @@ int worldMap[mapWidth][mapHeight]=
 // 	{2,1,2,1,2,4,2,1,2,1},
 // };
 
-int		create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-int		get_t(int trgb)
-{
-	return (trgb & 0xFF000000);
-}
-
-int		get_r(int trgb)
-{
-	return (trgb & 0xFF0000);
-}
-
-int		get_g(int trgb)
-{
-	return (trgb & 0xFF00);
-}
-
-int		get_b(int trgb)
-{
-	return (trgb & 0xFF);
-}
-
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
@@ -153,35 +114,12 @@ void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color
 	}
 }
 
-/*
-**	function that accepts a double (distance) and a int (color) as arguments,
-**	0 will add no shading to the color whilst 1 will make the color completely dark.
-**	0.5 will dim it halfway, and .25 a quarter way.
-*/
-int		add_shade(double distance, int color)
-{
-	int b;
-	int g;
-	int r;
-	int t;
-
-	if (distance > 0 && distance <= 1)
-	{
-		t = get_t(color);
-		r = (distance * 0 + (1 - distance) * (get_r(color) >> 16));
-		g = (distance * 0 + (1 - distance) * (get_g(color) >> 8));
-		b = (distance * 0 + (1 - distance) * (get_b(color) >> 0));
-		return (t << 24 | r << 16 | g << 8 | b);
-	}
-	return (color);
-}
-
-int			ft_draw(t_vars *vars)
+int		ft_draw(t_vars *vars)
 {
 	for (int x = 0; x < screenWidth; x++)
 	{
 		// calculate ray position and direction
-		double cameraX = 2 * x / screenWidth - 1; // x-coordinate in camera space
+		double cameraX = 2 * x / (double)screenWidth - 1; // x-coordinate in camera space
 		double rayDirX = vars->dirX + vars->planeX * cameraX;
 		double rayDirY = vars->dirY + vars->planeY * cameraX;
 	
@@ -295,6 +233,9 @@ int			ft_draw(t_vars *vars)
 		ft_mlx_draw_line(vars, x, drawStart, drawEnd, color);
 	} //end for loop
 	printf("ft_draw done\n");
+	// mlx_clear_window(vars->mlx, vars->win);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+
 	return (0);
 }
 
@@ -317,6 +258,7 @@ int			key_press_hook(int keycode, t_vars *vars)
 				vars->posX += vars->dirX * vars->moveSpeed;
 			if (worldMap[(int)(vars->posX)][(int)(vars->posY + vars->dirY * vars->moveSpeed)] == 0)
 				vars->posY += vars->dirY * vars->moveSpeed;
+			printf("Ker Press --- keycode: [UP]\n");
 		}
 		// move backwards if no wall behind you
 		if (keycode == KEY_DOWN)
@@ -325,6 +267,7 @@ int			key_press_hook(int keycode, t_vars *vars)
 				vars->posX -= vars->dirX * vars->moveSpeed;
 			if (worldMap[(int)(vars->posX)][(int)(vars->posY - vars->dirY * vars->moveSpeed)] == 0)
 				vars->posY -= vars->dirY * vars->moveSpeed;
+			printf("Ker Press --- keycode: [DOWN]\n");
 		}
 		//rotate to the right
 		if (keycode == KEY_RIGHT)
@@ -348,9 +291,7 @@ int			key_press_hook(int keycode, t_vars *vars)
 			vars->planeX = vars->planeX * cos(vars->rotSpeed) - vars->planeY * sin(vars->rotSpeed);
 			vars->planeY = oldPlaneX * sin(vars->rotSpeed) + vars->planeY * cos(vars->rotSpeed);
 		}
-    	printf("Ker Press --- keycode: [%d]\n", keycode);
 	}
-	mlx_clear_window(vars->mlx, vars->win);
     return (0);
 }
 
@@ -364,8 +305,8 @@ int			main(int argc, char *argv[])
 	vars.dirY = 0; //initial direction vector
 	vars.planeX = 0;
 	vars.planeY = 0.66; //the 2d raycaster version of camera plane
-	vars.moveSpeed = 0.5; //the constant value is in squares/second
-	vars.rotSpeed = 0.3;
+	vars.moveSpeed = 0.1; //the constant value is in squares/second
+	vars.rotSpeed = 0.1;
 	
 	// create screen with the resolution of choice:
 	vars.mlx = mlx_init();
@@ -375,11 +316,11 @@ int			main(int argc, char *argv[])
 	vars.img = mlx_new_image(vars.mlx, screenWidth, screenHeight);
 	vars.img_addr = mlx_get_data_addr(vars.img, &vars.img_bits_per_pixel, &vars.img_line_length,
 						&vars.img_endian);
-    
-	ft_draw(&vars);
+	mlx_expose_hook(vars.win, ft_draw(&vars), &vars);
 	while (!vars.done)
 	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+		// ft_draw(&vars);
+		// mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 		mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
 		mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
 		mlx_loop(vars.mlx);
