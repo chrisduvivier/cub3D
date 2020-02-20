@@ -1,50 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_cast.c                                         :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/16 20:18:17 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/19 15:38:40 by cduvivie         ###   ########.fr       */
+/*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
+/*   Updated: 2020/02/20 11:51:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**  gcc -Wextra -Wall libmlx.a -framework OpenGl -framework AppKit -lz -L minilibx_opengl_20191021/ main.c 
-*/
-
 #include "cub3d.h"
-
-// typedef struct	s_data {
-// 	void		*img;
-// 	char		*addr;
-// 	int			bits_per_pixel;
-// 	int			line_length;
-// 	int			endian;
-// }				t_data;
-
-typedef struct  s_vars {
-    void        *mlx;
-    void        *win;
-	int			done;
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		planeX;
-	double		dirY;
-	double		planeY;
-	double 		moveSpeed; //the constant value is in squares/second
-	double 		rotSpeed;
-	int			prev_mapX;
-	int			prev_mapY;
-	//img
-	void		*img;
-	char		*img_addr;
-	int			img_bits_per_pixel;
-	int			img_line_length;
-	int			img_endian;
-}               t_vars;
 
 int worldMap[mapWidth][mapHeight]=
 {
@@ -73,24 +39,14 @@ int worldMap[mapWidth][mapHeight]=
 	{1, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
-// {
-// 	{1,2,1,2,1,2,1,2,1,2},
-// 	{2,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,2},
-// 	{2,0,0,0,0,0,0,0,0,1},
-// 	{5,0,0,0,0,0,0,0,0,3},
-// 	{2,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,2},
-// 	{2,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,2},
-// 	{2,1,2,1,2,4,2,1,2,1},
-// };
 
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
+	t_img	i;
 
-	dst = vars->img_addr + (y * vars->img_line_length + x * (vars->img_bits_per_pixel / 8));
+	i = vars->img[vars->current_img];
+	dst = i.addr + (y * i.line_length + x * (i.bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
 
@@ -118,14 +74,17 @@ int		ft_draw(t_vars *vars)
 {
 	for (int x = 0; x < screenWidth; x++)
 	{
+		t_ray	ray;
+
+		ray = vars->ray;
 		// calculate ray position and direction
 		double cameraX = 2 * x / (double)screenWidth - 1; // x-coordinate in camera space
-		double rayDirX = vars->dirX + vars->planeX * cameraX;
-		double rayDirY = vars->dirY + vars->planeY * cameraX;
+		double rayDirX = ray.dirX + ray.planeX * cameraX;
+		double rayDirY = ray.dirY + ray.planeY * cameraX;
 	
 		// which box of the map we're in
-		int mapX = (int)(vars->posX);
-		int mapY = (int)(vars->posY);
+		int mapX = (int)(ray.posX);
+		int mapY = (int)(ray.posY);
 		
 		// length of ray from current position to next x or y-side
 		double sideDistX;
@@ -146,22 +105,22 @@ int		ft_draw(t_vars *vars)
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (vars->posX - mapX) * deltaDistX;
+			sideDistX = (ray.posX - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - vars->posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - ray.posX) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (vars->posY - mapY) * deltaDistY;
+			sideDistY = (ray.posY - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - vars->posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - ray.posY) * deltaDistY;
 		}
 		
 		// perform DDA
@@ -188,9 +147,9 @@ int		ft_draw(t_vars *vars)
 		// Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 		double perpWallDist;
 		if (side == 0)
-			perpWallDist = (mapX - vars->posX + (1 - stepX) / 2) / rayDirX;
+			perpWallDist = (mapX - ray.posX + (1 - stepX) / 2) / rayDirX;
 		else
-			perpWallDist = (mapY - vars->posY + (1 - stepY) / 2) / rayDirY;
+			perpWallDist = (mapY - ray.posY + (1 - stepY) / 2) / rayDirY;
 		
 		// Calculate height of line to draw on screen
 		int lineHeight = (int)(screenHeight / perpWallDist);
@@ -234,96 +193,66 @@ int		ft_draw(t_vars *vars)
 	} //end for loop
 	printf("ft_draw done\n");
 	// mlx_clear_window(vars->mlx, vars->win);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img[vars->current_img].img, 0, 0);
 
 	return (0);
 }
 
-int			key_press_hook(int keycode, t_vars *vars)
-{
-    if (keycode == KEY_ESC)
-    {
-        printf("ESC: Closing the window\n");
-		vars->done = 1;
-		mlx_destroy_window(vars->mlx, vars->win);
-        exit (0);
-    }
-	else if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_DOWN || keycode == KEY_UP)
-	{
-		// ft_player_motion(vars);
-		// move forward if no wall in front of you
-		if (keycode == KEY_UP)
-		{
-			if (worldMap[(int)(vars->posX + vars->dirX * vars->moveSpeed)][(int)(vars->posY)] == 0)
-				vars->posX += vars->dirX * vars->moveSpeed;
-			if (worldMap[(int)(vars->posX)][(int)(vars->posY + vars->dirY * vars->moveSpeed)] == 0)
-				vars->posY += vars->dirY * vars->moveSpeed;
-			printf("Ker Press --- keycode: [UP]\n");
-		}
-		// move backwards if no wall behind you
-		if (keycode == KEY_DOWN)
-		{
-			if (worldMap[(int)(vars->posX - vars->dirX * vars->moveSpeed)][(int)(vars->posY)] == 0)
-				vars->posX -= vars->dirX * vars->moveSpeed;
-			if (worldMap[(int)(vars->posX)][(int)(vars->posY - vars->dirY * vars->moveSpeed)] == 0)
-				vars->posY -= vars->dirY * vars->moveSpeed;
-			printf("Ker Press --- keycode: [DOWN]\n");
-		}
-		//rotate to the right
-		if (keycode == KEY_RIGHT)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = vars->dirX;
-			vars->dirX = vars->dirX * cos(-(vars->rotSpeed)) - vars->dirY * sin(-(vars->rotSpeed));
-			vars->dirY = oldDirX * sin(-(vars->rotSpeed)) + vars->dirY * cos(-(vars->rotSpeed));
-			double oldPlaneX = vars->planeX;
-			vars->planeX = vars->planeX * cos(-(vars->rotSpeed)) - vars->planeY * sin(-(vars->rotSpeed));
-			vars->planeY = oldPlaneX * sin(-(vars->rotSpeed)) + vars->planeY * cos(-(vars->rotSpeed));
-		}
-		//rotate to the left
-		if (keycode == KEY_LEFT)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = vars->dirX;
-			vars->dirX = vars->dirX * cos(vars->rotSpeed) - vars->dirY * sin(vars->rotSpeed);
-			vars->dirY = oldDirX * sin(vars->rotSpeed) + vars->dirY * cos(vars->rotSpeed);
-			double oldPlaneX = vars->planeX;
-			vars->planeX = vars->planeX * cos(vars->rotSpeed) - vars->planeY * sin(vars->rotSpeed);
-			vars->planeY = oldPlaneX * sin(vars->rotSpeed) + vars->planeY * cos(vars->rotSpeed);
-		}
-	}
-    return (0);
-}
+// int			key_press_hook(int keycode, t_vars *vars)
+// {
+// 	t_ray r;
 
-int			main(int argc, char *argv[])
-{
-	t_vars      vars;
-	
-	vars.posX = 22;
-	vars.posY = 12;  //x and y start position
-	vars.dirX = -1;
-	vars.dirY = 0; //initial direction vector
-	vars.planeX = 0;
-	vars.planeY = 0.66; //the 2d raycaster version of camera plane
-	vars.moveSpeed = 0.1; //the constant value is in squares/second
-	vars.rotSpeed = 0.1;
-	
-	// create screen with the resolution of choice:
-	vars.mlx = mlx_init();
-	
-	vars.done = 0;
-    vars.win = mlx_new_window(vars.mlx, screenWidth, screenHeight, "ray_cast");
-	vars.img = mlx_new_image(vars.mlx, screenWidth, screenHeight);
-	vars.img_addr = mlx_get_data_addr(vars.img, &vars.img_bits_per_pixel, &vars.img_line_length,
-						&vars.img_endian);
-	mlx_expose_hook(vars.win, ft_draw(&vars), &vars);
-	while (!vars.done)
-	{
-		// ft_draw(&vars);
-		// mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-		mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
-		mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
-		mlx_loop(vars.mlx);
-	}
-	mlx_destroy_window(vars.mlx, vars.win);
-}
+// 	r = vars->ray;
+// 	if (keycode == KEY_ESC)
+// 	{
+// 		printf("ESC: Closing the window\n");
+// 		vars->done = 1;
+// 		mlx_destroy_window(vars->mlx, vars->win);
+// 		exit (0);
+// 	}
+// 	else if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_DOWN || keycode == KEY_UP)
+// 	{
+// 		// ft_player_motion(vars);
+// 		// move forward if no wall in front of you
+// 		if (keycode == KEY_UP)
+// 		{
+// 			if (worldMap[(int)(r.posX + r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
+// 				r.posX += r.dirX * r.moveSpeed;
+// 			if (worldMap[(int)(r.posX)][(int)(r.posY + r.dirY * r.moveSpeed)] == 0)
+// 				r.posY += r.dirY * r.moveSpeed;
+// 			printf("Ker Press --- keycode: [UP]\n");
+// 		}
+// 		// move backwards if no wall behind you
+// 		if (keycode == KEY_DOWN)
+// 		{
+// 			if (worldMap[(int)(r.posX - r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
+// 				r.posX -= r.dirX * r.moveSpeed;
+// 			if (worldMap[(int)(r.posX)][(int)(r.posY - r.dirY * r.moveSpeed)] == 0)
+// 				r.posY -= r.dirY * r.moveSpeed;
+// 			printf("Ker Press --- keycode: [DOWN]\n");
+// 		}
+// 		//rotate to the right
+// 		if (keycode == KEY_RIGHT)
+// 		{
+// 			//both camera direction and camera plane must be rotated
+// 			double oldDirX = r.dirX;
+// 			r.dirX = r.dirX * cos(-(r.rotSpeed)) - r.dirY * sin(-(r.rotSpeed));
+// 			r.dirY = oldDirX * sin(-(r.rotSpeed)) + r.dirY * cos(-(r.rotSpeed));
+// 			double oldPlaneX = r.planeX;
+// 			r.planeX = r.planeX * cos(-(r.rotSpeed)) - r.planeY * sin(-(r.rotSpeed));
+// 			r.planeY = oldPlaneX * sin(-(r.rotSpeed)) + r.planeY * cos(-(r.rotSpeed));
+// 		}
+// 		//rotate to the left
+// 		if (keycode == KEY_LEFT)
+// 		{
+// 			//both camera direction and camera plane must be rotated
+// 			double oldDirX = r.dirX;
+// 			r.dirX = r.dirX * cos(r.rotSpeed) - r.dirY * sin(r.rotSpeed);
+// 			r.dirY = oldDirX * sin(r.rotSpeed) + r.dirY * cos(r.rotSpeed);
+// 			double oldPlaneX = r.planeX;
+// 			r.planeX = r.planeX * cos(r.rotSpeed) - r.planeY * sin(r.rotSpeed);
+// 			r.planeY = oldPlaneX * sin(r.rotSpeed) + r.planeY * cos(r.rotSpeed);
+// 		}
+// 	}
+// 	return (0);
+// }
