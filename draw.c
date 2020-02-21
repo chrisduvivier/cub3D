@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/20 11:51:37 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:07:49 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	t_img	i;
 
 	i = vars->img[vars->current_img];
+	// i = vars->i;
 	dst = i.addr + (y * i.line_length + x * (i.bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
@@ -193,66 +194,67 @@ int		ft_draw(t_vars *vars)
 	} //end for loop
 	printf("ft_draw done\n");
 	// mlx_clear_window(vars->mlx, vars->win);
+	// mlx_put_image_to_window(vars->mlx, vars->win, vars->i.img, 0, 0);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img[vars->current_img].img, 0, 0);
 
 	return (0);
 }
 
-// int			key_press_hook(int keycode, t_vars *vars)
-// {
-// 	t_ray r;
+int			key_press_hook(int keycode, t_vars *vars)
+{
+	t_ray r;
 
-// 	r = vars->ray;
-// 	if (keycode == KEY_ESC)
-// 	{
-// 		printf("ESC: Closing the window\n");
-// 		vars->done = 1;
-// 		mlx_destroy_window(vars->mlx, vars->win);
-// 		exit (0);
-// 	}
-// 	else if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_DOWN || keycode == KEY_UP)
-// 	{
-// 		// ft_player_motion(vars);
-// 		// move forward if no wall in front of you
-// 		if (keycode == KEY_UP)
-// 		{
-// 			if (worldMap[(int)(r.posX + r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
-// 				r.posX += r.dirX * r.moveSpeed;
-// 			if (worldMap[(int)(r.posX)][(int)(r.posY + r.dirY * r.moveSpeed)] == 0)
-// 				r.posY += r.dirY * r.moveSpeed;
-// 			printf("Ker Press --- keycode: [UP]\n");
-// 		}
-// 		// move backwards if no wall behind you
-// 		if (keycode == KEY_DOWN)
-// 		{
-// 			if (worldMap[(int)(r.posX - r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
-// 				r.posX -= r.dirX * r.moveSpeed;
-// 			if (worldMap[(int)(r.posX)][(int)(r.posY - r.dirY * r.moveSpeed)] == 0)
-// 				r.posY -= r.dirY * r.moveSpeed;
-// 			printf("Ker Press --- keycode: [DOWN]\n");
-// 		}
-// 		//rotate to the right
-// 		if (keycode == KEY_RIGHT)
-// 		{
-// 			//both camera direction and camera plane must be rotated
-// 			double oldDirX = r.dirX;
-// 			r.dirX = r.dirX * cos(-(r.rotSpeed)) - r.dirY * sin(-(r.rotSpeed));
-// 			r.dirY = oldDirX * sin(-(r.rotSpeed)) + r.dirY * cos(-(r.rotSpeed));
-// 			double oldPlaneX = r.planeX;
-// 			r.planeX = r.planeX * cos(-(r.rotSpeed)) - r.planeY * sin(-(r.rotSpeed));
-// 			r.planeY = oldPlaneX * sin(-(r.rotSpeed)) + r.planeY * cos(-(r.rotSpeed));
-// 		}
-// 		//rotate to the left
-// 		if (keycode == KEY_LEFT)
-// 		{
-// 			//both camera direction and camera plane must be rotated
-// 			double oldDirX = r.dirX;
-// 			r.dirX = r.dirX * cos(r.rotSpeed) - r.dirY * sin(r.rotSpeed);
-// 			r.dirY = oldDirX * sin(r.rotSpeed) + r.dirY * cos(r.rotSpeed);
-// 			double oldPlaneX = r.planeX;
-// 			r.planeX = r.planeX * cos(r.rotSpeed) - r.planeY * sin(r.rotSpeed);
-// 			r.planeY = oldPlaneX * sin(r.rotSpeed) + r.planeY * cos(r.rotSpeed);
-// 		}
-// 	}
-// 	return (0);
-// }
+	r = vars->ray;
+	if (keycode == KEY_ESC)
+	{
+		printf("ESC: Closing the window\n");
+		vars->done = 1;
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit (0);
+	}
+	else if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_DOWN || keycode == KEY_UP)
+	{
+		// ft_player_motion(vars);
+		// move forward if no wall in front of you
+		if (keycode == KEY_UP)
+		{
+			if (worldMap[(int)(r.posX + r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
+				r.posX += r.dirX * r.moveSpeed;
+			if (worldMap[(int)(r.posX)][(int)(r.posY + r.dirY * r.moveSpeed)] == 0)
+				r.posY += r.dirY * r.moveSpeed;
+			printf("Ker Press --- keycode: [UP]\n");
+		}
+		// move backwards if no wall behind you
+		if (keycode == KEY_DOWN)
+		{
+			if (worldMap[(int)(r.posX - r.dirX * r.moveSpeed)][(int)(r.posY)] == 0)
+				r.posX -= r.dirX * r.moveSpeed;
+			if (worldMap[(int)(r.posX)][(int)(r.posY - r.dirY * r.moveSpeed)] == 0)
+				r.posY -= r.dirY * r.moveSpeed;
+			printf("Ker Press --- keycode: [DOWN]\n");
+		}
+		//rotate to the right
+		if (keycode == KEY_RIGHT)
+		{
+			//both camera direction and camera plane must be rotated
+			double oldDirX = r.dirX;
+			r.dirX = r.dirX * cos(-(r.rotSpeed)) - r.dirY * sin(-(r.rotSpeed));
+			r.dirY = oldDirX * sin(-(r.rotSpeed)) + r.dirY * cos(-(r.rotSpeed));
+			double oldPlaneX = r.planeX;
+			r.planeX = r.planeX * cos(-(r.rotSpeed)) - r.planeY * sin(-(r.rotSpeed));
+			r.planeY = oldPlaneX * sin(-(r.rotSpeed)) + r.planeY * cos(-(r.rotSpeed));
+		}
+		//rotate to the left
+		if (keycode == KEY_LEFT)
+		{
+			//both camera direction and camera plane must be rotated
+			double oldDirX = r.dirX;
+			r.dirX = r.dirX * cos(r.rotSpeed) - r.dirY * sin(r.rotSpeed);
+			r.dirY = oldDirX * sin(r.rotSpeed) + r.dirY * cos(r.rotSpeed);
+			double oldPlaneX = r.planeX;
+			r.planeX = r.planeX * cos(r.rotSpeed) - r.planeY * sin(r.rotSpeed);
+			r.planeY = oldPlaneX * sin(r.rotSpeed) + r.planeY * cos(r.rotSpeed);
+		}
+	}
+	return (0);
+}
