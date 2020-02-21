@@ -1,0 +1,3 @@
+- Textures.
+- Parsing the .cub file.
+- Sprite (item on the floor, etc.).

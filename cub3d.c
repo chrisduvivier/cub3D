@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/21 12:11:03 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:42:39 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_ray		t_ray_init(void)
 	ray.dirY = 0; //initial direction vector
 	ray.planeX = 0;
 	ray.planeY = 0.66; //the 2d raycaster version of camera plane
-	ray.moveSpeed = 0.1; //the constant value is in squares/second
+	ray.moveSpeed = 0.3; //the constant value is in squares/second
 	ray.rotSpeed = 0.1;
 	return (ray);
 }
@@ -65,9 +65,9 @@ int			main(int argc, char *argv[])
 	{
 		// ft_draw(&vars);
 		// mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-		mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
+		// mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
 		mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
 		mlx_loop(vars.mlx);
 	}
-	mlx_destroy_window(vars.mlx, vars.win);
+	return (0);
 }

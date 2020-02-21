@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/21 12:11:35 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:40:54 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@
 # define RGB_White create_trgb(0, 255, 255, 255);
 # define RGB_Yellow create_trgb(0, 255, 255, 0);
 
+# define RGB_CEILING create_trgb(0, 0, 0, 0);
+# define RGB_FLOOR create_trgb(0, 45, 45, 45);
+
 typedef struct  s_ray {
 	double		posX;
 	double		posY;
 	double		dirX;
-	double		planeX;
 	double		dirY;
+	double		planeX;
 	double		planeY;
 	double 		moveSpeed; //the constant value is in squares/second
 	double 		rotSpeed;
