@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/02/25 14:49:09 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/02/26 14:38:03 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ	= $(FILES:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): lib $(OBJ)
 	$(CC) libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES)
 
 $(OBJ): $(FILES)

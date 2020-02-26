@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/25 15:52:15 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:44:43 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ void		line_to_map(t_map *map, char *line)
 		{
 			printf("line [%s]\n", line);
 			line++;
-			printf("line [%s]\n", line);
-			map->res_w = ft_atoi(line);
-			// map->res_h = ft_atoi(line);
+			map->res_w = ft_atoi_w_p(&line);
+			map->res_h = ft_atoi_w_p(&line);
 		}
-		printf("res_w [%s]\n", map->res_w);
-		// printf("res_h [%s]\n", map->res_h);
+		printf("res_w [%d] | res_h [%d]\n", map->res_w, map->res_h);
 	}
 }
 
@@ -69,10 +67,12 @@ t_map		t_map_init(int argc, char *argv[])
 		printf("argv[1]= [%s]\n", argv[1]);
 		if ((fd = open(argv[1], O_RDONLY)) > 0)
 		{
+			// while there is something in line (since it returns 0 when done reading)
 			while ((res = get_next_line(fd, &line)) > 0 || *line)
 			{
-				printf("---------[%c]\n", line[0]);
+				printf("---------[%c]\n", *line);
 				line_to_map(&map, line);
+				// printf("---------[%c]\n", *line);
 				free(line);
 			}
 		}
