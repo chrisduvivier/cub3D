@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/21 20:48:15 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/25 15:52:15 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,47 @@ t_img		t_img_init(t_vars vars)
 	return (img);
 }
 
-t_vars      t_vars_init()
+void		line_to_map(t_map *map, char *line)
+{
+	if (line)
+	{
+		if (line[0] == 'R')
+		{
+			printf("line [%s]\n", line);
+			line++;
+			printf("line [%s]\n", line);
+			map->res_w = ft_atoi(line);
+			// map->res_h = ft_atoi(line);
+		}
+		printf("res_w [%s]\n", map->res_w);
+		// printf("res_h [%s]\n", map->res_h);
+	}
+}
+
+t_map		t_map_init(int argc, char *argv[])
+{
+	t_map	map;
+	int 	fd;
+	char 	*line;
+	int		res;
+	
+	if (argc >= 2 && argv[1])
+	{
+		printf("argv[1]= [%s]\n", argv[1]);
+		if ((fd = open(argv[1], O_RDONLY)) > 0)
+		{
+			while ((res = get_next_line(fd, &line)) > 0 || *line)
+			{
+				printf("---------[%c]\n", line[0]);
+				line_to_map(&map, line);
+				free(line);
+			}
+		}
+	}
+	return (map);
+}
+
+t_vars      t_vars_init(int argc, char *argv[])
 {
 	t_vars	vars;
 	
@@ -51,6 +91,7 @@ t_vars      t_vars_init()
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
+	vars.map = t_map_init(argc, argv);
 	return (vars);
 }
 
@@ -58,7 +99,7 @@ int			main(int argc, char *argv[])
 {
 	t_vars      vars;
 
-	vars = t_vars_init();
+	vars = t_vars_init(argc, argv);
 	
 	mlx_expose_hook(vars.win, ft_draw(&vars), &vars);
 	while (!vars.done)

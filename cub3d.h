@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/21 16:40:54 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/25 15:35:11 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,23 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # include "mlx.h"
 # include "keys.h"
+# include "libft/libft.h"
 
 # define screenWidth 1280
 # define screenHeight 960
 # define mapWidth 24
 # define mapHeight 24
+
+/*
+**	dimensions of textures
+*/
+
+#define texWidth 64
+#define texHeight 64
 
 # define RGB_Red create_trgb(0, 255, 0, 0);
 # define RGB_Green create_trgb(0, 0, 255, 0);
@@ -53,10 +62,27 @@ typedef struct  s_img {
 	int			endian;
 }               t_img;
 
+typedef struct 	s_map
+{
+	int			*map;
+	int			height;
+	int			width;
+	int			res_w;
+	int			res_h;
+	char		*texture_north;
+	char		*texture_south;
+	char		*texture_west;
+	char		*texture_east;
+	char		*texture_sprite;
+	int			rgb_floor;
+	int			rgb_ceiling;
+}				t_map;
+
 typedef struct  s_vars {
 	void        *mlx;
 	void        *win;
 	int			done;
+	t_map		map;
 	t_ray       ray;
 	int			current_img;
 	t_img       img[2];

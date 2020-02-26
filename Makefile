@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/02/07 21:10:14 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/02/25 14:49:09 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,33 +15,30 @@ CC = gcc
 CFLAGS = -I. -c
 OPTIONS = -Wall -Wextra -Werror
 RM = /bin/rm -f
+MLX_DIR = minilibx_opengl_20191021/
+LIBFT_DIR = libft/
+FILES = cub3d.c draw.c colors_1.c colors_2.c
 
-FILES = main.c
-	
 OBJ	= $(FILES:%.c=%.o)
 
-# @ echo "\033[32mlibftprintf.a compiled\033[0m"
 all: $(NAME)
 
-# %.o: %.c
-# 	@printf "Compiling $<"
-# 	@gcc -Wall -Wextra -Werror -Imlx -Iinc -Ilibft -c $< -o $@
-
-# main:
-# 	@ $(CC) main.c -L. -lftprintf
-
 $(NAME): $(OBJ)
-	 $(CC) -Lmlx/ -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES)
 
 $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -Iminilibx_opengl_20191021 -Iinc
+
+lib:
+	@ $(MAKE) -C $(LIBFT_DIR) all
+	@ cp $(LIBFT_DIR)/libft.a ./
 
 clean:
 	@ $(RM) $(OBJ)
 
 fclean: clean
 	@ $(RM) $(NAME)
-	@ echo "\033[32mFCLEAN DONE\033[0m"
+	@ $(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
