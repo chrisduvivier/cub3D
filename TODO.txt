@@ -1,8 +1,16 @@
 - Textures.
 
+- Movement keyboard config
+    - rotation avdc key arrows, movement of player with WSAD keys.
+
 - Parsing the .cub file.
     - Resolution DONE
     - Textures 
+        - Read how to use minilibx function to get textures
+        - function to get teh path as string
+    - Map
+        - use get_next_line to get all lines (all lines = height of map (y))
+        - 
 
 - Sprite (item on the floor, etc.).
 
@@ -10,3 +18,6 @@
     In case the Deepthought has eyes one day to evaluate your project, your program
     must save the first rendered image in bmp format when its second argument is
     "–-save"
+
+- Exit and free
+    - read strerror and perror fucntion DONE

@@ -6,17 +6,19 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/25 15:35:11 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/26 17:40:30 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_3D_H
 # define CUB_3D_H
 
-# include <stdio.h>
 # include <math.h>
-# include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <errno.h>
 
 # include "mlx.h"
 # include "keys.h"
