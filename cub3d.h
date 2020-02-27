@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/26 17:40:30 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/27 16:22:47 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define screenHeight 960
 # define mapWidth 24
 # define mapHeight 24
+
+# define MY_ERROR_MESSAGE 1
+# define ERROR_RGB "Error: @get_color: .cub file has RGB value out of \
+range\n"
+# define ERROR_TEXTURE_FILE "Error: @get_texture: Could not find texture file\n"
 
 /*
 **	dimensions of textures
@@ -66,9 +71,6 @@ typedef struct  s_img {
 
 typedef struct 	s_map
 {
-	int			*map;
-	int			height;
-	int			width;
 	int			res_w;
 	int			res_h;
 	char		*texture_north;
@@ -78,6 +80,9 @@ typedef struct 	s_map
 	char		*texture_sprite;
 	int			rgb_floor;
 	int			rgb_ceiling;
+	int			**map;
+	int			height;
+	int			width;
 }				t_map;
 
 typedef struct  s_vars {

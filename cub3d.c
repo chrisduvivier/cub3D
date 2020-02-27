@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/26 18:23:16 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/27 16:19:04 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,40 @@
 
 #include "cub3d.h"
 
-void		exit_cub3d(void)
+void		free_t_map(t_map *map)
 {
-	ft_printf("Error: %s\n", strerror(errno));
+	if (map->texture_east)
+		free(map->texture_east);
+	if (map->texture_north)
+		free(map->texture_north);
+	if (map->texture_south)
+		free(map->texture_south);
+	if (map->texture_west)
+		free(map->texture_west);
+	if (map->texture_sprite)
+		free(map->texture_sprite);
+}
+
+void		free_t_vars(t_vars *vars)
+{
+	if (vars)
+	{
+		free_t_map(&(vars->map));
+	}
+}
+
+/*
+**	exit cub3d program after freeing allocated memory.
+**	@param vars: struct
+**	@param manual: non 0 value if the error message was prompt at the caller.
+*/
+
+void		exit_cub3d(t_vars *vars, int my_error_text)
+{
+	if (!my_error_text)
+		ft_printf("Error: %s\n", strerror(errno));
+	free_t_vars(vars);
+	system("leaks a.out > leaks.txt");
 	exit(0);
 }
 
@@ -53,47 +84,73 @@ void		get_map_res(t_map **map, char *line)
 	(*map)->res_h = ft_atoi_w_p(&line);
 }
 
-void		get_texture(t_map **map, char *line, char type)
+/*
+**	skip over alphabet (NO, WE, S, etc.) and space and get the texture's path.
+*/
+
+char		*get_texture(t_vars *vars, char *line, char type)
 {
-	// TODO: change function to get the string.
-	if (type == 'N')
-		(*map)->texture_north = ft_atoi_w_p(&line + 2);
-	else if (type == 'S')
-		(*map)->texture_south = ft_atoi_w_p(&line + 2);
-	else if (type == 'W')
-		(*map)->texture_west = ft_atoi_w_p(&line + 2);
-	else if (type == 'E')
-		(*map)->texture_east = ft_atoi_w_p(&line + 2);
-	else if (type == 's')
-		(*map)->texture_sprite = ft_atoi_w_p(&line + 1);
+	char	*filename;
+	
+	while (ft_isalpha(*line))
+		line++;
+	while (ft_isspace(*line))
+		line++;
+	if (!(filename = ft_strdup(line)))
+	{
+		ft_putstr_fd(ERROR_TEXTURE_FILE, STDERR_FILENO);
+		exit_cub3d(vars, MY_ERROR_MESSAGE);
+	}
+	return (filename);
 }
 
-void		line_to_map(t_map *map, char *line)
+/*
+**	@get_color
+**	R,G,B colors (in this order) in range [0,255]: 0, 255, 255
+*/
+
+int			get_color(t_vars *vars, char *line)
+{
+	char **tab;
+	int	r;
+	int	g;
+	int	b;
+	
+	if (ft_isspace(*line))
+		line++;
+	r = ft_atoi_w_p(&line);
+	line++;
+	g = ft_atoi_w_p(&line);
+	line++;
+	b = ft_atoi_w_p(&line);
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	{
+		ft_putstr_fd(ERROR_RGB, STDERR_FILENO);
+		exit_cub3d(vars, 1);
+	}
+	return (create_trgb(0, r, g, b));
+}
+
+void		line_to_map(t_vars *vars, t_map *map, char *line)
 {
 	if (line)
 	{
 		if (line[0] == 'R')
 			get_map_res(&map, line);
 		else if (line[0] == 'N' && line[1] == 'O')
-			get_texture(&map, line, 'N');
+			map->texture_north = get_texture(vars, line, 'N');
 		else if (line[0] == 'S' && line[1] == 'O')
-			get_texture(&map, line, 'S');
+			map->texture_south = get_texture(vars, line, 'S');
 		else if (line[0] == 'W' && line[1] == 'E')
-			get_texture(&map, line, 'W');
+			map->texture_west = get_texture(vars, line, 'W');
 		else if (line[0] == 'E' && line[1] == 'A')
-			get_texture(&map, line, 'E');
+			map->texture_east = get_texture(vars, line, 'E');
 		else if (line[0] == 'S')
-			get_texture(&map, line, 's');
+			map->texture_sprite = get_texture(vars, line, 's');
 		else if (line[0] == 'F')
-			{}
+			map->rgb_floor = get_color(vars, ++line);
 		else if (line[0] == 'C')
-			{}
-		printf("res_w [%d] | res_h [%d]\n", map->res_w, map->res_h);
-		printf("texture_east [%s]\n", map->texture_east);
-		printf("texture_north [%s]\n", map->texture_north);
-		printf("texture_south [%s]\n", map->texture_south);
-		printf("map->texture_west [%s]\n", map->texture_west);
-		printf("map->texture_sprite [%s]\n", map->texture_sprite);
+			map->rgb_ceiling = get_color(vars, ++line);
 	}
 }
 
@@ -126,7 +183,7 @@ void		line_to_map(t_map *map, char *line)
 // 	texture_sprite_load(e);
 // }
 
-t_map		t_map_init(int argc, char *argv[])
+t_map		t_map_init(t_vars *vars, int argc, char *argv[])
 {
 	t_map	map;
 	int 	fd;
@@ -136,13 +193,21 @@ t_map		t_map_init(int argc, char *argv[])
 	if (argc >= 2 && argv[1] && ft_check_file_extension(argv[1], ".cub"))
 	{
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
-			exit_cub3d();
+			exit_cub3d(vars, 0);
 		// while there is something in line (since it returns 0 when done reading)
 		while ((res = get_next_line(fd, &line)) > 0 || *line)
 		{
-			line_to_map(&map, line);
+			line_to_map(vars, &map, line);
 			free(line);
 		}
+		if (res < 0)
+			exit_cub3d(vars, 0);
+		printf("res_w [%d]\nres_h [%d]\n", map.res_w, map.res_h);
+		printf("texture_east [%s]\n", map.texture_east);
+		printf("texture_north [%s]\n", map.texture_north);
+		printf("texture_south [%s]\n", map.texture_south);
+		printf("map->texture_west [%s]\n", map.texture_west);
+		printf("map->texture_sprite [%s]\n", map.texture_sprite);
 	}
 	return (map);
 }
@@ -158,7 +223,7 @@ t_vars      t_vars_init(int argc, char *argv[])
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
-	vars.map = t_map_init(argc, argv);
+	vars.map = t_map_init(&vars, argc, argv);
 	return (vars);
 }
 
