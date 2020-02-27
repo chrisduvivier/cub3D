@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/27 16:19:04 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/27 19:39:56 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void		free_t_vars(t_vars *vars)
 	{
 		free_t_map(&(vars->map));
 	}
+	if (vars->f_line)
+		free(vars->f_line);
 }
 
 /*
@@ -47,7 +49,7 @@ void		free_t_vars(t_vars *vars)
 void		exit_cub3d(t_vars *vars, int my_error_text)
 {
 	if (!my_error_text)
-		ft_printf("Error: %s\n", strerror(errno));
+		ft_printf("Error\n%s\n", strerror(errno));
 	free_t_vars(vars);
 	system("leaks a.out > leaks.txt");
 	exit(0);
@@ -77,8 +79,13 @@ t_img		t_img_init(t_vars vars)
 	return (img);
 }
 
-void		get_map_res(t_map **map, char *line)
+void		get_map_res(t_vars *vars, t_map **map, char *line)
 {
+	if ((*map)->res_w != -1 || (*map)->res_h)
+	{
+		ft_putstr_fd(ERROR_CUB_FILE, STDERR_FILENO);
+		exit_cub3d(vars, MY_ERROR_MESSAGE);
+	}
 	line++;
 	(*map)->res_w = ft_atoi_w_p(&line);
 	(*map)->res_h = ft_atoi_w_p(&line);
@@ -126,17 +133,30 @@ int			get_color(t_vars *vars, char *line)
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 	{
 		ft_putstr_fd(ERROR_RGB, STDERR_FILENO);
-		exit_cub3d(vars, 1);
+		exit_cub3d(vars, MY_ERROR_MESSAGE);
 	}
 	return (create_trgb(0, r, g, b));
 }
 
-void		line_to_map(t_vars *vars, t_map *map, char *line)
+/*
+**	check whether all arguments were given before proceeding to the map file.
+*/
+
+int			check_t_map(t_map *map)
 {
-	if (line)
+	return (map->res_h != -1 && map->res_w != -1 &&
+		map->rgb_ceiling != -1 && map->rgb_ceiling != -1 &&
+		map->texture_east && map->texture_west &&
+		map->texture_north && map->texture_south &&
+		map->texture_sprite);
+}
+
+void		read_cub_param(t_vars *vars, t_map *map, char *line)
+{
+	if (line && !(map->start_read_map))
 	{
 		if (line[0] == 'R')
-			get_map_res(&map, line);
+			get_map_res(vars, &map, line);
 		else if (line[0] == 'N' && line[1] == 'O')
 			map->texture_north = get_texture(vars, line, 'N');
 		else if (line[0] == 'S' && line[1] == 'O')
@@ -151,7 +171,15 @@ void		line_to_map(t_vars *vars, t_map *map, char *line)
 			map->rgb_floor = get_color(vars, ++line);
 		else if (line[0] == 'C')
 			map->rgb_ceiling = get_color(vars, ++line);
+		else if (ft_isdigit(line[0]) && check_t_map(map))
+			map->start_read_map = 1;
 	}
+}
+
+void		read_cub_map(t_vars *vars, t_map *map, char *line)
+{
+	if (*line)
+		
 }
 
 // https://github.com/Denis2222/wolf3d/blob/master/texture.c
@@ -187,27 +215,32 @@ t_map		t_map_init(t_vars *vars, int argc, char *argv[])
 {
 	t_map	map;
 	int 	fd;
-	char 	*line;
 	int		res;
 	
 	if (argc >= 2 && argv[1] && ft_check_file_extension(argv[1], ".cub"))
 	{
+		map.res_h = -1;
+		map.res_w = -1;
+		map.rgb_ceiling = -1;
+		map.rgb_floor = -1;
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0);
-		// while there is something in line (since it returns 0 when done reading)
-		while ((res = get_next_line(fd, &line)) > 0 || *line)
+		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *vars->f_line)
 		{
-			line_to_map(vars, &map, line);
-			free(line);
+			if (map.start_read_map == 1)
+				read_cub_map(vars, &map, vars->f_line);
+			else
+				read_cub_param(vars, &map, vars->f_line);
+			free(vars->f_line);
 		}
 		if (res < 0)
 			exit_cub3d(vars, 0);
-		printf("res_w [%d]\nres_h [%d]\n", map.res_w, map.res_h);
-		printf("texture_east [%s]\n", map.texture_east);
-		printf("texture_north [%s]\n", map.texture_north);
-		printf("texture_south [%s]\n", map.texture_south);
-		printf("map->texture_west [%s]\n", map.texture_west);
-		printf("map->texture_sprite [%s]\n", map.texture_sprite);
+		// printf("res_w [%d]\nres_h [%d]\n", map.res_w, map.res_h);
+		// printf("texture_east [%s]\n", map.texture_east);
+		// printf("texture_north [%s]\n", map.texture_north);
+		// printf("texture_south [%s]\n", map.texture_south);
+		// printf("map->texture_west [%s]\n", map.texture_west);
+		// printf("map->texture_sprite [%s]\n", map.texture_sprite);
 	}
 	return (map);
 }

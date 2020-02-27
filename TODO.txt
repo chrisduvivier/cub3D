@@ -4,10 +4,15 @@
     - rotation avdc key arrows, movement of player with WSAD keys.
 
 - Parsing the .cub file.
-    - Resolution DONE
+    - Param: prevent double line for a certain argument.
+        - Resolution [DONE]
+        - textures
+        - color
+    - Resolution
+        - add default Resolution when the given is not in the range
     - Textures 
         - Read how to use minilibx function to get textures
-        - function to get teh path as string
+        - function to get teh path as string [DONE]
     - Map
         - use get_next_line to get all lines (all lines = height of map (y))
         - 
@@ -20,4 +25,4 @@
     "–-save"
 
 - Exit and free
-    - read strerror and perror fucntion DONE
+    - read strerror and perror fucntion [DONE]
