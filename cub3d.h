@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/27 19:12:05 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:00:59 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ typedef struct  s_img {
 	int			endian;
 }               t_img;
 
+typedef struct 	s_map_arg
+{
+	int			r;
+	int			no;
+	int			so;
+	int			we;
+	int			ea;
+	int			s;
+	int			c;
+	int			f;
+}				t_map_arg;
+
 typedef struct 	s_map
 {
 	int			res_w;
@@ -86,7 +98,10 @@ typedef struct 	s_map
 	int			height;
 	int			width;
 	int			start_read_map;
+	t_map_arg	map_arg;
 }				t_map;
+
+
 
 typedef struct  s_vars {
 	void        *mlx;

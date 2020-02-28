@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/27 19:39:56 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:19:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,18 @@ t_img		t_img_init(t_vars vars)
 
 void		get_map_res(t_vars *vars, t_map **map, char *line)
 {
-	if ((*map)->res_w != -1 || (*map)->res_h)
-	{
-		ft_putstr_fd(ERROR_CUB_FILE, STDERR_FILENO);
-		exit_cub3d(vars, MY_ERROR_MESSAGE);
-	}
-	line++;
-	(*map)->res_w = ft_atoi_w_p(&line);
-	(*map)->res_h = ft_atoi_w_p(&line);
+	printf("--- get_map_res ---\n");
+	while (*line && ft_isspace(line))
+		line++;
+	(*map)->res_w = ft_atoi_w_p((const char **)&line);
+	(*map)->res_h = ft_atoi_w_p((const char **)&line);
 }
 
 /*
 **	skip over alphabet (NO, WE, S, etc.) and space and get the texture's path.
 */
 
-char		*get_texture(t_vars *vars, char *line, char type)
+char		*get_texture(t_vars *vars, char *line)
 {
 	char	*filename;
 	
@@ -114,6 +111,7 @@ char		*get_texture(t_vars *vars, char *line, char type)
 /*
 **	@get_color
 **	R,G,B colors (in this order) in range [0,255]: 0, 255, 255
+**	exit if one of the value exceeds the defined range.
 */
 
 int			get_color(t_vars *vars, char *line)
@@ -125,11 +123,11 @@ int			get_color(t_vars *vars, char *line)
 	
 	if (ft_isspace(*line))
 		line++;
-	r = ft_atoi_w_p(&line);
+	r = ft_atoi_w_p((const char **)&line);
 	line++;
-	g = ft_atoi_w_p(&line);
+	g = ft_atoi_w_p((const char **)&line);
 	line++;
-	b = ft_atoi_w_p(&line);
+	b = ft_atoi_w_p((const char **)&line);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 	{
 		ft_putstr_fd(ERROR_RGB, STDERR_FILENO);
@@ -142,44 +140,88 @@ int			get_color(t_vars *vars, char *line)
 **	check whether all arguments were given before proceeding to the map file.
 */
 
-int			check_t_map(t_map *map)
+int			check_start_map(t_map *map)
 {
-	return (map->res_h != -1 && map->res_w != -1 &&
-		map->rgb_ceiling != -1 && map->rgb_ceiling != -1 &&
-		map->texture_east && map->texture_west &&
-		map->texture_north && map->texture_south &&
-		map->texture_sprite);
+	return (map->map_arg.r && map->res_h != -1 && map->res_w != -1 &&
+		map->map_arg.c && map->rgb_ceiling != -1 &&
+		map->map_arg.f && map->rgb_floor != -1 &&
+		map->map_arg.ea && map->texture_east &&
+		map->map_arg.we && map->texture_west &&
+		map->map_arg.no && map->texture_north &&
+		map->map_arg.so && map->texture_south &&
+		map->map_arg.s && map->texture_sprite);
+}
+
+/*
+**	Check if the argument was already given in the cub file.
+**	value are set to 1 once the arg is passed.
+*/
+
+int			check_arg(t_vars *vars, t_map *map, char type)
+{
+	printf("==== check_arg ====\n");
+	if (type == 'R' && (!map->map_arg.r))
+		map->map_arg.r = 1;
+	else if (type == 'N' && (!map->map_arg.no))
+		map->map_arg.no = 1;
+	else if (type == 'S' && (!map->map_arg.so))
+		map->map_arg.so = 1;
+	else if (type == 'W' && (!map->map_arg.we))
+		map->map_arg.we = 1;
+	else if (type == 'E' && (!map->map_arg.ea))
+		map->map_arg.ea = 1;
+	else if (type == 's' && (!map->map_arg.s))
+		map->map_arg.s = 1;
+	else if (type == 'C' && (!map->map_arg.c))
+		map->map_arg.c = 1;
+	else if (type == 'F' && (!map->map_arg.f))
+		map->map_arg.f = 1;
+	else 
+	{
+		printf("HERE\n");
+		ft_putstr_fd(ERROR_CUB_FILE, STDERR_FILENO);
+		exit_cub3d(vars, MY_ERROR_MESSAGE);
+	}
+	return (1);
 }
 
 void		read_cub_param(t_vars *vars, t_map *map, char *line)
 {
-	if (line && !(map->start_read_map))
+	printf("==== read_cub_param ====\n");
+	if (line && map->start_read_map == 0)
 	{
-		if (line[0] == 'R')
+		if (line[0] == 'R' && check_arg(vars, map, 'R'))
 			get_map_res(vars, &map, line);
-		else if (line[0] == 'N' && line[1] == 'O')
-			map->texture_north = get_texture(vars, line, 'N');
-		else if (line[0] == 'S' && line[1] == 'O')
-			map->texture_south = get_texture(vars, line, 'S');
-		else if (line[0] == 'W' && line[1] == 'E')
-			map->texture_west = get_texture(vars, line, 'W');
-		else if (line[0] == 'E' && line[1] == 'A')
-			map->texture_east = get_texture(vars, line, 'E');
-		else if (line[0] == 'S')
-			map->texture_sprite = get_texture(vars, line, 's');
-		else if (line[0] == 'F')
+		else if (line[0] == 'N' && line[1] == 'O' && check_arg(vars, map, 'N'))
+			map->texture_north = get_texture(vars, line);
+		else if (line[0] == 'S' && line[1] == 'O' && check_arg(vars, map, 'S'))
+			map->texture_south = get_texture(vars, line);
+		else if (line[0] == 'W' && line[1] == 'E' && check_arg(vars, map, 'W'))
+			map->texture_west = get_texture(vars, line);
+		else if (line[0] == 'E' && line[1] == 'A' && check_arg(vars, map, 'E'))
+			map->texture_east = get_texture(vars, line);
+		else if (line[0] == 'S' && check_arg(vars, map, 's'))
+			map->texture_sprite = get_texture(vars, line);
+		else if (line[0] == 'F' && check_arg(vars, map, 'F'))
 			map->rgb_floor = get_color(vars, ++line);
-		else if (line[0] == 'C')
+		else if (line[0] == 'C' && check_arg(vars, map, 'C'))
 			map->rgb_ceiling = get_color(vars, ++line);
-		else if (ft_isdigit(line[0]) && check_t_map(map))
-			map->start_read_map = 1;
+		else
+		{
+			map->start_read_map = check_start_map(map);
+			printf("check_start_map OK\n");
+		}
 	}
 }
 
 void		read_cub_map(t_vars *vars, t_map *map, char *line)
 {
+	printf("==== read_cub_map ====\n");
 	if (*line)
+	{
 		
+		// printf("read_cub_map\n");
+	}
 }
 
 // https://github.com/Denis2222/wolf3d/blob/master/texture.c
@@ -211,38 +253,50 @@ void		read_cub_map(t_vars *vars, t_map *map, char *line)
 // 	texture_sprite_load(e);
 // }
 
-t_map		t_map_init(t_vars *vars, int argc, char *argv[])
+void	s_map_arg_init(t_map *map)
 {
-	t_map	map;
+	map->map_arg.r = 0;
+	map->map_arg.no = 0;
+	map->map_arg.so = 0;
+	map->map_arg.we = 0;
+	map->map_arg.ea = 0;
+	map->map_arg.s = 0;
+	map->map_arg.c = 0;
+	map->map_arg.f = 0;
+}
+
+void		t_map_init(t_vars *vars, int argc, char *argv[])
+{
 	int 	fd;
 	int		res;
-	
+
 	if (argc >= 2 && argv[1] && ft_check_file_extension(argv[1], ".cub"))
 	{
-		map.res_h = -1;
-		map.res_w = -1;
-		map.rgb_ceiling = -1;
-		map.rgb_floor = -1;
+		vars->map.res_h = -1;
+		vars->map.res_w = -1;
+		vars->map.rgb_ceiling = -1;
+		vars->map.rgb_floor = -1;
+		s_map_arg_init(&(vars->map));
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0);
-		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *vars->f_line)
+		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *(vars->f_line))
 		{
-			if (map.start_read_map == 1)
-				read_cub_map(vars, &map, vars->f_line);
-			else
-				read_cub_param(vars, &map, vars->f_line);
+			printf("\nvars->line=[%s]\n", vars->f_line);
+			if (!vars->map.start_read_map)
+			read_cub_param(vars, &(vars->map), vars->f_line);
+			if (vars->map.start_read_map)
+				read_cub_map(vars, &(vars->map), vars->f_line);
 			free(vars->f_line);
 		}
 		if (res < 0)
 			exit_cub3d(vars, 0);
-		// printf("res_w [%d]\nres_h [%d]\n", map.res_w, map.res_h);
-		// printf("texture_east [%s]\n", map.texture_east);
-		// printf("texture_north [%s]\n", map.texture_north);
-		// printf("texture_south [%s]\n", map.texture_south);
-		// printf("map->texture_west [%s]\n", map.texture_west);
-		// printf("map->texture_sprite [%s]\n", map.texture_sprite);
+		// printf("res_w [%d]\nres_h [%d]\n", vars->map.res_w, vars->map.res_h);
+		// printf("texture_east [%s]\n", vars->map.texture_east);
+		// printf("texture_north [%s]\n", vars->map.texture_north);
+		// printf("texture_south [%s]\n", vars->map.texture_south);
+		// printf("map->texture_west [%s]\n", vars->map.texture_west);
+		// printf("map->texture_sprite [%s]\n", vars->map.texture_sprite);
 	}
-	return (map);
 }
 
 t_vars      t_vars_init(int argc, char *argv[])
@@ -256,7 +310,7 @@ t_vars      t_vars_init(int argc, char *argv[])
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
-	vars.map = t_map_init(&vars, argc, argv);
+	t_map_init(&vars, argc, argv);
 	return (vars);
 }
 
