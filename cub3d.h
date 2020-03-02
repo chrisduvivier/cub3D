@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/28 11:00:59 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/02 15:23:10 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,19 @@
 # define mapWidth 24
 # define mapHeight 24
 
-# define MY_ERROR_MESSAGE 1
+# define MAX_SCREEN_WIDTH 5120
+# define MAX_SCREEN_HEIGHT 2880
+
 # define ERROR_CUB_FILE "Error\nInvalid .cub file\n"
+# define ERROR_CUB_RES "Error\nInvalid resolution in .cub file\n\
+see: 'R width height' where width and height must be positive\n"
+# define ERROR_CUB_RES_NUM_PARAM "Error\nInvalid number of parameters for \
+resolution in .cub file\n see: 'R width height'\n"
 # define ERROR_RGB "Error\n@get_color: .cub file has RGB value out of \
 range\n"
 # define ERROR_TEXTURE_FILE "Error\n@get_texture: Could not find texture file\n"
+# define ERROR_RUN "Error\ncub3d: Run with a .cub file as argument\n\
+see: 'a.out map.cub'\n"
 
 /*
 **	dimensions of textures
@@ -114,30 +122,58 @@ typedef struct  s_vars {
 	char		*f_line;
 }               t_vars;
 
+/*
+**	Init
+*/
+
+t_ray		t_ray_init(void);
+t_img		t_img_init(t_vars vars);
+void		s_map_arg_init(t_map *map);
+void		t_map_init(t_vars *vars, int argc, char *argv[]);
+t_vars		t_vars_init(int argc, char *argv[]);
+
+/*
+**  Map (cub file) reader functions
+*/
+
+int			check_start_map(t_map *map);
+int			check_arg(t_vars *vars, t_map *map, char type);
+void		get_map_res(t_vars *vars, t_map **map, char *line);
+void		read_cub_param(t_vars *vars, t_map *map, char *line);
+void		read_cub_map(t_vars *vars, t_map *map, char *line);
+
+char		*get_texture(t_vars *vars, char *line);
 
 /*
 **  Color functions
 */
 
-int		create_trgb(int t, int r, int g, int b);
-int		get_t(int trgb);
-int		get_r(int trgb);
-int		get_g(int trgb);
-int		get_b(int trgb);
-int		add_shade(double distance, int color);
+int			create_trgb(int t, int r, int g, int b);
+int			get_t(int trgb);
+int			get_r(int trgb);
+int			get_g(int trgb);
+int			get_b(int trgb);
+int			add_shade(double distance, int color);
+int			get_color(t_vars *vars, char *line);
 
 /*
 **  Draw functions
 */
 
-void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
-void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color);
-int		ft_draw(t_vars *vars);
+void		my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+void		ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color);
+int			ft_draw(t_vars *vars);
 
 /*
 **  Hook functions
 */
 
 int			key_press_hook(int keycode, t_vars *vars);
+
+/*
+**	Clear and Exit function
+*/
+
+void		exit_cub3d(t_vars *vars, char* my_error_text, char *file, int line);
 
 #endif 

@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/02/26 14:38:03 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/03/02 13:45:19 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ OPTIONS = -Wall -Wextra -Werror
 RM = /bin/rm -f
 MLX_DIR = minilibx_opengl_20191021/
 LIBFT_DIR = libft/
-FILES = cub3d.c draw.c colors_1.c colors_2.c
+FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
+	ft_map_reader_1.c ft_map_reader_2.c \
+	ft_exit_cub3d.c
 
 OBJ	= $(FILES:%.c=%.o)
 
