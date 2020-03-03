@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/02 15:17:06 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 01:25:44 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void		free_t_map(t_map *map)
 		free(map->texture_west);
 	if (map->texture_sprite)
 		free(map->texture_sprite);
+	if (map->tab)
+		ft_split_free(map->tab);
 }
 
 void		free_t_vars(t_vars *vars)

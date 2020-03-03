@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/02 15:23:10 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 01:25:36 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct 	s_map
 {
 	int			res_w;
 	int			res_h;
+	char		**tab;
 	char		*texture_north;
 	char		*texture_south;
 	char		*texture_west;
