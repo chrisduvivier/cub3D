@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/02 15:17:32 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 17:26:03 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 
 	if (argc >= 2 && argv[1] && ft_check_file_extension(argv[1], ".cub"))
 	{
-		vars->map.res_h = -1;
-		vars->map.res_w = -1;
-		vars->map.rgb_ceiling = -1;
-		vars->map.rgb_floor = -1;
 		s_map_arg_init(&(vars->map));
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0, __FILE__, __LINE__);

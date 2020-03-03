@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/02 15:56:53 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 17:53:11 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 **	skip over alphabet (NO, WE, S, etc.) and space and get the texture's path.
 */
 
-char		*get_texture(t_vars *vars, char *line)
+char		*get_texture(t_vars *vars, char *line, char type)
 {
 	char	*filename;
 
-	while (ft_isalpha(*line))
+	printf("==== get_texture ====\n");
+	check_arg(vars, &(vars->map), type);
+	while (ft_isalpha(*line) && (*line != '.'))
 		line++;
 	while (ft_isspace(*line))
 		line++;

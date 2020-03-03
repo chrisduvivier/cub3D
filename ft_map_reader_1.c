@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 01:38:54 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 18:06:01 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int			check_arg(t_vars *vars, t_map *map, char type)
 	return (1);
 }
 
-void		get_map_res(t_vars *vars, t_map **map, char *line)
+void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 {
 	line++;
-	if (!(*line) || !(ft_isspace(*line)))
+	if (!(*line) || !check_arg(vars, *map, 'R'))
 		exit_cub3d(vars, ERROR_CUB_RES, __FILE__, __LINE__);
 	ft_skip_space(&line);
 	if (!(*line) || !(ft_isdigit(*line)))
@@ -81,66 +81,31 @@ void		get_map_res(t_vars *vars, t_map **map, char *line)
 		(*map)->res_w = MAX_SCREEN_HEIGHT;
 }
 
-// void		read_cub_param(t_vars *vars, t_map *map, char *line)
-// {
-// 	printf("==== read_cub_param ====\n");
-// 	if (line && map->start_read_map == 0)
-// 	{
-// 		if (line[0] == 'R' && check_arg(vars, map, 'R'))
-// 			get_map_res(vars, &map, line);
-// 		else if (line[0] == 'N' && line[1] == 'O' && check_arg(vars, map, 'N'))
-// 			map->texture_north = get_texture(vars, line);
-// 		else if (line[0] == 'S' && line[1] == 'O' && check_arg(vars, map, 'S'))
-// 			map->texture_south = get_texture(vars, line);
-// 		else if (line[0] == 'W' && line[1] == 'E' && check_arg(vars, map, 'W'))
-// 			map->texture_west = get_texture(vars, line);
-// 		else if (line[0] == 'E' && line[1] == 'A' && check_arg(vars, map, 'E'))
-// 			map->texture_east = get_texture(vars, line);
-// 		else if (line[0] == 'S' && check_arg(vars, map, 's'))
-// 			map->texture_sprite = get_texture(vars, line);
-// 		else if (line[0] == 'F' && check_arg(vars, map, 'F'))
-// 			map->rgb_floor = get_color(vars, ++line);
-// 		else if (line[0] == 'C' && check_arg(vars, map, 'C'))
-// 			map->rgb_ceiling = get_color(vars, ++line);
-// 		else
-// 			map->start_read_map = check_start_map(map);
-// 	}
-// }
-
-/*
-**
-**
-**		TODO
-**
-**
-*/
-
-void		read_cub_param(t_vars *v, t_map *m, char *line)
+void		read_cub_param(t_vars *vars, t_map *map, char *l)
 {
-	// printf("==== SPLIT read_cub_param ====\n");
-	if (line && m->start_read_map == 0)
-	{
-		m->tab = ft_split_sep(line, SPACE_CHAR);
-		if (line[0] == 'R' && check_arg(v, m, 'R'))
-			get_map_res(v, &m, line);
-		else if (!(ft_strcmp(m->tab[0], "NO")) && check_arg(v, m, 'N'))
-			m->texture_north = get_texture(v, m->tab[1]);
-		else if (!(ft_strcmp(m->tab[0], "SO")) && check_arg(v, m, 'S'))
-			m->texture_south = get_texture(v, m->tab[1]);
-		else if (!(ft_strcmp(m->tab[0], "WE")) && check_arg(v, m, 'W'))
-			m->texture_west = get_texture(v, m->tab[1]);
-		else if (!(ft_strcmp(m->tab[0], "EA")) && check_arg(v, m, 'E'))
-			m->texture_east = get_texture(v, m->tab[1]);
-		else if (!(ft_strcmp(m->tab[0], "S")) && check_arg(v, m, 's'))
-			m->texture_sprite = get_texture(v, m->tab[1]);
-		else if (line[0] == 'F' && check_arg(v, m, 'F'))
-			m->rgb_floor = get_color(v, ++line);
-		else if (line[0] == 'C' && check_arg(v, m, 'C'))
-			m->rgb_ceiling = get_color(v, ++line);
-		else
-			m->start_read_map = check_start_map(m);
-		ft_split_free(m->tab);
-	}
+	printf("==== read_cub_param ====\n");
+	if (!l && map->start_read_map != 0)
+		return ;
+	if (l[0] == 'R' && (ft_isdigit(l[1]) || ft_isspace(l[1])))
+		get_map_resolution(vars, &map, l);
+	else if (l[0] == 'N' && l[1] == 'O' && (l[2] == '.' || ft_isspace(l[2])))
+		map->texture_north = get_texture(vars, l, 'N');
+	else if (l[0] == 'S' && l[1] == 'O' && (l[2] == '.' || ft_isspace(l[2])))
+		map->texture_south = get_texture(vars, l, 'S');
+	else if (l[0] == 'W' && l[1] == 'E' && (l[2] == '.' || ft_isspace(l[2])))
+		map->texture_west = get_texture(vars, l, 'W');
+	else if (l[0] == 'E' && l[1] == 'A' && (l[2] == '.' || ft_isspace(l[2])))
+		map->texture_east = get_texture(vars, l, 'E');
+	else if (l[0] == 'S' && (l[1] == '.' || ft_isspace(l[1])))
+		map->texture_sprite = get_texture(vars, l, 's');
+	else if (l[0] == 'F' && check_arg(vars, map, 'F'))
+		map->rgb_floor = get_color(vars, ++l);
+	else if (l[0] == 'C' && check_arg(vars, map, 'C'))
+		map->rgb_ceiling = get_color(vars, ++l);
+	else if (ft_isdigit(l[0]))
+		map->start_read_map = check_start_map(map);
+	else
+		exit_cub3d(vars, ERROR_CUB_FILE, __FILE__, __LINE__);
 }
 
 void		read_cub_map(t_vars *vars, t_map *map, char *line)
@@ -148,7 +113,6 @@ void		read_cub_map(t_vars *vars, t_map *map, char *line)
 	printf("==== read_cub_map ====\n");
 	if (*line)
 	{
-		
 		// printf("read_cub_map\n");
 	}
 }

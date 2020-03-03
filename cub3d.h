@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 01:25:36 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/03/03 17:45:49 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ typedef struct 	s_map
 	char		*texture_sprite;
 	int			rgb_floor;
 	int			rgb_ceiling;
-	int			*tmp_map;
 	int			**map;
 	int			height;
 	int			width;
@@ -139,11 +138,11 @@ t_vars		t_vars_init(int argc, char *argv[]);
 
 int			check_start_map(t_map *map);
 int			check_arg(t_vars *vars, t_map *map, char type);
-void		get_map_res(t_vars *vars, t_map **map, char *line);
+void		get_map_resolution(t_vars *vars, t_map **map, char *line);
 void		read_cub_param(t_vars *vars, t_map *map, char *line);
 void		read_cub_map(t_vars *vars, t_map *map, char *line);
 
-char		*get_texture(t_vars *vars, char *line);
+char		*get_texture(t_vars *vars, char *line, char type);
 
 /*
 **  Color functions
