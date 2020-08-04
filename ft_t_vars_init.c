@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 17:26:03 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/02 11:59:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_ray		t_ray_init(void)
 	ray.planeX = 0;
 	ray.planeY = 0.66; //the 2d raycaster version of camera plane
 	ray.moveSpeed = 0.3; //the constant value is in squares/second
-	ray.rotSpeed = 0.1;
+	ray.rotSpeed = 0.15;
 	return (ray);
 }
 
@@ -48,6 +48,12 @@ void	s_map_arg_init(t_map *map)
 	map->map_arg.c = 0;
 	map->map_arg.f = 0;
 }
+
+/*
+**	map initializer. proceed if given argument has `.cub` filename
+**	while gnl:  read map parameters until all of them are given.
+**				proceed to read map once all others are given
+*/
 
 void		t_map_init(t_vars *vars, int argc, char *argv[])
 {

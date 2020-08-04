@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 18:06:01 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/02 11:45:06 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			check_start_map(t_map *map)
 /*
 **	Check if the argument was already given in the cub file.
 **	value are set to 1 once the arg is passed.
+**	exit if the argument is duplicated
 */
 
 int			check_arg(t_vars *vars, t_map *map, char type)
@@ -57,6 +58,11 @@ int			check_arg(t_vars *vars, t_map *map, char type)
 	return (1);
 }
 
+/*
+**	read from line the given resolution
+**	If it exceeds the max width or height, set to allowed max.
+*/
+
 void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 {
 	line++;
@@ -80,6 +86,12 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 	if ((*map)->res_w > MAX_SCREEN_HEIGHT)
 		(*map)->res_w = MAX_SCREEN_HEIGHT;
 }
+
+/*
+**	@param: char *l correspond to one line (gnl) from the mapfile
+**	read map arguments as long as `map->start_read_map` is set to 0.
+**	This is set to 1 once all arguments are read (path,texture,colors)
+*/
 
 void		read_cub_param(t_vars *vars, t_map *map, char *l)
 {

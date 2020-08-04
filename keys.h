@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 15:53:05 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/20 10:48:20 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/03 12:10:50 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,14 @@
 # define KEY_ESC 53
 # define KEY_PLUS 69
 # define KEY_MINUS 78
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_DOWN 125
-# define KEY_UP 126
+# define KEY_ARROW_LEFT 123
+# define KEY_ARROW_RIGHT 124
+# define KEY_ARROW_DOWN 125
+# define KEY_ARROW_UP 126
+
+# define KEY_LEFT 0
+# define KEY_RIGHT 2
+# define KEY_DOWN 1
+# define KEY_UP 13
+
 #endif

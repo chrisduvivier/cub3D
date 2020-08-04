@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/07/22 16:33:48 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/07/24 14:55:30 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ $(OBJ): $(FILES)
 
 setup:
 	@ $(MAKE) -C $(MLX_DIR)
-	
 
 lib:
 	@ $(MAKE) -C $(LIBFT_DIR) all

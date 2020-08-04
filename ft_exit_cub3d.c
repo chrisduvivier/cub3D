@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 01:25:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/07/24 15:26:04 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		free_t_vars(t_vars *vars)
 /*
 **	exit cub3d program after freeing allocated memory.
 **	@param vars: struct
-**	@param manual: non 0 value if the error message was prompt at the caller.
+**	@param my_error_text: non 0 (null) string if specific error message to print.
 */
 
 void		exit_cub3d(t_vars *vars, char *my_error_text, char *file, int line)
