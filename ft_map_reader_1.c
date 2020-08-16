@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/02 11:45:06 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/16 20:56:06 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,10 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 	else
 		exit_cub3d(vars, ERROR_CUB_FILE, __FILE__, __LINE__);
 }
+
+/*
+**	Currently doesnt do anythong since we are giving the map as a param.
+*/
 
 void		read_cub_map(t_vars *vars, t_map *map, char *line)
 {

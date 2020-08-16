@@ -6,26 +6,39 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/02 11:59:37 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/17 02:50:46 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*
+**	t_ray contains the player's camera info, which is used to cast the ray
+**	params:
+**	@posX, posY: x and y starting position
+**	@dirX, dirY: initial direction vector
+**	@planeX, planeY: the 2d raycaster version of camera plane
+**	@moveSpeed, rotSpeed: speed in squares/second
+*/
 
 t_ray		t_ray_init(void)
 {
 	t_ray	ray;
 
 	ray.posX = 22;
-	ray.posY = 12;  //x and y start position
+	ray.posY = 12;
 	ray.dirX = -1;
-	ray.dirY = 0; //initial direction vector
+	ray.dirY = 0;
 	ray.planeX = 0;
-	ray.planeY = 0.66; //the 2d raycaster version of camera plane
-	ray.moveSpeed = 0.3; //the constant value is in squares/second
+	ray.planeY = 0.66;
+	ray.moveSpeed = 0.3;
 	ray.rotSpeed = 0.15;
 	return (ray);
 }
+
+/*
+**	Initialize image
+*/
 
 t_img		t_img_init(t_vars vars)
 {
@@ -36,6 +49,10 @@ t_img		t_img_init(t_vars vars)
 						&img.line_length, &img.endian);
 	return (img);
 }
+
+/*
+**	Initialize map argument to 0. Used to check if all args are passed.
+*/
 
 void	s_map_arg_init(t_map *map)
 {
@@ -51,6 +68,7 @@ void	s_map_arg_init(t_map *map)
 
 /*
 **	map initializer. proceed if given argument has `.cub` filename
+**	FLOW: read cub_param -> cub_map
 **	while gnl:  read map parameters until all of them are given.
 **				proceed to read map once all others are given
 */
@@ -87,6 +105,10 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 		exit_cub3d(vars, ERROR_RUN, __FILE__, __LINE__);
 }
 
+/*
+**	next step: t_map_textures
+*/
+
 t_vars		t_vars_init(int argc, char *argv[])
 {
 	t_vars	vars;
@@ -99,5 +121,6 @@ t_vars		t_vars_init(int argc, char *argv[])
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
 	t_map_init(&vars, argc, argv);
+	// t_map_textures(vars)
 	return (vars);
 }

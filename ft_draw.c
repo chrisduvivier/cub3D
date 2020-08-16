@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   ft_draw.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/24 11:11:30 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/17 03:15:35 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,8 +234,77 @@ int		ft_draw(t_vars *vars)
 		if (drawEnd >= screenHeight)
 			drawEnd = screenHeight - 1;
 
+		
+		/*
+		**	===========================================================================
+		**	testing textures
+		*/
+		
+		//	- curretly, vars_textures (?) only gets the string of the path. We need an img from that.
+		//	- create img and store in struct for each NSEW with their height, width.
+		//
+
+		//  //calculate value of wallX
+		// double wallX; //where exactly the wall was hit
+		// if (side == 0) wallX = ray->posY + perpWallDist * rayDirY;
+		// else           wallX = ray->posX + perpWallDist * rayDirX;
+		// wallX -= floor((wallX));
+
+		// //x coordinate on the texture
+		// int texX = (int)(wallX * (double)(texWidth));
+		// if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
+		// if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+
+		// // How much to increase the texture coordinate per screen pixel
+		// double step = 1.0 * texHeight / lineHeight;
+		// // Starting texture coordinate
+		// double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+		// for(int y = drawStart; y<drawEnd; y++)
+		// {
+		// 	// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+		// 	int texY = (int)texPos & (texHeight - 1);
+		// 	texPos += step;
+		// 	unsigned int color = texture[texNum][texHeight * texY + texX];
+		// 	//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+		// 	if(side == 1) color = (color >> 1) & 8355711;
+		// 	buffer[y][x] = color;
+		// }
+
+		// int color;
+		// //give x and y sides different brightness
+		// if (side == 1) //N or S wall
+		// {
+		// 	if (stepY > 0) //N: light blue
+		// 	{
+		// 		color = RGB_Blue;
+		// 	}
+		// 	else //S: south blue
+		// 	{
+		// 		color = RGB_Blue;
+		// 		color = add_shade(0.5, color);
+		// 	}
+		// 	// color = add_shade(0.5, color);
+		// }
+		// else // E or W wall
+		// {
+		// 	if (stepX > 0) // W: light green
+		// 	{
+		// 		color = RGB_Green;
+		// 	}
+		// 	else // E: dark green
+		// 	{
+		// 		color = RGB_Green;
+		// 		color = add_shade(0.5, color);
+		// 	}
+		// }
+
+		/*
+		**	end block of testing. uncomment below code to roll back
+		**	===========================================================================
+		*/
+
 		int color;
-		switch (worldMap[mapX][mapY])
+		switch (worldMap[mapX][mapY]) // currently checks none
 		{
 			case 1:  color = RGB_Red;  	 break; //red
 			// case 2:  color = RGB_Green;  break; //green

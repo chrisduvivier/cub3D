@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 17:24:33 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/17 02:30:35 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@
 // 			"gfx/wall_red_door.xpm", &width, &height);
 // 	texture_sprite_load(e);
 // }
+
+/*
+**	main function. The commented lines are probaly of no use.
+*/
 
 int			main(int argc, char *argv[])
 {

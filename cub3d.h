@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 17:45:49 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/07 14:02:22 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct  s_ray {
 	double		dirY;
 	double		planeX;
 	double		planeY;
-	double 		moveSpeed; //the constant value is in squares/second
+	double 		moveSpeed;
 	double 		rotSpeed;
 }               t_ray;
 
