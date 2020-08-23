@@ -1,0 +1,13 @@
+R 1020 510
+NO ./textures/colorstone.xpm
+SO ./textures/greystone.xpm
+WE ./textures/colorstone.xpm
+EA ./textures/greystone.xpm
+S ./path_to_the_sprite_texture
+F 220,100,0
+C 225,30,0
+1111111111
+1000000001
+1000000001
+100000N001
+1111111111
