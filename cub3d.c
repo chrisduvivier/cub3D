@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/17 02:30:35 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/23 23:14:05 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,6 @@
 */
 
 #include "cub3d.h"
-
-// https://github.com/Denis2222/wolf3d/blob/master/texture.c
-// void	texture_load(t_env *e)
-// {
-// 	int		width;
-// 	int		height;
-
-// 	e->wall[0] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/floor.xpm", &width, &height);
-// 	e->wall[1] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/ceil.xpm", &width, &height);
-// 	e->wall[2] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/blue_brick.xpm", &width, &height);
-// 	e->wall[3] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/blue_brick2.xpm", &width, &height);
-// 	e->wall[4] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/blue_brick3.xpm", &width, &height);
-// 	e->wall[5] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/blue_brick_hi.xpm", &width, &height);
-// 	e->wall[6] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/wall_brown.xpm", &width, &height);
-// 	e->wall[7] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/wall_red1.xpm", &width, &height);
-// 	e->wall[8] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/wall_red2.xpm", &width, &height);
-// 	e->wall[9] = mlx_xpm_file_to_image(e->mlx,
-// 			"gfx/wall_red_door.xpm", &width, &height);
-// 	texture_sprite_load(e);
-// }
 
 /*
 **	main function. The commented lines are probaly of no use.

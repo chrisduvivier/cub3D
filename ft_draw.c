@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/17 03:15:35 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/07 12:00:14 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,21 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+unsigned int    my_mlx_pixel_get(t_img img, int x, int y)
+{
+    unsigned int    color;
+    char            *ptr;
+
+    ptr = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
+    color = *(unsigned int *)ptr;
+    return (color);
+}
+
+/*
+**	Draws a vertical line, from top to bottom and put each pixel to img
+**	Doesn not support texture
+*/
+
 void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color)
 {
 	int y;
@@ -138,12 +153,35 @@ void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color
 		my_mlx_pixel_put(vars, x, y++, rgb_floor);
 }
 
+/*
+**	 Trying to make it support texture
+*/
+void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsigned int *buffer)
+{
+	int y;
+
+	y = 0;
+	int rgb_ceiling;
+	int rgb_floor;
+
+	rgb_ceiling = RGB_CEILING;
+	rgb_floor = RGB_FLOOR;
+	//draw ceiling
+	while (y < drawStart)
+		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
+	while (y <= drawEnd)
+	{
+		my_mlx_pixel_put(vars, x, y, buffer[y]);
+		y++;
+	}
+	while (y <= screenHeight)
+		my_mlx_pixel_put(vars, x, y++, rgb_floor);
+}
+
 int		ft_draw(t_vars *vars)
 {
-	// int buffer[screenHeight][screenWidth]; // y-coordinate first because it works per scanline
-  	// int *texture[8];
-  	// for (int i = 0; i < 8; i++) texture[i].resize(texWidth * texHeight);
-	
+	unsigned int buffer[screenHeight]; // y-coordinate first because it works per scanline
+
 	for (int x = 0; x < screenWidth; x++)
 	{
 		t_ray	*ray;
@@ -238,36 +276,78 @@ int		ft_draw(t_vars *vars)
 		/*
 		**	===========================================================================
 		**	testing textures
+		**	 - curretly, vars_textures (?) only gets the string of the path. We need an img from that.
+		**	 - create img and store in struct for each NSEW with their height, width.
 		*/
 		
-		//	- curretly, vars_textures (?) only gets the string of the path. We need an img from that.
-		//	- create img and store in struct for each NSEW with their height, width.
-		//
+		//texturing calculations (TEMPRARY THING. NOT USED)
+		int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
-		//  //calculate value of wallX
-		// double wallX; //where exactly the wall was hit
-		// if (side == 0) wallX = ray->posY + perpWallDist * rayDirY;
-		// else           wallX = ray->posX + perpWallDist * rayDirX;
-		// wallX -= floor((wallX));
+		// determine directiuon of wall
+		if (side == 1) //N or S wall
+		{
+			if (stepY > 0) texNum = 0;
+			else texNum = 1;
+		}
+		else // E or W wall
+		{
+			if (stepX > 0) texNum = 2;
+			else texNum = 3;
+		}
 
-		// //x coordinate on the texture
-		// int texX = (int)(wallX * (double)(texWidth));
-		// if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
-		// if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+		//calculate value of wallX
+		double wallX; //where exactly the wall was hit
+		if (side == 0) wallX = ray->posY + perpWallDist * rayDirY;
+		else           wallX = ray->posX + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
 
-		// // How much to increase the texture coordinate per screen pixel
-		// double step = 1.0 * texHeight / lineHeight;
-		// // Starting texture coordinate
-		// double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
-		// for(int y = drawStart; y<drawEnd; y++)
+		//x coordinate on the texture
+		int texX = (int)(wallX * (double)(texWidth));
+		if (side == 0 && rayDirX > 0)
+		{
+			texX = texWidth - texX - 1;
+		}
+		if (side == 1 && rayDirY < 0)
+		{
+			texX = texWidth - texX - 1;
+		}
+		
+		// How much to increase the texture coordinate per screen pixelm 
+		double step = 1.0 * texHeight / lineHeight;
+		// Starting texture coordinate
+		double texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
+		
+		/*
+		**	Here comes the loop over y axis, where we put read the color of the texture and put that to
+		**	a buffer.
+		*/
+		for (int y = drawStart; y<drawEnd; y++)
+		{
+			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+			int texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			// Uint32 color = texture[texNum][texHeight * texY + texX];
+			unsigned int color;
+			color = my_mlx_pixel_get(vars->map.walls[texNum], texX, texY);
+
+			// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+			// if (side == 1) color = (color >> 1) & 8355711;
+			buffer[y] = color;
+		}
+
+		/*
+		**	end block of testing. uncomment below code to roll back
+		**	===========================================================================
+		*/
+
+		// int color;
+		// switch (worldMap[mapX][mapY]) // currently checks none
 		// {
-		// 	// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-		// 	int texY = (int)texPos & (texHeight - 1);
-		// 	texPos += step;
-		// 	unsigned int color = texture[texNum][texHeight * texY + texX];
-		// 	//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-		// 	if(side == 1) color = (color >> 1) & 8355711;
-		// 	buffer[y][x] = color;
+		// 	case 1:  color = RGB_Red;  	 break; //red
+		// 	// case 2:  color = RGB_Green;  break; //green
+		// 	// case 3:  color = RGB_Blue;   break; //blue
+		// 	// case 4:  color = RGB_White;  break; //white
+		// 	default: color = RGB_Red; break; //yellow
 		// }
 
 		// int color;
@@ -299,49 +379,16 @@ int		ft_draw(t_vars *vars)
 		// }
 
 		/*
-		**	end block of testing. uncomment below code to roll back
-		**	===========================================================================
+		**	TO BE ALBE TO DRAW A VERTICAL LINE WITH TEXTURE, THIS HAS TO CHANGE
+		**	NEED TO: be able to draw line with differetn colors, instead of single 'color'
 		*/
 
-		int color;
-		switch (worldMap[mapX][mapY]) // currently checks none
-		{
-			case 1:  color = RGB_Red;  	 break; //red
-			// case 2:  color = RGB_Green;  break; //green
-			// case 3:  color = RGB_Blue;   break; //blue
-			// case 4:  color = RGB_White;  break; //white
-			default: color = RGB_Red; break; //yellow
-		}
-
-		//give x and y sides different brightness
-		if (side == 1) //N or S wall
-		{
-			if (stepY > 0) //N: light blue
-			{
-				color = RGB_Blue;
-			}
-			else //S: south blue
-			{
-				color = RGB_Blue;
-				color = add_shade(0.5, color);
-			}
-			// color = add_shade(0.5, color);
-		}
-		else // E or W wall
-		{
-			if (stepX > 0) // W: light green
-			{
-				color = RGB_Green;
-			}
-			else // E: dark green
-			{
-				color = RGB_Green;
-				color = add_shade(0.5, color);
-			}
-		}
-
 		//draw the pixels of the stripe as a vertical line
-		ft_mlx_draw_line(vars, x, drawStart, drawEnd, color);
+		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, &buffer);
+
+		// clear buffer
+		for (int y = 0; y < screenHeight; y++)
+			buffer[y] = 0;
 	}
 	// printf("ft_draw done\n");
 	// mlx_clear_window(vars->mlx, vars->win);

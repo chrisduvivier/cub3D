@@ -1,8 +1,8 @@
 R 1020 510
-NO ./textures/colorstone.xpm
-SO ./textures/greystone.xpm
-WE ./textures/colorstone.xpm
-EA ./textures/greystone.xpm
+NO ./textures/purplestone.xpm
+SO ./textures/purplestone.xpm
+WE ./textures/purplestone.xpm
+EA ./textures/purplestone.xpm
 S ./path_to_the_sprite_texture
 F 220,100,0
 C 225,30,0

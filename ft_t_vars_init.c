@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/17 02:50:46 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/08/23 23:00:21 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_vars		t_vars_init(int argc, char *argv[])
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
 	t_map_init(&vars, argc, argv);
+	texture_load(&vars);
 	// t_map_textures(vars)
 	return (vars);
 }

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:34:34 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/02 14:59:23 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/02 11:31:31 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int			add_shade(double distance, int color)
 }
 
 /*
-**	@get_color
+**	@get_color_from_mapfile
 **	R,G,B colors (in this order) in range [0,255]: 0, 255, 255
 **	exit if one of the value exceeds the defined range.
 */
 
-int			get_color(t_vars *vars, char *line)
+int			get_color_from_mapfile(t_vars *vars, char *line)
 {
 	char	**tab;
 	int		r;

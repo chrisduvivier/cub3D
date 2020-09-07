@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/07 14:02:22 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/04 12:21:04 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@
 # define MAX_SCREEN_WIDTH 5120
 # define MAX_SCREEN_HEIGHT 2880
 
+# define NUM_WALL_TEXTURES 5
+
 # define ERROR_CUB_FILE "Error\nInvalid .cub file\n"
 # define ERROR_CUB_RES "Error\nInvalid resolution in .cub file\n\
 see: 'R width height' where width and height must be positive\n"
 # define ERROR_CUB_RES_NUM_PARAM "Error\nInvalid number of parameters for \
 resolution in .cub file\n see: 'R width height'\n"
-# define ERROR_RGB "Error\n@get_color: .cub file has RGB value out of \
-range\n"
-# define ERROR_TEXTURE_FILE "Error\n@get_texture: Could not find texture file\n"
+# define ERROR_RGB "Error\n@get_color_from_mapfile: .cub file has RGB value \
+out of range\n"
+# define ERROR_TEXTURE_FILE "Error\n@get_texture_filename: Could not find texture file\n"
 # define ERROR_RUN "Error\ncub3d: Run with a .cub file as argument\n\
 see: 'a.out map.cub'\n"
 
@@ -70,12 +72,18 @@ typedef struct  s_ray {
 	double 		rotSpeed;
 }               t_ray;
 
+/*
+**	USED for img put on to window, and TEXTURE
+**	texture keeps the img struct and keep the height, width of the texture
+*/
 typedef struct  s_img {
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	unsigned long	width;
+	unsigned long	height;
 }               t_img;
 
 typedef struct 	s_map_arg
@@ -102,6 +110,7 @@ typedef struct 	s_map
 	char		*texture_sprite;
 	int			rgb_floor;
 	int			rgb_ceiling;
+	t_img		walls[NUM_WALL_TEXTURES - 1];
 	int			**map;
 	int			height;
 	int			width;
@@ -142,7 +151,8 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line);
 void		read_cub_param(t_vars *vars, t_map *map, char *line);
 void		read_cub_map(t_vars *vars, t_map *map, char *line);
 
-char		*get_texture(t_vars *vars, char *line, char type);
+char		*get_texture_filename(t_vars *vars, char *line, char type);
+void		texture_load(t_vars *vars);
 
 /*
 **  Color functions
@@ -154,7 +164,7 @@ int			get_r(int trgb);
 int			get_g(int trgb);
 int			get_b(int trgb);
 int			add_shade(double distance, int color);
-int			get_color(t_vars *vars, char *line);
+int			get_color_from_mapfile(t_vars *vars, char *line);
 
 /*
 **  Draw functions

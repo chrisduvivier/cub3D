@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/16 20:56:06 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/04 12:21:28 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,19 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 	if (l[0] == 'R' && (ft_isdigit(l[1]) || ft_isspace(l[1])))
 		get_map_resolution(vars, &map, l);
 	else if (l[0] == 'N' && l[1] == 'O' && (l[2] == '.' || ft_isspace(l[2])))
-		map->texture_north = get_texture(vars, l, 'N');
+		map->texture_north = get_texture_filename(vars, l, 'N');
 	else if (l[0] == 'S' && l[1] == 'O' && (l[2] == '.' || ft_isspace(l[2])))
-		map->texture_south = get_texture(vars, l, 'S');
+		map->texture_south = get_texture_filename(vars, l, 'S');
 	else if (l[0] == 'W' && l[1] == 'E' && (l[2] == '.' || ft_isspace(l[2])))
-		map->texture_west = get_texture(vars, l, 'W');
+		map->texture_west = get_texture_filename(vars, l, 'W');
 	else if (l[0] == 'E' && l[1] == 'A' && (l[2] == '.' || ft_isspace(l[2])))
-		map->texture_east = get_texture(vars, l, 'E');
+		map->texture_east = get_texture_filename(vars, l, 'E');
 	else if (l[0] == 'S' && (l[1] == '.' || ft_isspace(l[1])))
-		map->texture_sprite = get_texture(vars, l, 's');
+		map->texture_sprite = get_texture_filename(vars, l, 's');
 	else if (l[0] == 'F' && check_arg(vars, map, 'F'))
-		map->rgb_floor = get_color(vars, ++l);
+		map->rgb_floor = get_color_from_mapfile(vars, ++l);
 	else if (l[0] == 'C' && check_arg(vars, map, 'C'))
-		map->rgb_ceiling = get_color(vars, ++l);
+		map->rgb_ceiling = get_color_from_mapfile(vars, ++l);
 	else if (ft_isdigit(l[0]))
 		map->start_read_map = check_start_map(map);
 	else
