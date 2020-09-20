@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/04 12:19:18 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/17 21:45:01 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,28 @@ char		*get_texture_filename(t_vars *vars, char *line, char type)
 	if (!(filename = ft_strdup(line)))
 		exit_cub3d(vars, ERROR_TEXTURE_FILE, __FILE__, __LINE__);
 	return (filename);
+}
+
+
+void	sprite_load(t_vars *vars)
+{
+	int		width;
+	int		height;
+
+	printf("Loading SPrite\n");
+
+	vars->map.walls[4].img = mlx_xpm_file_to_image(vars->mlx, 
+			vars->map.texture_sprite, &width, &height);
+	
+	// TODO 
+	// FREE THESE TEXTURES
+
+	vars->map.walls[4].addr = mlx_get_data_addr(vars->map.walls[4].img,
+		&vars->map.walls[4].bits_per_pixel,
+		&vars->map.walls[4].line_length, &vars->map.walls[4].endian);
+
+	printf("Finished loading Sprites\n");
+	//load sprite
 }
 
 /*
@@ -75,5 +97,6 @@ void	texture_load(t_vars *vars)
 		&vars->map.walls[3].line_length, &vars->map.walls[3].endian);
 
 	printf("Finished loading textures\n");
+	sprite_load(vars);
 	//load sprite
 }

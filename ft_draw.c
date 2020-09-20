@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/07 12:00:14 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/20 23:26:41 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@
 //   {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 // };
 
-
+/*
+**	mAP BEFORE SPRITE
+*/
 int worldMap[mapWidth][mapHeight]=
 {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -94,7 +96,64 @@ int worldMap[mapWidth][mapHeight]=
 	{1, 4, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} 
+};
+
+// int worldMap[mapWidth][mapHeight] =
+// {
+//   {8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
+//   {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+//   {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
+//   {8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
+//   {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+//   {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
+//   {8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
+//   {7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
+//   {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
+//   {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
+//   {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
+//   {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
+//   {7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
+//   {2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
+//   {2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+//   {2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+//   {1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
+//   {2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
+//   {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+//   {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
+//   {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+//   {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+//   {2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5}
+// };
+
+
+t_sprite sprite[NUM_SPRITES] =
+{
+//   {20.5, 11.5, 10}, //green light in front of playerstart
+//   //green lights in every room
+//   {18.5,4.5, 10},
+//   {10.0,4.5, 10},
+//   {10.0,12.5,10},
+//   {3.5, 6.5, 10},
+//   {3.5, 20.5,10},
+//   {3.5, 14.5,10},
+//   {14.5,20.5,10},
+
+//   //row of pillars in front of wall: fisheye test
+//   {18.5, 10.5, 9},
+//   {18.5, 11.5, 9},
+//   {18.5, 12.5, 9},
+
+  //some barrels around the map
+  	{2.5, 2.5, 5},
+//   {15.5, 1.5, 8},
+//   {16.0, 1.8, 8},
+//   {16.2, 1.2, 8},
+//   {3.5,  2.5, 8},
+//   {9.5, 15.5, 8},
+//   {10.0, 15.1,8},
+//   {10.5, 15.8,8},
 };
 
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
@@ -181,10 +240,14 @@ void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsi
 int		ft_draw(t_vars *vars)
 {
 	unsigned int buffer[screenHeight]; // y-coordinate first because it works per scanline
-
+	
+	//1D Zbuffer for sprites
+	// contains the distance to the wall of every vertical stripe
+	double ZBuffer[screenWidth];
+	t_ray	*ray;
+	
 	for (int x = 0; x < screenWidth; x++)
 	{
-		t_ray	*ray;
 
 		ray = &(vars->ray);
 		// calculate ray position and direction
@@ -271,14 +334,6 @@ int		ft_draw(t_vars *vars)
 		int drawEnd = lineHeight / 2 + screenHeight / 2;
 		if (drawEnd >= screenHeight)
 			drawEnd = screenHeight - 1;
-
-		
-		/*
-		**	===========================================================================
-		**	testing textures
-		**	 - curretly, vars_textures (?) only gets the string of the path. We need an img from that.
-		**	 - create img and store in struct for each NSEW with their height, width.
-		*/
 		
 		//texturing calculations (TEMPRARY THING. NOT USED)
 		int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
@@ -335,61 +390,91 @@ int		ft_draw(t_vars *vars)
 			buffer[y] = color;
 		}
 
-		/*
-		**	end block of testing. uncomment below code to roll back
-		**	===========================================================================
-		*/
-
-		// int color;
-		// switch (worldMap[mapX][mapY]) // currently checks none
-		// {
-		// 	case 1:  color = RGB_Red;  	 break; //red
-		// 	// case 2:  color = RGB_Green;  break; //green
-		// 	// case 3:  color = RGB_Blue;   break; //blue
-		// 	// case 4:  color = RGB_White;  break; //white
-		// 	default: color = RGB_Red; break; //yellow
-		// }
-
-		// int color;
-		// //give x and y sides different brightness
-		// if (side == 1) //N or S wall
-		// {
-		// 	if (stepY > 0) //N: light blue
-		// 	{
-		// 		color = RGB_Blue;
-		// 	}
-		// 	else //S: south blue
-		// 	{
-		// 		color = RGB_Blue;
-		// 		color = add_shade(0.5, color);
-		// 	}
-		// 	// color = add_shade(0.5, color);
-		// }
-		// else // E or W wall
-		// {
-		// 	if (stepX > 0) // W: light green
-		// 	{
-		// 		color = RGB_Green;
-		// 	}
-		// 	else // E: dark green
-		// 	{
-		// 		color = RGB_Green;
-		// 		color = add_shade(0.5, color);
-		// 	}
-		// }
-
-		/*
-		**	TO BE ALBE TO DRAW A VERTICAL LINE WITH TEXTURE, THIS HAS TO CHANGE
-		**	NEED TO: be able to draw line with differetn colors, instead of single 'color'
-		*/
-
 		//draw the pixels of the stripe as a vertical line
 		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, &buffer);
 
 		// clear buffer
 		for (int y = 0; y < screenHeight; y++)
 			buffer[y] = 0;
+		
+		//SET THE ZBUFFER FOR THE SPRITE CASTING
+     	ZBuffer[x] = perpWallDist; //perpendicular distance is used
 	}
+
+	/*
+	** SPRITE CASTING
+	*/
+    // sort sprites from far to close
+	
+	int		spriteOrder[NUM_SPRITES];
+	double 	spriteDistance[NUM_SPRITES];
+	
+    for (int i = 0; i < NUM_SPRITES; i++)
+    {
+      spriteOrder[i] = i;
+      spriteDistance[i] = ((ray->posX - sprite[i].x) * (ray->posX - sprite[i].x)
+	  	+ (ray->posY - sprite[i].y) * (ray->posY - sprite[i].y)); //sqrt not taken, unneeded
+    }
+	// TODO
+    // sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
+
+    //after sorting the sprites, do the projection and draw them
+    for (int i = 0; i < NUM_SPRITES; i++)
+    {
+		//translate sprite position to relative to camera
+		double spriteX = sprite[spriteOrder[i]].x - ray->posX;
+		double spriteY = sprite[spriteOrder[i]].y - ray->posY;
+
+		//transform sprite with the inverse camera matrix
+		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+		// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+		double invDet = 1.0 / (ray->planeX * ray->dirY - ray->dirX * ray->planeY); //required for correct matrix multiplication
+
+		double transformX = invDet * (ray->dirY * spriteX - ray->dirX * spriteY);
+		double transformY = invDet * (-(ray->planeY) * spriteX + ray->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+		if (drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + screenHeight / 2;
+		if (drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs((int) (screenHeight / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if (drawStartX < 0) drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if (drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+
+		//loop through every vertical stripe of the sprite on screen
+		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			if (transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < ZBuffer[stripe])
+			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			{
+				int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int texY = ((d * texHeight) / spriteHeight) / 256;
+
+				unsigned int color;
+				color = my_mlx_pixel_get(vars->map.walls[4], texX, texY);
+				if ((color & 0x00FFFFFF) != 0)
+					my_mlx_pixel_put(vars, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+			}
+		}
+    }
+	
 	// printf("ft_draw done\n");
 	// mlx_clear_window(vars->mlx, vars->win);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img[vars->current_img].img, 0, 0);

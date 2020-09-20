@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/04 12:21:04 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/17 21:34:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 # define MAX_SCREEN_WIDTH 5120
 # define MAX_SCREEN_HEIGHT 2880
 
-# define NUM_WALL_TEXTURES 5
+# define NUM_WALL_TEXTURES 6
+# define NUM_SPRITES 1
 
 # define ERROR_CUB_FILE "Error\nInvalid .cub file\n"
 # define ERROR_CUB_RES "Error\nInvalid resolution in .cub file\n\
@@ -85,6 +86,12 @@ typedef struct  s_img {
 	unsigned long	width;
 	unsigned long	height;
 }               t_img;
+
+typedef struct 	s_sprite {
+	double x;
+	double y;
+	int texture;
+}				t_sprite;
 
 typedef struct 	s_map_arg
 {
