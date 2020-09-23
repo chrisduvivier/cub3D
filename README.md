@@ -3,3 +3,20 @@
 
 # Resources
 https://github.com/dichotommy49/cub3d/blob/master/cub3d%20resources.txt
+
+# TODOs
+- The management of your window must remain smooth: changing to another window, minimizing, etc.
+- In case the Deepthought has eyes one day to evaluate your project, your program must save the first rendered image in bmp format when its second argument is "––save".
+- Quit the program CLEANLY through ESC KEY, RED CROSS
+- If the declared screen size in the map is greater than the display resolution, the window size will be set depending to the current display resolution.
+- PARSING MAP
+- COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
+
+# DONE
+- Display different wall textures (the choice is yours) that vary depending on which side the wall is facing (North, South, East, West).
+- Your program must be able to display an item (sprite) instead of a wall.
+- Your program must be able to set the floor and ceilling colors to two different ones
+- The left and right arrow keys of the keyboard must allow you to look left and right in the maze.
+- The W, A, S and D keys must allow you to move the point of view through the maze.
+- Pressing ESC must close the window.
+- Clicking on the red cross on the window’s frame must close the window and quit the program.
