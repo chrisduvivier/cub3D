@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/17 21:34:37 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 10:23:36 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,11 @@ typedef struct  s_vars {
 	int			done;
 	t_map		map;
 	t_ray       ray;
-	int			current_img;
-	t_img       img[2];
+	t_img       img;
 	char		*f_line;
 }               t_vars;
+
+int worldMap[mapWidth][mapHeight];
 
 /*
 **	Init
@@ -186,6 +187,8 @@ int			ft_draw(t_vars *vars);
 */
 
 int			key_press_hook(int keycode, t_vars *vars);
+int	        destroy_window_hook(int keycode, t_vars *vars);
+
 
 /*
 **	Clear and Exit function
