@@ -6,20 +6,20 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:59 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/22 12:40:31 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 12:59:10 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int        destroy_window_hook(int keycode, t_vars *vars)
+int        destroy_window_hook(t_vars *vars)
 {
     t_ray *r;
 
 	r = &(vars->ray);
     printf("The window was closed\n");
     vars->done = 1;
-    // mlx_destroy_window(vars->mlx, vars->win);
+    clear_window(vars);
     exit (0);
 }
 

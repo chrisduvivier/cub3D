@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 10:23:36 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 12:59:27 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,14 @@ int			ft_draw(t_vars *vars);
 */
 
 int			key_press_hook(int keycode, t_vars *vars);
-int	        destroy_window_hook(int keycode, t_vars *vars);
+int	        destroy_window_hook(t_vars *vars);
 
+
+/*
+**	Window function
+*/
+
+int 		clear_window(t_vars *vars);
 
 /*
 **	Clear and Exit function

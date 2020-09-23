@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 10:28:11 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 12:28:51 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,7 +391,7 @@ int		ft_draw(t_vars *vars)
 		}
 
 		//draw the pixels of the stripe as a vertical line
-		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, &buffer);
+		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, buffer);
 
 		// clear buffer
 		for (int y = 0; y < screenHeight; y++)
