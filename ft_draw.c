@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/21 14:18:02 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 19:53:22 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,7 +391,7 @@ int		ft_draw(t_vars *vars)
 		}
 
 		//draw the pixels of the stripe as a vertical line
-		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, &buffer);
+		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, buffer);
 
 		// clear buffer
 		for (int y = 0; y < screenHeight; y++)
@@ -475,7 +475,6 @@ int		ft_draw(t_vars *vars)
 		}
     }
 	
-	// printf("ft_draw done\n");
 	// mlx_clear_window(vars->mlx, vars->win);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img[vars->current_img].img, 0, 0);
 	
@@ -494,7 +493,6 @@ int			key_press_hook(int keycode, t_vars *vars)
 	if (keycode == KEY_ESC)
 	{
 		printf("ESC: Closing the window\n");
-		vars->done = 1;
 		// mlx_destroy_window(vars->mlx, vars->win);
 		exit (0);
 	}

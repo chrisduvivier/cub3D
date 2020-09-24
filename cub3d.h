@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/17 21:34:37 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 20:00:02 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ typedef struct 	s_map
 typedef struct  s_vars {
 	void        *mlx;
 	void        *win;
-	int			done;
 	t_map		map;
 	t_ray       ray;
 	int			current_img;
@@ -178,6 +177,7 @@ int			get_color_from_mapfile(t_vars *vars, char *line);
 */
 
 void		my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+unsigned int my_mlx_pixel_get(t_img img, int x, int y);
 void		ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color);
 int			ft_draw(t_vars *vars);
 
@@ -186,6 +186,20 @@ int			ft_draw(t_vars *vars);
 */
 
 int			key_press_hook(int keycode, t_vars *vars);
+int	        destroy_window_hook(t_vars *vars);
+
+/*
+**	Window function
+*/
+
+int 		clear_window(t_vars *vars);
+
+/*
+**	BMP
+*/
+
+void		ft_handle_bmp(int argc, char *argv[], t_vars *vars);
+void    	ft_create_bmp_file(int argc, char *argv[], t_vars *vars);
 
 /*
 **	Clear and Exit function

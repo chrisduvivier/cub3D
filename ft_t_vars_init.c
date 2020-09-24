@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/23 23:00:21 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 19:52:29 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_vars		t_vars_init(int argc, char *argv[])
 
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, screenWidth, screenHeight, "ray_cast");
-	vars.done = 0;
 	vars.ray = t_ray_init();
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/08/23 23:14:05 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 19:58:14 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ int			main(int argc, char *argv[])
 	vars = t_vars_init(argc, argv);
 	
 	mlx_expose_hook(vars.win, ft_draw, &vars);
-	while (!vars.done)
-	{
-		// ft_draw(&vars);
-		// mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-		// mlx_loop_hook(vars.win, ft_draw(&vars), &vars);
-		mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
-		mlx_loop(vars.mlx);
-	}
+	ft_handle_bmp(argc, argv, &vars);
+	mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
+	mlx_hook(vars.win, 17, 0L, destroy_window_hook, &vars); //Destroy Window
+	mlx_loop(vars.mlx);
 	return (0);
 }
