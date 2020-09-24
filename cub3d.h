@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 12:59:27 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 18:35:40 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int			get_color_from_mapfile(t_vars *vars, char *line);
 */
 
 void		my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+unsigned int my_mlx_pixel_get(t_img img, int x, int y);
 void		ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color);
 int			ft_draw(t_vars *vars);
 
@@ -195,6 +196,12 @@ int	        destroy_window_hook(t_vars *vars);
 */
 
 int 		clear_window(t_vars *vars);
+
+/*
+**	BMP
+*/
+
+void    	ft_create_bmp_file(int argc, char *argv[], t_vars *vars);
 
 /*
 **	Clear and Exit function
