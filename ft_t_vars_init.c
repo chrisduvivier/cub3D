@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 10:24:20 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 14:41:39 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 **	@moveSpeed, rotSpeed: speed in squares/second
 */
 
-t_ray		t_ray_init(void)
+t_ray		t_ray_init(t_vars *vars)
 {
 	t_ray	ray;
 
@@ -33,6 +33,10 @@ t_ray		t_ray_init(void)
 	ray.planeY = 0.66;
 	ray.moveSpeed = 0.3;
 	ray.rotSpeed = 0.15;
+	if (!(ray.bufferY = (void *)malloc((screenHeight + 1)* sizeof(unsigned int))))
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	if (!(ray.bufferZ = (void *)malloc((screenWidth + 1) * sizeof(double))))
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 	return (ray);
 }
 
@@ -40,11 +44,11 @@ t_ray		t_ray_init(void)
 **	Initialize image
 */
 
-t_img		t_img_init(t_vars vars)
+t_img		t_img_init(t_vars *vars)
 {
 	t_img	img;
 
-	img.img = mlx_new_image(vars.mlx, screenWidth, screenHeight);
+	img.img = mlx_new_image(vars->mlx, screenWidth, screenHeight);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 						&img.line_length, &img.endian);
 	return (img);
@@ -116,8 +120,8 @@ t_vars		t_vars_init(int argc, char *argv[])
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, screenWidth, screenHeight, "ray_cast");
 	vars.done = 0;
-	vars.ray = t_ray_init();
-	vars.img = t_img_init(vars);
+	vars.ray = t_ray_init(&vars);
+	vars.img = t_img_init(&vars);
 	t_map_init(&vars, argc, argv);
 	texture_load(&vars);
 	// t_map_textures(vars)

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 17:34:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 23:45:00 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 14:02:00 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,30 @@ typedef struct 	s_bmp_file
 	unsigned char* data; 
 }				s_bmp_file;
 
-void    ft_create_bmp_file(int argc, char *argv[], t_vars *vars)
-{
-	printf("==== ft_create_bmp_file ====\n");
+// void    ft_create_bmp_file(int argc, char *argv[], t_vars *vars)
+// {
+// 	printf("==== ft_create_bmp_file ====\n");
 	
-	// unsigned int color;
-	// color = my_mlx_pixel_get(vars->img, 40, 40);
-	// printf("color:%ui\n", color);
-	FILE *fp = fopen("test.bmp","wb");
-	s_bmp_file *pbitmap = (s_bmp_file*)calloc(1,sizeof(s_bmp_file));
+// 	// unsigned int color;
+// 	// color = my_mlx_pixel_get(vars->img, 40, 40);
+// 	// printf("color:%ui\n", color);
+// 	FILE *fp = fopen("test.bmp","wb");
+// 	s_bmp_file *pbitmap = (s_bmp_file*)calloc(1,sizeof(s_bmp_file));
 	
-	fclose(fp);
-	free(pbitmap);
+// 	fclose(fp);
+// 	free(pbitmap);
 
-}
+// }
 
-/*
-**	First function that checks if bmpfile needs to be created
-*/
+// /*
+// **	First function that checks if bmpfile needs to be created
+// */
 
-void	ft_handle_bmp(int argc, char *argv[], t_vars *vars)
-{
+// void	ft_handle_bmp(int argc, char *argv[], t_vars *vars)
+// {
 	
-	// WIPWIPWIPWIPWIPWIPWIWIP
+// 	// WIPWIPWIPWIPWIPWIPWIWIP
 
-	if (argc == 3 && )
-		ft_create_bmp_file(argc, argv, &vars);
-}
+// 	if (argc == 3 && )
+// 		ft_create_bmp_file(argc, argv, &vars);
+// }

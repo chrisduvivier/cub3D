@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 12:28:51 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 14:41:14 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,32 +190,39 @@ void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color
 	int rgb_ceiling;
 	int rgb_floor;
 
+	printf("---- drawStart: %i |  drawEnd: %i ----\n", drawStart, drawEnd);
 	rgb_ceiling = RGB_CEILING;
 	rgb_floor = RGB_FLOOR;
 	//draw ceiling
 	while (y < drawStart)
+	{
+		printf("y:%i", y);
 		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
+	}
 	while (y <= drawEnd)
 	{
 		if (y == drawStart || y == drawEnd)
 		{
 			// mlx_pixel_put(vars->mlx, vars->win, x, y++, color);
 			my_mlx_pixel_put(vars, x, y++, color);
+			printf("y:%i", y);
 		}
 		else
 		{
 			// mlx_pixel_put(vars->mlx, vars->win, x, y++, add_shade(0.5, color));
 			my_mlx_pixel_put(vars, x, y++, add_shade(0.5, color));
+			printf("y:%i", y);
 		}
 	}
 	while (y <= screenHeight)
 		my_mlx_pixel_put(vars, x, y++, rgb_floor);
+		printf("y:%i", y);
 }
 
 /*
 **	 Trying to make it support texture
 */
-void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsigned int *buffer)
+void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd)
 {
 	int y;
 
@@ -223,32 +230,41 @@ void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsi
 	int rgb_ceiling;
 	int rgb_floor;
 
+	printf("---- drawStart: %i |  drawEnd: %i ----\n", drawStart, drawEnd);
+
 	rgb_ceiling = RGB_CEILING;
 	rgb_floor = RGB_FLOOR;
+
+	printf("y:%i, drawStart: %i\n", y, drawStart);
 	//draw ceiling
 	while (y < drawStart)
+	{
+		printf("y:%i", y);
 		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
+	}
 	while (y <= drawEnd)
 	{
-		my_mlx_pixel_put(vars, x, y, buffer[y]);
+		my_mlx_pixel_put(vars, x, y, vars->ray.bufferY[y]);
+		printf("y:%i", y);
 		y++;
 	}
 	while (y <= screenHeight)
 		my_mlx_pixel_put(vars, x, y++, rgb_floor);
+		printf("y:%i", y);
 }
 
 int		ft_draw(t_vars *vars)
 {
-	unsigned int buffer[screenHeight]; // y-coordinate first because it works per scanline
+	// unsigned int buffer[screenHeight]; // y-coordinate first because it works per scanline
 	
 	//1D Zbuffer for sprites
 	// contains the distance to the wall of every vertical stripe
-	double ZBuffer[screenWidth];
+	// double ZBuffer[screenWidth];
 	t_ray	*ray;
 	
 	for (int x = 0; x < screenWidth; x++)
 	{
-
+		printf("---- x: %i ----\n", x);
 		ray = &(vars->ray);
 		// calculate ray position and direction
 		double cameraX = 2 * x / (double)screenWidth - 1; // x-coordinate in camera space
@@ -387,18 +403,21 @@ int		ft_draw(t_vars *vars)
 
 			// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 			// if (side == 1) color = (color >> 1) & 8355711;
-			buffer[y] = color;
+			ray->bufferY[y] = color;
 		}
-
+		printf("==================\n");
 		//draw the pixels of the stripe as a vertical line
-		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, buffer);
+		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd);
 
+		printf("==================\n");
 		// clear buffer
 		for (int y = 0; y < screenHeight; y++)
-			buffer[y] = 0;
+			ray->bufferY[y] = 0;
 		
+		printf("==================\n");
 		//SET THE ZBUFFER FOR THE SPRITE CASTING
-     	ZBuffer[x] = perpWallDist; //perpendicular distance is used
+     	ray->bufferZ[x] = perpWallDist; //perpendicular distance is used
+		printf("==================\n");
 	}
 
 	/*
@@ -461,7 +480,7 @@ int		ft_draw(t_vars *vars)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if (transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < ZBuffer[stripe])
+			if (transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < ray->bufferZ[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
 				int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats

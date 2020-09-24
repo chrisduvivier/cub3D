@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 18:35:40 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 14:33:07 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ out of range\n"
 # define ERROR_TEXTURE_FILE "Error\n@get_texture_filename: Could not find texture file\n"
 # define ERROR_RUN "Error\ncub3d: Run with a .cub file as argument\n\
 see: 'a.out map.cub'\n"
+# define ERROR_MALLOC "Error\ncub3d: malloc returned NULL pointer\n"
 
 /*
 **	dimensions of textures
@@ -62,16 +63,18 @@ see: 'a.out map.cub'\n"
 # define RGB_CEILING create_trgb(0, 0, 0, 0);
 # define RGB_FLOOR create_trgb(0, 45, 45, 45);
 
-typedef struct  s_ray {
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
-	double 		moveSpeed;
-	double 		rotSpeed;
-}               t_ray;
+typedef struct  	s_ray {
+	double			posX;
+	double			posY;
+	double			dirX;
+	double			dirY;
+	double			planeX;
+	double			planeY;
+	double 			moveSpeed;
+	double 			rotSpeed;
+	unsigned int	*bufferY;
+	double			*bufferZ;
+}               	t_ray;
 
 /*
 **	USED for img put on to window, and TEXTURE
@@ -143,8 +146,8 @@ int worldMap[mapWidth][mapHeight];
 **	Init
 */
 
-t_ray		t_ray_init(void);
-t_img		t_img_init(t_vars vars);
+t_ray		t_ray_init(t_vars *vars);
+t_img		t_img_init(t_vars *vars);
 void		s_map_arg_init(t_map *map);
 void		t_map_init(t_vars *vars, int argc, char *argv[]);
 t_vars		t_vars_init(int argc, char *argv[]);

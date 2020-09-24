@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/23 22:53:29 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/24 13:59:17 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			main(int argc, char *argv[])
 	t_vars      vars;
 
 	vars = t_vars_init(argc, argv);
-	ft_handle_bmp(argc, argv, &vars);
+	// ft_handle_bmp(argc, argv, &vars);
 	mlx_expose_hook(vars.win, ft_draw, &vars);
 	mlx_hook(vars.win, 2, 0L, key_press_hook, &vars); //keyPress Hook for ALL keys
 	mlx_hook(vars.win, 17, 0L, destroy_window_hook, &vars); //Destroy Window
