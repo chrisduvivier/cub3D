@@ -6,10 +6,10 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/24 19:53:22 by cduvivie         ###   ########.fr       */
-/*   Updated: 2020/09/23 12:28:51 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/25 10:11:25 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
@@ -162,7 +162,7 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	char	*dst;
 	t_img	i;
 
-	i = vars->img;
+	i = vars->img[vars->current_img];
 	// i = vars->i;
 	dst = i.addr + (y * i.line_length + x * (i.bits_per_pixel / 8));
 	*(unsigned int*)dst = color;

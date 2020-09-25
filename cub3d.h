@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/24 20:00:02 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/25 10:10:44 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ typedef struct  s_vars {
 	void        *win;
 	t_map		map;
 	t_ray       ray;
-	t_img       img;
+	t_img       img[2];
+	int			current_img;
 	char		*f_line;
 }               t_vars;
 
