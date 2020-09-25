@@ -16,6 +16,7 @@
 **  Clear both images and then clear window with mlx functions
 */
 
+
 int clear_window(t_vars *vars)
 {
     if (vars->img[0].img)
@@ -26,3 +27,4 @@ int clear_window(t_vars *vars)
         mlx_destroy_window(vars->mlx, vars->win);
     return (0);
 }
+

@@ -132,10 +132,11 @@ typedef struct  s_vars {
 	void        *win;
 	t_map		map;
 	t_ray       ray;
-	int			current_img;
-	t_img       img[2];
+	t_img       img;
 	char		*f_line;
 }               t_vars;
+
+int worldMap[mapWidth][mapHeight];
 
 /*
 **	Init
@@ -197,6 +198,7 @@ int 		clear_window(t_vars *vars);
 /*
 **	BMP
 */
+
 
 void		ft_handle_bmp(int argc, char *argv[], t_vars *vars);
 void    	ft_create_bmp_file(int argc, char *argv[], t_vars *vars);

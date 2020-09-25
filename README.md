@@ -19,7 +19,6 @@
 - COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 - NORM
 
-
 # DONE
 - Display different wall textures (the choice is yours) that vary depending on which side the wall is facing (North, South, East, West).
 - Your program must be able to display an item (sprite) instead of a wall.

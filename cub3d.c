@@ -25,11 +25,11 @@ int			main(int argc, char *argv[])
 	t_vars      vars;
 
 	vars = t_vars_init(argc, argv);
-	
-	mlx_expose_hook(vars.win, ft_draw, &vars);
 	ft_handle_bmp(argc, argv, &vars);
+	mlx_expose_hook(vars.win, ft_draw, &vars);
 	mlx_hook(vars.win, 2, 0L, key_press_hook, &vars);
 	mlx_hook(vars.win, 17, 0L, destroy_window_hook, &vars); //Destroy Window
 	mlx_loop(vars.mlx);
 	return (0);
 }
+

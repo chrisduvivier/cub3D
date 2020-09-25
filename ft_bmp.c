@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 17:34:42 by cduvivie          #+#    #+#             */
 /*   Updated: 2020/09/24 19:59:53 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/23 23:45:00 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +42,7 @@ typedef struct 	s_bmp_file
 void    ft_create_bmp_file(int argc, char *argv[], t_vars *vars)
 {
 	printf("==== ft_create_bmp_file ====\n");
+
 
 	// unsigned int color;
 	// color = my_mlx_pixel_get(vars->img, 40, 40);
