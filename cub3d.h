@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 10:10:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/25 14:06:16 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@
 # define NUM_WALL_TEXTURES 6
 # define NUM_SPRITES 1
 
+# define FILE_HEADER_SIZE 14
+# define INFO_HEADER_SIZE 40
+# define BYTES_PER_PIXEL 3
+# define BMP_FILENAME "output.bmp"
+
 # define ERROR_CUB_FILE "Error\nInvalid .cub file\n"
 # define ERROR_CUB_RES "Error\nInvalid resolution in .cub file\n\
 see: 'R width height' where width and height must be positive\n"
@@ -43,8 +48,12 @@ resolution in .cub file\n see: 'R width height'\n"
 # define ERROR_RGB "Error\n@get_color_from_mapfile: .cub file has RGB value \
 out of range\n"
 # define ERROR_TEXTURE_FILE "Error\n@get_texture_filename: Could not find texture file\n"
+# define ERROR_ARG "Error\nUnrecognized arguments were passed\n\
+see: 'a.out map.cub --save'\n"
 # define ERROR_RUN "Error\ncub3d: Run with a .cub file as argument\n\
 see: 'a.out map.cub'\n"
+# define ERROR_MALLOC "Error\ncub3d: Memory allocation failed\n"
+# define ERROR_BMP_WRITE "Error\ncub3d: failed to write to bmp file\n"
 
 /*
 **	dimensions of textures
@@ -61,6 +70,8 @@ see: 'a.out map.cub'\n"
 
 # define RGB_CEILING create_trgb(0, 0, 0, 0);
 # define RGB_FLOOR create_trgb(0, 45, 45, 45);
+
+typedef unsigned char t_byte;
 
 typedef struct  s_ray {
 	double		posX;
@@ -133,8 +144,9 @@ typedef struct  s_vars {
 	t_map		map;
 	t_ray       ray;
 	t_img       img[2];
-	int			current_img;
+	int			current_img; 
 	char		*f_line;
+	int			bmp_done;
 }               t_vars;
 
 int worldMap[mapWidth][mapHeight];
@@ -202,7 +214,7 @@ int 		clear_window(t_vars *vars);
 
 
 void		ft_handle_bmp(int argc, char *argv[], t_vars *vars);
-void    	ft_create_bmp_file(int argc, char *argv[], t_vars *vars);
+void    	ft_create_bmp_file(t_vars *vars);
 
 /*
 **	Clear and Exit function

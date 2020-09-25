@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 10:11:25 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/25 15:01:15 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -478,6 +478,12 @@ int		ft_draw(t_vars *vars)
 	
 	// mlx_clear_window(vars->mlx, vars->win);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img[vars->current_img].img, 0, 0);
+	
+	if (vars->bmp_done == 0)
+	{
+		ft_create_bmp_file(vars);
+		vars->bmp_done = 1;
+	}
 	
 	// printf("ft_draw current_img = [%d]\n", vars->current_img);
 	vars->current_img = (vars->current_img == 0) ? 1 : 0;

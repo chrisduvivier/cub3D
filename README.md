@@ -14,8 +14,6 @@
 - Quit the program CLEANLY through ESC KEY, RED CROSS
 - If the declared screen size in the map is greater than the display resolution, the window size will be set depending to the current display resolution.
 - PARSING MAP
-- If the declared screen size in the map is greater than the display resolution, the window size will be set depending to the current display resolution.
-- Quit the program CLEANLY (through ESC KEY, RED CROSS)
 - COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 - NORM
 
