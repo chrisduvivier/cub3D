@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/04 12:21:28 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/26 12:31:22 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,27 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 }
 
 /*
-**	Currently doesnt do anythong since we are giving the map as a param.
+**	Copy the line returned by gnl if the line is not empty.	
+**	Add the copied line into Node and add to list.
+**	Set the width and height of the map
 */
 
-void		read_cub_map(t_vars *vars, t_map *map, char *line)
+void		read_cub_map(t_vars *vars, char *line)
 {
+	char 			*map_line;
+	unsigned int 	map_len;
+	t_list			*node;
+	
 	printf("==== read_cub_map ====\n");
+	printf("==== line:[%s] ====\n", line);
 	if (*line)
 	{
-		// printf("read_cub_map\n");
+		map_line = ft_strdup(line);
+		map_len = ft_strlen(map_line);
+		if ((node = ft_lstnew(map_line)) == NULL)
+			exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+		ft_lstadd_back(&(vars->map.head), node);
+		vars->map.height++;
+		vars->map.width = (map_len > vars->map.width) ? map_len : vars->map.width;
 	}
 }

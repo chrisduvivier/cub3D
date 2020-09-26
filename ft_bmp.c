@@ -6,19 +6,11 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 17:34:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 14:09:34 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/25 20:35:29 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
-
-// typedef struct 	s_bmp_file
-// {
-// 	t_bmp_info header;
-// 	unsigned char* data; 
-// }				s_bmp_file;
-
 
 void	ft_bmp_fill_header(t_vars *vars, 
 	t_byte file_header[FILE_HEADER_SIZE], 
@@ -68,8 +60,6 @@ void	ft_bmp_write_pixels(int	fd, t_vars *vars, t_byte *data)
 		width = -1;
 		while (++width < (int)vars->map.res_w)
 		{
-			// color = mlx->data[width + (height * vars->map.res_w)];
-			// TODO WHICH IMAGE? 0 or 1?
 			color = my_mlx_pixel_get(vars->img[vars->current_img], width, height);
 			data[3 * width + 2] = color / (256 * 256);
 			data[3 * width + 1] = (color / 256) % 256;
@@ -83,7 +73,6 @@ void	ft_bmp_write_pixels(int	fd, t_vars *vars, t_byte *data)
 int		ft_bmp_write(t_vars *vars, t_byte file_header[FILE_HEADER_SIZE],
 		t_byte info_header[INFO_HEADER_SIZE])
 {
-	printf("==== ft_bmp_write ====\n");
 	int		fd;
 	t_byte	*data;
 
@@ -99,11 +88,8 @@ int		ft_bmp_write(t_vars *vars, t_byte file_header[FILE_HEADER_SIZE],
 	return (0);
 }
 
-
 void    ft_create_bmp_file(t_vars *vars)
-{
-	printf("==== ft_create_bmp_file ====\n");
-	
+{	
 	t_byte	file_header[FILE_HEADER_SIZE];
 	t_byte	info_header[INFO_HEADER_SIZE];
 
@@ -114,6 +100,8 @@ void    ft_create_bmp_file(t_vars *vars)
 
 /*
 **	First function that checks if bmpfile needs to be created by checking arg.
+**	set the variable bmp_done to 0 so that ft_draw will call ft_create_bmp_file
+**	once it finished rendering the 1st image.
 */
 
 void	ft_handle_bmp(int argc, char *argv[], t_vars *vars)

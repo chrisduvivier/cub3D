@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 14:06:16 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/26 12:52:01 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define MAX_SCREEN_HEIGHT 2880
 
 # define NUM_WALL_TEXTURES 6
-# define NUM_SPRITES 1
+# define NUM_SPRITES 3
 
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40
@@ -88,6 +88,7 @@ typedef struct  s_ray {
 **	USED for img put on to window, and TEXTURE
 **	texture keeps the img struct and keep the height, width of the texture
 */
+
 typedef struct  s_img {
 	void			*img;
 	char			*addr;
@@ -134,6 +135,7 @@ typedef struct 	s_map
 	int			width;
 	int			start_read_map;
 	t_map_arg	map_arg;
+	t_list		*head;
 }				t_map;
 
 
@@ -169,7 +171,7 @@ int			check_start_map(t_map *map);
 int			check_arg(t_vars *vars, t_map *map, char type);
 void		get_map_resolution(t_vars *vars, t_map **map, char *line);
 void		read_cub_param(t_vars *vars, t_map *map, char *line);
-void		read_cub_map(t_vars *vars, t_map *map, char *line);
+void		read_cub_map(t_vars *vars, char *line);
 
 char		*get_texture_filename(t_vars *vars, char *line, char type);
 void		texture_load(t_vars *vars);
@@ -212,9 +214,17 @@ int 		clear_window(t_vars *vars);
 **	BMP
 */
 
-
 void		ft_handle_bmp(int argc, char *argv[], t_vars *vars);
 void    	ft_create_bmp_file(t_vars *vars);
+
+/*
+**	CREATE MAP 
+*/
+
+void	    process_cub_map(t_vars *vars);
+void 	    malloc_cub_map(t_vars *vars, int height, int width);
+void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
+
 
 /*
 **	Clear and Exit function

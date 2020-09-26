@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 15:01:15 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/26 10:53:32 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ t_sprite sprite[NUM_SPRITES] =
 
   //some barrels around the map
   	{2.5, 2.5, 5},
-//   {15.5, 1.5, 8},
-//   {16.0, 1.8, 8},
+  	{15.5, 1.5, 5},
+  	{10.0, 2.5, 5},
 //   {16.2, 1.2, 8},
 //   {3.5,  2.5, 8},
 //   {9.5, 15.5, 8},
@@ -209,7 +209,7 @@ void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color
 			my_mlx_pixel_put(vars, x, y++, add_shade(0.5, color));
 		}
 	}
-	while (y <= screenHeight)
+	while (y <= vars->map.res_h)
 		my_mlx_pixel_put(vars, x, y++, rgb_floor);
 }
 
@@ -234,25 +234,25 @@ void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsi
 		my_mlx_pixel_put(vars, x, y, buffer[y]);
 		y++;
 	}
-	while (y <= screenHeight)
+	while (y <= vars->map.res_h)
 		my_mlx_pixel_put(vars, x, y++, rgb_floor);
 }
 
 int		ft_draw(t_vars *vars)
 {
-	unsigned int buffer[screenHeight]; // y-coordinate first because it works per scanline
+	unsigned int buffer[vars->map.res_h]; // y-coordinate first because it works per scanline
 	
 	//1D Zbuffer for sprites
 	// contains the distance to the wall of every vertical stripe
-	double ZBuffer[screenWidth];
+	double ZBuffer[vars->map.res_w];
 	t_ray	*ray;
 	
-	for (int x = 0; x < screenWidth; x++)
+	for (int x = 0; x < vars->map.res_w; x++)
 	{
 
 		ray = &(vars->ray);
 		// calculate ray position and direction
-		double cameraX = 2 * x / (double)screenWidth - 1; // x-coordinate in camera space
+		double cameraX = 2 * x / (double)vars->map.res_w - 1; // x-coordinate in camera space
 		double rayDirX = ray->dirX + ray->planeX * cameraX;
 		double rayDirY = ray->dirY + ray->planeY * cameraX;
 	
@@ -326,15 +326,15 @@ int		ft_draw(t_vars *vars)
 			perpWallDist = (mapY - ray->posY + (1 - stepY) / 2) / rayDirY;
 		
 		// Calculate height of line to draw on screen
-		int lineHeight = (int)(screenHeight / perpWallDist);
+		int lineHeight = (int)(vars->map.res_h / perpWallDist);
 
 		// calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + screenHeight / 2;
+		int drawStart = -lineHeight / 2 + vars->map.res_h / 2;
 		if (drawStart < 0)
 			drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2;
-		if (drawEnd >= screenHeight)
-			drawEnd = screenHeight - 1;
+		int drawEnd = lineHeight / 2 + vars->map.res_h / 2;
+		if (drawEnd >= vars->map.res_h)
+			drawEnd = vars->map.res_h - 1;
 		
 		//texturing calculations (TEMPRARY THING. NOT USED)
 		int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
@@ -371,7 +371,7 @@ int		ft_draw(t_vars *vars)
 		// How much to increase the texture coordinate per screen pixelm 
 		double step = 1.0 * texHeight / lineHeight;
 		// Starting texture coordinate
-		double texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
+		double texPos = (drawStart - vars->map.res_h / 2 + lineHeight / 2) * step;
 		
 		/*
 		**	Here comes the loop over y axis, where we put read the color of the texture and put that to
@@ -395,7 +395,7 @@ int		ft_draw(t_vars *vars)
 		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, buffer);
 
 		// clear buffer
-		for (int y = 0; y < screenHeight; y++)
+		for (int y = 0; y < vars->map.res_h; y++)
 			buffer[y] = 0;
 		
 		//SET THE ZBUFFER FOR THE SPRITE CASTING
@@ -436,22 +436,22 @@ int		ft_draw(t_vars *vars)
 		double transformX = invDet * (ray->dirY * spriteX - ray->dirX * spriteY);
 		double transformY = invDet * (-(ray->planeY) * spriteX + ray->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
 
-		int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+		int spriteScreenX = (int)((vars->map.res_w / 2) * (1 + transformX / transformY));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(vars->map.res_h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+		int drawStartY = -spriteHeight / 2 + vars->map.res_h / 2;
 		if (drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + screenHeight / 2;
-		if (drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+		int drawEndY = spriteHeight / 2 + vars->map.res_h / 2;
+		if (drawEndY >= vars->map.res_h) drawEndY = vars->map.res_h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int) (screenHeight / (transformY)));
+		int spriteWidth = abs((int) (vars->map.res_h / (transformY)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if (drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if (drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+		if (drawEndX >= vars->map.res_w) drawEndX = vars->map.res_w - 1;
 
 		//loop through every vertical stripe of the sprite on screen
 		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
@@ -462,16 +462,19 @@ int		ft_draw(t_vars *vars)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if (transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < ZBuffer[stripe])
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			if (transformY > 0 && stripe > 0 && stripe < vars->map.res_w && transformY < ZBuffer[stripe])
 			{
-				int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-				int texY = ((d * texHeight) / spriteHeight) / 256;
+				for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+				{
+					int d = (y) * 256 - vars->map.res_h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = ((d * texHeight) / spriteHeight) / 256;
 
-				unsigned int color;
-				color = my_mlx_pixel_get(vars->map.walls[4], texX, texY);
-				if ((color & 0x00FFFFFF) != 0)
-					my_mlx_pixel_put(vars, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+					unsigned int color;
+					color = my_mlx_pixel_get(vars->map.walls[4], texX, texY);
+					if ((color & 0x00FFFFFF) != 0)
+						my_mlx_pixel_put(vars, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+				}
+			
 			}
 		}
     }

@@ -1,8 +1,8 @@
-R 1020 510
+R 1280 960
 NO ./textures/purplestone.xpm
-SO ./textures/purplestone.xpm
-WE ./textures/purplestone.xpm
-EA ./textures/purplestone.xpm
+SO ./textures/bluestone.xpm
+WE ./textures/colorstone.xpm
+EA ./textures/eagle.xpm
 S ./textures/barrel.xpm
 F 220,100,0
 C 225,30,0
