@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/26 12:31:22 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/28 11:12:47 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			check_start_map(t_map *map)
 
 int			check_arg(t_vars *vars, t_map *map, char type)
 {
-	printf("==== check_arg ====\n");
+	// printf("==== check_arg ====\n");
 	if (type == 'R' && (!map->map_arg.r))
 		map->map_arg.r = 1;
 	else if (type == 'N' && (!map->map_arg.no))
@@ -95,7 +95,7 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 
 void		read_cub_param(t_vars *vars, t_map *map, char *l)
 {
-	printf("==== read_cub_param ====\n");
+	// printf("==== read_cub_param ====\n");
 	if (!l && map->start_read_map != 0)
 		return ;
 	if (l[0] == 'R' && (ft_isdigit(l[1]) || ft_isspace(l[1])))
@@ -129,19 +129,20 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 void		read_cub_map(t_vars *vars, char *line)
 {
 	char 			*map_line;
-	unsigned int 	map_len;
+	unsigned int 	map_length;
 	t_list			*node;
 	
-	printf("==== read_cub_map ====\n");
-	printf("==== line:[%s] ====\n", line);
+	// printf("==== read_cub_map ====\n");
+	// printf("==== line:[%s] ====\n", line);
 	if (*line)
 	{
 		map_line = ft_strdup(line);
-		map_len = ft_strlen(map_line);
+		map_length = ft_strlen(map_line);
 		if ((node = ft_lstnew(map_line)) == NULL)
 			exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 		ft_lstadd_back(&(vars->map.head), node);
 		vars->map.height++;
-		vars->map.width = (map_len > vars->map.width) ? map_len : vars->map.width;
+		vars->map.width = (map_length > vars->map.width) ? 
+			map_length : vars->map.width;
 	}
 }

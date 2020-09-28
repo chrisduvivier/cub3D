@@ -1,0 +1,13 @@
+R 960 960
+NO ./textures/purplestone.xpm
+SO ./textures/bluestone.xpm
+WE ./textures/colorstone.xpm
+EA ./textures/eagle.xpm
+S ./textures/barrel.xpm
+F 220,100,0
+C 225,30,0
+1111111111
+1000200001
+1000000001
+1000N00001
+1111111111

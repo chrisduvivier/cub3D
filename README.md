@@ -9,9 +9,9 @@
 
 
 # TODOs
-- In case the Deepthought has eyes one day to evaluate your project, your program must save the first rendered image in bmp format when its second argument is "––save".
-    - Weird that the save image size is slightly different from the window I see when I run the cub. TO CHECK
 - Quit the program CLEANLY through ESC KEY, RED CROSS
+- Ray: posX, posY, dirX, dirY seems to be off. spawn place is swaped between X axis and Y axis
+- Colision: walking towards wall sometime leads to go over them and to see the outside.
 - PARSING MAP
     - Player position
     - Map's validity
@@ -32,3 +32,5 @@
 - The management of your window must remain smooth: changing to another window, minimizing, etc.
 - If the declared screen size in the map is greater than the display resolution, the window size will be set depending to the current display resolution.
 - The management of your window must remain smooth: changing to another window, minimizing, etc. (NO WORK TO DO ON THIS ONE?)
+- In case the Deepthought has eyes one day to evaluate your project, your program must save the first rendered image in bmp format when its second argument is "––save".
+    - Weird that the save image size is slightly different from the window I see when I run the cub. CHECKED DONE

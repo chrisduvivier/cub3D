@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/26 12:52:31 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:25:05 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_ray		t_ray_init(void)
 	ray.planeY = 0.66;
 	ray.moveSpeed = 0.3;
 	ray.rotSpeed = 0.15;
+	ray.setupDone = 0;
 	return (ray);
 }
 

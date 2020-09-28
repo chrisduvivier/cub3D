@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/26 12:52:01 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/28 13:18:02 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ see: 'a.out map.cub --save'\n"
 see: 'a.out map.cub'\n"
 # define ERROR_MALLOC "Error\ncub3d: Memory allocation failed\n"
 # define ERROR_BMP_WRITE "Error\ncub3d: failed to write to bmp file\n"
+# define ERROR_INVALID_MAP_ELEM "Error\nInvalid character found in the map\n\
+  List of valid char: '0', '1', '2', ' ', 'N', 'S', 'W', 'E' \n"
+# define ERROR_PLAYER_POS "Error\nPlayer position has to be unique in the map\n"
 
 /*
 **	dimensions of textures
@@ -82,6 +85,7 @@ typedef struct  s_ray {
 	double		planeY;
 	double 		moveSpeed;
 	double 		rotSpeed;
+	int			setupDone;
 }               t_ray;
 
 /*
