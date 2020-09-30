@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 11:02:20 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 12:23:51 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,27 +264,14 @@ int		ft_draw(t_vars *vars)
 	/*
 	** SPRITE CASTING
 	*/
-    // sort sprites from far to close
-	
-	int		spriteOrder[vars->map.num_sprite];
-	double 	spriteDistance[vars->map.num_sprite];
-	
-	// printf("=============== num_sprite: %i ============\n", vars->map.num_sprite);
-    for (int i = 0; i < vars->map.num_sprite; i++)
-    {
-      	spriteOrder[i] = i;
-      	spriteDistance[i] = ((ray->posX - vars->map.sprites[i]->x) * (ray->posX - vars->map.sprites[i]->x)
-	  		+ (ray->posY - vars->map.sprites[i]->y) * (ray->posY - vars->map.sprites[i]->y)); //sqrt not taken, unneeded
-    }
-	// TODO
-    // sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
+	ft_sprite_order(vars, vars->map.sprites, vars->map.num_sprite);
 
     //after sorting the sprites, do the projection and draw them
     for (int i = 0; i < vars->map.num_sprite; i++)
     {
 		//translate sprite position to relative to camera
-		double spriteX = vars->map.sprites[spriteOrder[i]]->x - ray->posX;
-		double spriteY = vars->map.sprites[spriteOrder[i]]->y - ray->posY;
+		double spriteX = vars->map.sprites[i]->x - ray->posX;
+		double spriteY = vars->map.sprites[i]->y - ray->posY;
 
 		//transform sprite with the inverse camera matrix
 		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 10:21:07 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 12:21:27 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ typedef struct  s_ray {
 	int			setupDone;
 }               t_ray;
 
+typedef struct  s_ray_sprite {
+	int			*sprite_order;
+}               t_ray_sprite;
+
 /*
 **	used for img put on to window, and TEXTURE
 **	texture keeps the img struct and keep the height, width of the texture
@@ -107,6 +111,7 @@ typedef struct 	s_sprite {
 	double x;
 	double y;
 	int texture;
+	double distance;
 }				t_sprite;
 
 /*
@@ -149,16 +154,17 @@ typedef struct 	s_map
 	int			num_sprite;
 }				t_map;
 
-typedef struct  s_vars {
-	void        *mlx;
-	void        *win;
-	t_map		map;
-	t_ray       ray;
-	t_img       img[2];
-	int			current_img; 
-	char		*f_line;
-	int			bmp_done;
-}               t_vars;
+typedef struct  	s_vars {
+	void        	*mlx;
+	void        	*win;
+	t_map			map;
+	t_ray       	ray;
+	t_ray_sprite	ray_sprite;
+	t_img       	img[2];
+	int				current_img; 
+	char			*f_line;
+	int				bmp_done;
+}               	t_vars;
 
 // int worldMap[mapWidth][mapHeight];
 
@@ -234,6 +240,12 @@ void    	ft_create_bmp_file(t_vars *vars);
 void	    process_cub_map(t_vars *vars);
 void 	    malloc_cub_map(t_vars *vars, int height, int width);
 void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
+
+/*
+**	Sprites
+*/
+
+void	ft_sprite_order(t_vars *vars, t_sprite **sprites, int size);
 
 /*
 ** ft_player_movements
