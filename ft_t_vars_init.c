@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/29 13:59:22 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 14:09:02 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
 		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *(vars->f_line))
 		{
-			if (!vars->map.start_read_map)
+			if (vars->map.start_read_map == 0)
 				read_cub_param(vars, &(vars->map), vars->f_line);
-			if (vars->map.start_read_map)
+			if (vars->map.start_read_map == 1)
 				read_cub_map(vars, vars->f_line);
 			free(vars->f_line);
 		}

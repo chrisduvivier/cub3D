@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/28 14:06:47 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:54:13 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 void		read_cub_param(t_vars *vars, t_map *map, char *l)
 {
 	// printf("==== read_cub_param ====\n");
-	if (!l && map->start_read_map != 0)
+	// printf("[%s]\n", l);
+	if (!l || *l == '\0') // empty line
 		return ;
 	if (l[0] == 'R' && (ft_isdigit(l[1]) || ft_isspace(l[1])))
 		get_map_resolution(vars, &map, l);
@@ -114,7 +115,7 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 		map->rgb_floor = get_color_from_mapfile(vars, ++l);
 	else if (l[0] == 'C' && check_arg(vars, map, 'C'))
 		map->rgb_ceiling = get_color_from_mapfile(vars, ++l);
-	else if (ft_isdigit(l[0]))
+	else if (first_line_of_map(l))
 		map->start_read_map = check_start_map(map);
 	else
 		exit_cub3d(vars, ERROR_CUB_FILE, __FILE__, __LINE__);

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/29 11:14:26 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 21:43:44 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void		free_t_map(t_map *map)
 	// 	handle the deletion of teh content in each node.
 
 	// FREE vars->map.sprites
+
+	// FREE vars->map.visited
 }
 
 void		free_t_vars(t_vars *vars)

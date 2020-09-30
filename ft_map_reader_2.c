@@ -6,11 +6,29 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/17 21:45:01 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:36:08 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*
+**	check if the line is the 1st line of the Map and is valid.
+*/
+
+int			first_line_of_map(char *line)
+{
+	char	*ptr;
+
+	ptr = line;
+	while (ptr && *ptr)
+	{
+		if (ft_isdigit(*ptr))
+			return (1);
+		ptr++;
+	}
+	return (0);
+}
 
 /*
 **	skip over alphabet (NO, WE, S, etc.) and space and get the texture's path.

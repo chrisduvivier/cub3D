@@ -6,27 +6,27 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 12:22:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 12:33:18 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 22:28:28 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void     malloc_cub_map(t_vars *vars, int height, int width)
+int		**malloc_cub_map(t_vars *vars, int height, int width)
 {
 	int i;
-	t_map *map;
+	int	**res;
 
 	i = 0;
-	map = &(vars->map);
-	if ((map->map = (int **)malloc(height * sizeof(int *))) == NULL)
+	if ((res = (int **)malloc(height * sizeof(int *))) == NULL)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 	while (i < height)
 	{
-		if ((map->map[i] = (int *)malloc(width * sizeof(int))) == NULL)
+		if ((res[i] = (int *)malloc(width * sizeof(int))) == NULL)
 			exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 		i++;
 	}
+	return (res);
 }
 
 /*
@@ -72,30 +72,88 @@ void	parse_cub_map(t_vars *vars, int height, int width, t_list *head)
 		printf("MAP: ");
 		while (i < width)
 		{
-			printf("%c", line[i]);
+			// printf("%c", line[i]);
 			if (line[i] == '0' || line[i] == ' ')
 				vars->map.map[j][i] = 0;
 			else if (line[i] == '1')
 				vars->map.map[j][i] = 1;
 			else if (line[i] == '2')
 			{
-				//TODO: need to keep them in a array to sort posX posY of sprite for raycasting
 				add_sprite(vars, i, j, line[i]);
 				vars->map.map[j][i] = 0;
 			}
-			else if (ft_strchr("NSWE", line[i]) != NULL)
+			else if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 			{
 				set_player_position(vars, i, j, line[i]);
 				vars->map.map[j][i] = 0;
 			}
+			else if (!line[i])
+			{
+				while (i < width)
+				{
+					vars->map.map[j][i++] = 0;
+					printf("%i", vars->map.map[j][i]);
+				}
+			}
 			else
 				exit_cub3d(vars, ERROR_INVALID_MAP_ELEM, __FILE__, __LINE__);	
+			printf("%i", vars->map.map[j][i]);
 			i++;
 		}
 		printf("\n");
 		j++;
 		node = node->next;
 	}
+}
+
+/*
+**	DFS algorithm
+*/
+
+void	check_neighbor(t_vars *vars, int x, int y)
+{	
+	if (x < 0 || x >= vars->map.width || y < 0 || y >= vars->map.height)
+		exit_cub3d(vars, ERROR_INVALID_MAP, __FILE__, __LINE__);
+	if (vars->map.visited[y][x] == 1)
+		return ;
+	vars->map.visited[y][x] = 1;
+	if (vars->map.map[y][x] == 1)
+		return ;
+	else if (vars->map.map[y][x] == 0)
+	{
+		check_neighbor(vars, x-1, y);
+		check_neighbor(vars, x+1, y);
+		check_neighbor(vars, x, y-1);
+		check_neighbor(vars, x, y+1);
+	}
+}
+
+/*
+**	exist if invalid. 
+*/
+
+void	check_map_validity(t_vars *vars, int **map, int max_height, int max_width)
+{
+	int x;
+	int y;
+	
+	vars->map.visited = malloc_cub_map(vars, max_height, max_width);
+	x = 0;
+	y = 0;
+	while (y < max_height)
+	{
+		x = 0;
+		while (x < max_width)
+		{
+			vars->map.visited[y][x] = 0;
+			x++;
+		}
+		y++;
+	}
+	x = vars->ray.posX;
+	y = vars->ray.posY;
+	
+	check_neighbor(vars, y, x);
 }
 
 /*
@@ -106,8 +164,8 @@ void	parse_cub_map(t_vars *vars, int height, int width, t_list *head)
 
 void    process_cub_map(t_vars *vars)
 {
-	malloc_cub_map(vars, vars->map.height, vars->map.width);
+	vars->map.map = malloc_cub_map(vars, vars->map.height, vars->map.width);
 	parse_cub_map(vars, vars->map.height, vars->map.width, vars->map.head);
 	set_up_sprite_array(vars, vars->map.head_sprite, vars->map.num_sprite);
-	// DFS to check validity
+	check_map_validity(vars, vars->map.map, vars->map.height, vars->map.width);
 }

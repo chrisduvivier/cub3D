@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 12:36:53 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 21:39:12 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ see: 'a.out map.cub'\n"
 # define ERROR_INVALID_MAP_ELEM "Error\nInvalid character found in the map\n\
   List of valid char: '0', '1', '2', ' ', 'N', 'S', 'W', 'E' \n"
 # define ERROR_PLAYER_POS "Error\nPlayer position has to be unique in the map\n"
+# define ERROR_INVALID_MAP "Error\nThe map must be closed/surrounded by walls\n"
 
 /*
 **	dimensions of textures
@@ -152,6 +153,7 @@ typedef struct 	s_map
 	t_list		*head;
 	t_list		*head_sprite;
 	int			num_sprite;
+	int			**visited;
 }				t_map;
 
 typedef struct  	s_vars {
@@ -183,6 +185,7 @@ t_vars		t_vars_init(int argc, char *argv[]);
 */
 
 int			check_start_map(t_map *map);
+int			first_line_of_map(char *line);
 int			check_arg(t_vars *vars, t_map *map, char type);
 void		get_map_resolution(t_vars *vars, t_map **map, char *line);
 void		read_cub_param(t_vars *vars, t_map *map, char *line);
@@ -238,7 +241,7 @@ void    	ft_create_bmp_file(t_vars *vars);
 */
 
 void	    process_cub_map(t_vars *vars);
-void 	    malloc_cub_map(t_vars *vars, int height, int width);
+int			**malloc_cub_map(t_vars *vars, int height, int width);
 void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
 
 /*
