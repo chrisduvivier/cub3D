@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/28 13:18:02 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 10:21:07 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define MAX_SCREEN_HEIGHT 2880
 
 # define NUM_WALL_TEXTURES 6
-# define NUM_SPRITES 3
+# define NUM_SPRITES 0
 
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40
@@ -89,7 +89,7 @@ typedef struct  s_ray {
 }               t_ray;
 
 /*
-**	USED for img put on to window, and TEXTURE
+**	used for img put on to window, and TEXTURE
 **	texture keeps the img struct and keep the height, width of the texture
 */
 
@@ -108,6 +108,10 @@ typedef struct 	s_sprite {
 	double y;
 	int texture;
 }				t_sprite;
+
+/*
+**	boolean values to check if all arguments were passed in the cub file.
+*/
 
 typedef struct 	s_map_arg
 {
@@ -134,15 +138,16 @@ typedef struct 	s_map
 	int			rgb_floor;
 	int			rgb_ceiling;
 	t_img		walls[NUM_WALL_TEXTURES - 1];
+	t_sprite	**sprites;
 	int			**map;
 	int			height;
 	int			width;
 	int			start_read_map;
 	t_map_arg	map_arg;
 	t_list		*head;
+	t_list		*head_sprite;
+	int			num_sprite;
 }				t_map;
-
-
 
 typedef struct  s_vars {
 	void        *mlx;
@@ -155,7 +160,7 @@ typedef struct  s_vars {
 	int			bmp_done;
 }               t_vars;
 
-int worldMap[mapWidth][mapHeight];
+// int worldMap[mapWidth][mapHeight];
 
 /*
 **	Init
@@ -193,13 +198,14 @@ int			add_shade(double distance, int color);
 int			get_color_from_mapfile(t_vars *vars, char *line);
 
 /*
-**  Draw functions
+**  Draw helper functions
 */
 
-void		my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
-unsigned int my_mlx_pixel_get(t_img img, int x, int y);
-void		ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color);
-int			ft_draw(t_vars *vars);
+void			my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+unsigned int 	my_mlx_pixel_get(t_img img, int x, int y);
+void			ft_mlx_draw_line(t_vars *vars, int x, 
+					int drawStart, int drawEnd, unsigned int *buffer);
+int				ft_draw(t_vars *vars);
 
 /*
 **  Hook functions
@@ -229,6 +235,17 @@ void	    process_cub_map(t_vars *vars);
 void 	    malloc_cub_map(t_vars *vars, int height, int width);
 void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
 
+/*
+** ft_player_movements
+*/
+
+void	player_move_forward(t_ray *ray, int **map, double moveSpeed);
+void	player_move_backward(t_ray *ray, int **map, double moveSpeed);
+void	player_move_left(t_ray *ray, int **map, double moveSpeed);
+void	player_move_right(t_ray *ray, int **map, double moveSpeed);
+
+void	player_rot_right(t_ray *ray, double rotSpeed);
+void	player_rot_left(t_ray *ray, double rotSpeed);
 
 /*
 **	Clear and Exit function

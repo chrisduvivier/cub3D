@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/26 12:41:09 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/29 11:14:26 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void		free_t_map(t_map *map)
 
 	// FREE map->map[][]
 	
+	// FREE map->head_sprite the whole linked list
+	// 	->ft_lstclear will require you to have a ptr to a function taht  will
+	// 	handle the deletion of teh content in each node.
+
+	// FREE vars->map.sprites
 }
 
 void		free_t_vars(t_vars *vars)

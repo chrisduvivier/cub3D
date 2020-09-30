@@ -10,14 +10,12 @@
 
 # TODOs
 - Quit the program CLEANLY through ESC KEY, RED CROSS
-- Ray: posX, posY, dirX, dirY seems to be off. spawn place is swaped between X axis and Y axis
 - Colision: walking towards wall sometime leads to go over them and to see the outside.
 - PARSING MAP
-    - Player position
+    - Player position (DONE)
     - Map's validity
-    - Sprite position
-- Sprite Sorting
-    - IT turns our, sorting is donde for optimization. Zbuffer checks if the osition of the sprite is further away from the closest wall on the Zbuffer[x_axis].
+    - Sprite position (DONE)
+- Sprite Sorting: Zbuffer checks if the osition of the sprite is further away from the closest wall on the Zbuffer[x_axis].
 - COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 - NORM
 
@@ -34,3 +32,6 @@
 - The management of your window must remain smooth: changing to another window, minimizing, etc. (NO WORK TO DO ON THIS ONE?)
 - In case the Deepthought has eyes one day to evaluate your project, your program must save the first rendered image in bmp format when its second argument is "––save".
     - Weird that the save image size is slightly different from the window I see when I run the cub. CHECKED DONE
+- Ray: posX, posY, dirX, dirY seems to be off. spawn place is swaped between X axis and Y axis. DONE
+- Player position stored correctly, but in cub the posX and posY are inversed. (DONE: reversed argument x and y in set_player_position)
+- SHOW SPRITE ON MAP (after parsing from cub file, can'y makke tem appear.) (DONE: also had to reverse x and y in ft_cub_map)

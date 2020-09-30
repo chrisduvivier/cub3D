@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/28 13:25:05 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/29 13:59:22 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ t_ray		t_ray_init(void)
 {
 	t_ray	ray;
 
-	ray.posX = 22;
-	ray.posY = 12;
+	ray.posX = 0;
+	ray.posY = 0;
 	ray.dirX = -1;
 	ray.dirY = 0;
 	ray.planeX = 0;
@@ -83,11 +83,12 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 	{
 		s_map_arg_init(&(vars->map));
 		vars->map.head = NULL;
+		vars->map.head_sprite = NULL;
+		vars->map.num_sprite = 0;
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
 		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *(vars->f_line))
 		{
-			// printf("\nvars->line=[%s]\n", vars->f_line);
 			if (!vars->map.start_read_map)
 				read_cub_param(vars, &(vars->map), vars->f_line);
 			if (vars->map.start_read_map)
@@ -96,12 +97,6 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 		}
 		if (res < 0)
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
-		// printf("res_w [%d]\nres_h [%d]\n", vars->map.res_w, vars->map.res_h);
-		// printf("texture_east [%s]\n", vars->map.texture_east);
-		// printf("texture_north [%s]\n", vars->map.texture_north);
-		// printf("texture_south [%s]\n", vars->map.texture_south);
-		// printf("map->texture_west [%s]\n", vars->map.texture_west);
-		// printf("map->texture_sprite [%s]\n", vars->map.texture_sprite);
 	}
 	else
 		exit_cub3d(vars, ERROR_RUN, __FILE__, __LINE__);
@@ -116,14 +111,10 @@ t_vars		t_vars_init(int argc, char *argv[])
 	t_vars	vars;
 
 	t_map_init(&vars, argc, argv);
-	// proceed to the creation of Map array.
-	// TODO
+	vars.ray = t_ray_init();
 	process_cub_map(&vars);
-
-
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, vars.map.res_w, vars.map.res_h, "ray_cast");
-	vars.ray = t_ray_init();
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;

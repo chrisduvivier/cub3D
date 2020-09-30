@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:57 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/26 10:53:32 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 11:02:20 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,37 +69,6 @@
 //   {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 // };
 
-/*
-**	mAP BEFORE SPRITE
-*/
-int worldMap[mapWidth][mapHeight]=
-{
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 0, 4, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 0, 0, 0, 0, 5, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 0, 4, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} 
-};
-
 // int worldMap[mapWidth][mapHeight] =
 // {
 //   {8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
@@ -127,116 +96,6 @@ int worldMap[mapWidth][mapHeight]=
 //   {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
 //   {2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5}
 // };
-
-
-t_sprite sprite[NUM_SPRITES] =
-{
-//   {20.5, 11.5, 10}, //green light in front of playerstart
-//   //green lights in every room
-//   {18.5,4.5, 10},
-//   {10.0,4.5, 10},
-//   {10.0,12.5,10},
-//   {3.5, 6.5, 10},
-//   {3.5, 20.5,10},
-//   {3.5, 14.5,10},
-//   {14.5,20.5,10},
-
-//   //row of pillars in front of wall: fisheye test
-//   {18.5, 10.5, 9},
-//   {18.5, 11.5, 9},
-//   {18.5, 12.5, 9},
-
-  //some barrels around the map
-  	{2.5, 2.5, 5},
-  	{15.5, 1.5, 5},
-  	{10.0, 2.5, 5},
-//   {16.2, 1.2, 8},
-//   {3.5,  2.5, 8},
-//   {9.5, 15.5, 8},
-//   {10.0, 15.1,8},
-//   {10.5, 15.8,8},
-};
-
-void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
-{
-	char	*dst;
-	t_img	i;
-
-	i = vars->img[vars->current_img];
-	// i = vars->i;
-	dst = i.addr + (y * i.line_length + x * (i.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-unsigned int    my_mlx_pixel_get(t_img img, int x, int y)
-{
-    unsigned int    color;
-    char            *ptr;
-
-    ptr = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
-    color = *(unsigned int *)ptr;
-    return (color);
-}
-
-/*
-**	Draws a vertical line, from top to bottom and put each pixel to img
-**	Doesn not support texture
-*/
-
-void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, int color)
-{
-	int y;
-
-	y = 0;
-	int rgb_ceiling;
-	int rgb_floor;
-
-	rgb_ceiling = RGB_CEILING;
-	rgb_floor = RGB_FLOOR;
-	//draw ceiling
-	while (y < drawStart)
-		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
-	while (y <= drawEnd)
-	{
-		if (y == drawStart || y == drawEnd)
-		{
-			// mlx_pixel_put(vars->mlx, vars->win, x, y++, color);
-			my_mlx_pixel_put(vars, x, y++, color);
-		}
-		else
-		{
-			// mlx_pixel_put(vars->mlx, vars->win, x, y++, add_shade(0.5, color));
-			my_mlx_pixel_put(vars, x, y++, add_shade(0.5, color));
-		}
-	}
-	while (y <= vars->map.res_h)
-		my_mlx_pixel_put(vars, x, y++, rgb_floor);
-}
-
-/*
-**	 Trying to make it support texture
-*/
-void	ft_mlx_draw_line_BETA(t_vars *vars, int x, int drawStart, int drawEnd, unsigned int *buffer)
-{
-	int y;
-
-	y = 0;
-	int rgb_ceiling;
-	int rgb_floor;
-
-	rgb_ceiling = RGB_CEILING;
-	rgb_floor = RGB_FLOOR;
-	//draw ceiling
-	while (y < drawStart)
-		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
-	while (y <= drawEnd)
-	{
-		my_mlx_pixel_put(vars, x, y, buffer[y]);
-		y++;
-	}
-	while (y <= vars->map.res_h)
-		my_mlx_pixel_put(vars, x, y++, rgb_floor);
-}
 
 int		ft_draw(t_vars *vars)
 {
@@ -315,7 +174,7 @@ int		ft_draw(t_vars *vars)
 			}
 			
 			// Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0)
+			if (vars->map.map[mapX][mapY] > 0)
 				hit = 1;
 		}
 		// Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
@@ -337,7 +196,7 @@ int		ft_draw(t_vars *vars)
 			drawEnd = vars->map.res_h - 1;
 		
 		//texturing calculations (TEMPRARY THING. NOT USED)
-		int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		int texNum = vars->map.map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
 		// determine directiuon of wall
 		if (side == 1) //N or S wall
@@ -392,7 +251,7 @@ int		ft_draw(t_vars *vars)
 		}
 
 		//draw the pixels of the stripe as a vertical line
-		ft_mlx_draw_line_BETA(vars, x, drawStart, drawEnd, buffer);
+		ft_mlx_draw_line(vars, x, drawStart, drawEnd, buffer);
 
 		// clear buffer
 		for (int y = 0; y < vars->map.res_h; y++)
@@ -407,24 +266,25 @@ int		ft_draw(t_vars *vars)
 	*/
     // sort sprites from far to close
 	
-	int		spriteOrder[NUM_SPRITES];
-	double 	spriteDistance[NUM_SPRITES];
+	int		spriteOrder[vars->map.num_sprite];
+	double 	spriteDistance[vars->map.num_sprite];
 	
-    for (int i = 0; i < NUM_SPRITES; i++)
+	// printf("=============== num_sprite: %i ============\n", vars->map.num_sprite);
+    for (int i = 0; i < vars->map.num_sprite; i++)
     {
-      spriteOrder[i] = i;
-      spriteDistance[i] = ((ray->posX - sprite[i].x) * (ray->posX - sprite[i].x)
-	  	+ (ray->posY - sprite[i].y) * (ray->posY - sprite[i].y)); //sqrt not taken, unneeded
+      	spriteOrder[i] = i;
+      	spriteDistance[i] = ((ray->posX - vars->map.sprites[i]->x) * (ray->posX - vars->map.sprites[i]->x)
+	  		+ (ray->posY - vars->map.sprites[i]->y) * (ray->posY - vars->map.sprites[i]->y)); //sqrt not taken, unneeded
     }
 	// TODO
     // sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
 
     //after sorting the sprites, do the projection and draw them
-    for (int i = 0; i < NUM_SPRITES; i++)
+    for (int i = 0; i < vars->map.num_sprite; i++)
     {
 		//translate sprite position to relative to camera
-		double spriteX = sprite[spriteOrder[i]].x - ray->posX;
-		double spriteY = sprite[spriteOrder[i]].y - ray->posY;
+		double spriteX = vars->map.sprites[spriteOrder[i]]->x - ray->posX;
+		double spriteY = vars->map.sprites[spriteOrder[i]]->y - ray->posY;
 
 		//transform sprite with the inverse camera matrix
 		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
@@ -492,88 +352,5 @@ int		ft_draw(t_vars *vars)
 	vars->current_img = (vars->current_img == 0) ? 1 : 0;
 	// printf("ft_draw after current_img = [%d]\n", vars->current_img);
 	
-	return (0);
-}
-
-int			key_press_hook(int keycode, t_vars *vars)
-{
-	t_ray *r;
-
-	r = &(vars->ray);
-	if (keycode == KEY_ESC)
-	{
-		printf("ESC: Closing the window\n");
-		// mlx_destroy_window(vars->mlx, vars->win);
-		exit (0);
-	}
-	else if (keycode == KEY_MOVE_LEFT || keycode == KEY_MOVE_RIGHT || keycode == KEY_DOWN || keycode == KEY_UP)
-	{
-		// move forward if no wall in front of you
-		if (keycode == KEY_UP)
-		{
-			if (worldMap[(int)(r->posX + r->dirX * r->moveSpeed)][(int)(r->posY)] == 0)
-				r->posX += r->dirX * r->moveSpeed;
-			if (worldMap[(int)(r->posX)][(int)(r->posY + r->dirY * r->moveSpeed)] == 0)
-				r->posY += r->dirY * r->moveSpeed;
-		}
-		// move backwards if no wall behind you
-		if (keycode == KEY_DOWN)
-		{
-			if (worldMap[(int)(r->posX - r->dirX * r->moveSpeed)][(int)(r->posY)] == 0)
-				r->posX -= r->dirX * r->moveSpeed;
-			if (worldMap[(int)(r->posX)][(int)(r->posY - r->dirY * r->moveSpeed)] == 0)
-				r->posY -= r->dirY * r->moveSpeed;
-		}
-		if (keycode == KEY_MOVE_LEFT)
-		{
-			double newDirX;
-			double newDirY;
-			newDirX = -(r->dirY);
-			newDirY = r->dirX;
-			if (worldMap[(int)(r->posX + newDirX * r->moveSpeed)][(int)(r->posY)] == 0)
-				r->posX += newDirX * r->moveSpeed;
-			if (worldMap[(int)(r->posX)][(int)(r->posY + newDirY * r->moveSpeed)] == 0)
-				r->posY += newDirY * r->moveSpeed;
-		}
-		if (keycode == KEY_MOVE_RIGHT)
-		{
-			double newDirX;
-			double newDirY;
-			newDirX = -(r->dirY);
-			newDirY = r->dirX;
-			if (worldMap[(int)(r->posX + newDirX * r->moveSpeed)][(int)(r->posY)] == 0)
-				r->posX -= newDirX * r->moveSpeed;
-			if (worldMap[(int)(r->posX)][(int)(r->posY + newDirY * r->moveSpeed)] == 0)
-				r->posY -= newDirY * r->moveSpeed;
-		}
-	}
-	else if (keycode == KEY_LOOK_LEFT || keycode == KEY_LOOK_RIGHT)
-	{
-		//rotate to the left
-		if (keycode == KEY_LOOK_LEFT)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = r->dirX;
-			r->dirX = r->dirX * cos(r->rotSpeed) - r->dirY * sin(r->rotSpeed);
-			r->dirY = oldDirX * sin(r->rotSpeed) + r->dirY * cos(r->rotSpeed);
-			double oldPlaneX = r->planeX;
-			r->planeX = r->planeX * cos(r->rotSpeed) - r->planeY * sin(r->rotSpeed);
-			r->planeY = oldPlaneX * sin(r->rotSpeed) + r->planeY * cos(r->rotSpeed);
-			// printf("Ker Press --- keycode: [LEFT]\n");
-		}
-		//rotate to the right
-		if (keycode == KEY_LOOK_RIGHT)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = r->dirX;
-			r->dirX = r->dirX * cos(-(r->rotSpeed)) - r->dirY * sin(-(r->rotSpeed));
-			r->dirY = oldDirX * sin(-(r->rotSpeed)) + r->dirY * cos(-(r->rotSpeed));
-			double oldPlaneX = r->planeX;
-			r->planeX = r->planeX * cos(-(r->rotSpeed)) - r->planeY * sin(-(r->rotSpeed));
-			r->planeY = oldPlaneX * sin(-(r->rotSpeed)) + r->planeY * cos(-(r->rotSpeed));
-			// printf("Ker Press --- keycode: [RIGHT]\n");
-		}
-	}
-	ft_draw(vars);
 	return (0);
 }
