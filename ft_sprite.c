@@ -6,11 +6,58 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 11:07:01 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 12:23:17 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 12:35:53 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*
+**	append sprite to the list. Count number of sprites in map.
+*/
+
+void	add_sprite(t_vars *vars, int y, int x, char spriteNum)
+{
+	t_list			*node;
+	t_sprite		*sprite;
+
+	if ((sprite = (t_sprite*)malloc(sizeof(t_sprite))) == NULL)
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	sprite->x = x + 0.5;
+	sprite->y = y + 0.5;
+	sprite->texture = (int)(spriteNum - '0');
+	if ((node = ft_lstnew(sprite)) == NULL)
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	ft_lstadd_back(&(vars->map.head_sprite), node);
+	vars->map.num_sprite++;
+}
+
+/*
+**	Load the sprites from the linked list to a array of sprites
+*/
+
+void	set_up_sprite_array(t_vars *vars, t_list *head, int size)
+{
+	t_list 		*node;
+	t_sprite	*sprite;
+	int 		i;
+
+	if (!(vars->map.sprites = (t_sprite **)malloc(sizeof(t_sprite*) * size)))
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	node = head;
+	i = 0;
+	while (node != NULL && i < size)
+	{
+		sprite = (t_sprite *)(node->content);
+		vars->map.sprites[i] = sprite;
+		node = node->next;
+		i++;
+	}
+}
+
+/*
+**	Insertion sort
+*/
 
 void	sort_sprites(t_vars *vars, t_sprite **sprites, int size)
 {

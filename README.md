@@ -15,7 +15,6 @@
     - Player position (DONE)
     - Map's validity
     - Sprite position (DONE)
-- Sprite Sorting: Zbuffer checks if the osition of the sprite is further away from the closest wall on the Zbuffer[x_axis].
 - COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 - NORM
 
@@ -35,3 +34,4 @@
 - Ray: posX, posY, dirX, dirY seems to be off. spawn place is swaped between X axis and Y axis. DONE
 - Player position stored correctly, but in cub the posX and posY are inversed. (DONE: reversed argument x and y in set_player_position)
 - SHOW SPRITE ON MAP (after parsing from cub file, can'y makke tem appear.) (DONE: also had to reverse x and y in ft_cub_map)
+- Sprite Sorting: Zbuffer checks if the osition of the sprite is further away from the closest wall on the Zbuffer[x_axis].

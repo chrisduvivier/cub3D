@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 12:21:27 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 12:36:53 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,10 @@ void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
 **	Sprites
 */
 
+void	add_sprite(t_vars *vars, int y, int x, char spriteNum);
+void	set_up_sprite_array(t_vars *vars, t_list *head, int size);
 void	ft_sprite_order(t_vars *vars, t_sprite **sprites, int size);
+void	sort_sprites(t_vars *vars, t_sprite **sprites, int size);
 
 /*
 ** ft_player_movements
