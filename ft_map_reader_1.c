@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 15:54:13 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:07:00 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int			check_start_map(t_map *map)
 
 int			check_arg(t_vars *vars, t_map *map, char type)
 {
-	// printf("==== check_arg ====\n");
 	if (type == 'R' && (!map->map_arg.r))
 		map->map_arg.r = 1;
 	else if (type == 'N' && (!map->map_arg.no))
@@ -95,9 +94,7 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 
 void		read_cub_param(t_vars *vars, t_map *map, char *l)
 {
-	// printf("==== read_cub_param ====\n");
-	// printf("[%s]\n", l);
-	if (!l || *l == '\0') // empty line
+	if (!l || *l == '\0')
 		return ;
 	if (l[0] == 'R' && (ft_isdigit(l[1]) || ft_isspace(l[1])))
 		get_map_resolution(vars, &map, l);
@@ -122,19 +119,17 @@ void		read_cub_param(t_vars *vars, t_map *map, char *l)
 }
 
 /*
-**	Copy the line returned by gnl if the line is not empty.	
+**	Copy the line returned by gnl if the line is not empty.
 **	Add the copied line into Node and add to list.
 **	Set the width and height of the map
 */
 
 void		read_cub_map(t_vars *vars, char *line)
 {
-	char 			*map_line;
-	unsigned int 	map_length;
-	t_list			*node;
-	
-	// printf("==== read_cub_map ====\n");
-	// printf("==== line:[%s] ====\n", line);
+	char		*map_line;
+	int			map_length;
+	t_list		*node;
+
 	if (*line)
 	{
 		map_line = ft_strdup(line);
@@ -143,7 +138,7 @@ void		read_cub_map(t_vars *vars, char *line)
 			exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 		ft_lstadd_back(&(vars->map.head), node);
 		vars->map.height++;
-		vars->map.width = (map_length > vars->map.width) ? 
+		vars->map.width = (map_length > vars->map.width) ?
 			map_length : vars->map.width;
 	}
 }

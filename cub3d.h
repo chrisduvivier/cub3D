@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 21:39:12 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 13:28:16 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ see: 'R width height' where width and height must be positive\n"
 resolution in .cub file\n see: 'R width height'\n"
 # define ERROR_RGB "Error\n@get_color_from_mapfile: .cub file has RGB value \
 out of range\n"
-# define ERROR_TEXTURE_FILE "Error\n@get_texture_filename: Could not find texture file\n"
+# define ERROR_TEXTURE_FILE "Error\n@get_texture_filename: \
+Could not find texture file\n"
 # define ERROR_ARG "Error\nUnrecognized arguments were passed\n\
 see: 'a.out map.cub --save'\n"
 # define ERROR_RUN "Error\ncub3d: Run with a .cub file as argument\n\
@@ -56,8 +57,9 @@ see: 'a.out map.cub'\n"
 # define ERROR_BMP_WRITE "Error\ncub3d: failed to write to bmp file\n"
 # define ERROR_INVALID_MAP_ELEM "Error\nInvalid character found in the map\n\
   List of valid char: '0', '1', '2', ' ', 'N', 'S', 'W', 'E' \n"
-# define ERROR_PLAYER_POS "Error\nPlayer position has to be unique in the map\n"
-# define ERROR_INVALID_MAP "Error\nThe map must be closed/surrounded by walls\n"
+# define ERROR_PLAYER_POS "Error\nPlayer position has to be unique in map\n"
+# define ERROR_INVALID_MAP "Error\nThe map must be closed/surrounded by \
+walls\n"
 
 /*
 **	dimensions of textures
@@ -77,17 +79,57 @@ see: 'a.out map.cub'\n"
 
 typedef unsigned char t_byte;
 
-typedef struct  s_ray {
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
-	double 		moveSpeed;
-	double 		rotSpeed;
-	int			setupDone;
-}               t_ray;
+/*
+**	DDA
+*/
+
+typedef struct  	s_dda {
+	double			camera_x;
+	double			raydir_x;
+	double			raydir_y;
+	int				map_x;
+	int				map_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	double			perp_wall_dist;
+	int 			line_height;
+	int				draw_start;
+	int				draw_end;
+	double 			wall_x;
+	int				texture_num;
+	int				texture_x;
+	int				texture_y;
+	double			texture_step;
+	double			texture_pos;
+	unsigned int 	color;
+}               	t_dda;
+
+/*
+**	Variables specifically for raycasting.
+**	buffer_z is used for sprites: contains the distance to the wall of 
+**	every vertical stripe.	
+*/
+
+typedef struct  	s_ray {
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double 			move_speed;
+	double 			rot_speed;
+	int				setup_done;
+	unsigned int	*buffer_y;
+	double			*buffer_z;
+	t_dda			dda;
+}               	t_ray;
 
 typedef struct  s_ray_sprite {
 	int			*sprite_order;
@@ -135,7 +177,6 @@ typedef struct 	s_map
 {
 	int			res_w;
 	int			res_h;
-	char		**tab;
 	char		*texture_north;
 	char		*texture_south;
 	char		*texture_west;
@@ -217,6 +258,16 @@ void			ft_mlx_draw_line(t_vars *vars, int x,
 int				ft_draw(t_vars *vars);
 
 /*
+**	DDA
+*/
+
+void			ft_dda_setup(t_vars *vars, t_ray *r, int x);
+void			ft_dda_side_distance(t_ray *r);
+void			ft_dda_check_hit(t_vars *vars, t_ray *r);
+void			ft_dda_wall_distance(t_vars *vars, t_ray *r, t_dda *d);
+void			ft_dda_draw_wall(t_vars *vars, t_ray *r, t_dda *d);
+
+/*
 **  Hook functions
 */
 
@@ -251,24 +302,25 @@ void		parse_cub_map(t_vars *vars, int height, int width, t_list *head);
 void	add_sprite(t_vars *vars, int y, int x, char spriteNum);
 void	set_up_sprite_array(t_vars *vars, t_list *head, int size);
 void	ft_sprite_order(t_vars *vars, t_sprite **sprites, int size);
-void	sort_sprites(t_vars *vars, t_sprite **sprites, int size);
+void	sort_sprites(t_sprite **sprites, int size);
 
 /*
 ** ft_player_movements
 */
 
-void	player_move_forward(t_ray *ray, int **map, double moveSpeed);
-void	player_move_backward(t_ray *ray, int **map, double moveSpeed);
-void	player_move_left(t_ray *ray, int **map, double moveSpeed);
-void	player_move_right(t_ray *ray, int **map, double moveSpeed);
+void	player_move_forward(t_ray *ray, int **map, double move_speed);
+void	player_move_backward(t_ray *ray, int **map, double move_speed);
+void	player_move_left(t_ray *ray, int **map, double move_speed);
+void	player_move_right(t_ray *ray, int **map, double move_speed);
 
-void	player_rot_right(t_ray *ray, double rotSpeed);
-void	player_rot_left(t_ray *ray, double rotSpeed);
+void	player_rot_right(t_ray *ray, double rot_speed);
+void	player_rot_left(t_ray *ray, double rot_speed);
 
 /*
 **	Clear and Exit function
 */
 
 void		exit_cub3d(t_vars *vars, char* my_error_text, char *file, int line);
+void		free_t_vars(t_vars *vars);
 
 #endif 

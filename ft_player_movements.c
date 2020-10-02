@@ -12,34 +12,34 @@
 
 #include "cub3d.h"
 
-void	player_move_forward(t_ray *ray, int **map, double moveSpeed)
+void	player_move_forward(t_ray *ray, int **map, double move_speed)
 {
-	if (map[(int)(ray->posX + ray->dirX * moveSpeed)][(int)(ray->posY)] != 1)
-		ray->posX += ray->dirX * moveSpeed;
-	if (map[(int)(ray->posX)][(int)(ray->posY + ray->dirY * moveSpeed)] != 1)
-		ray->posY += ray->dirY * moveSpeed;
+	if (map[(int)(ray->pos_x + ray->dir_x * move_speed)][(int)(ray->pos_y)] != 1)
+		ray->pos_x += ray->dir_x * move_speed;
+	if (map[(int)(ray->pos_x)][(int)(ray->pos_y + ray->dir_y * move_speed)] != 1)
+		ray->pos_y += ray->dir_y * move_speed;
 }
 
-void	player_move_backward(t_ray *ray, int **map, double moveSpeed)
+void	player_move_backward(t_ray *ray, int **map, double move_speed)
 {
-	if (map[(int)(ray->posX - ray->dirX * moveSpeed)][(int)(ray->posY)] != 1)
-		ray->posX -= ray->dirX * moveSpeed;
-	if (map[(int)(ray->posX)][(int)(ray->posY - ray->dirY * moveSpeed)] != 1)
-		ray->posY -= ray->dirY * moveSpeed;
+	if (map[(int)(ray->pos_x - ray->dir_x * move_speed)][(int)(ray->pos_y)] != 1)
+		ray->pos_x -= ray->dir_x * move_speed;
+	if (map[(int)(ray->pos_x)][(int)(ray->pos_y - ray->dir_y * move_speed)] != 1)
+		ray->pos_y -= ray->dir_y * move_speed;
 }
 
-void	player_move_left(t_ray *ray, int **map, double moveSpeed)
+void	player_move_left(t_ray *ray, int **map, double move_speed)
 {
-	if (map[(int)(ray->posX - ray->dirY * moveSpeed)][(int)(ray->posY)] != 1)
-		ray->posX -= ray->dirY * moveSpeed;
-	if (map[(int)(ray->posX)][(int)(ray->posY + ray->dirX * moveSpeed)] != 1)
-		ray->posY += ray->dirX * moveSpeed;
+	if (map[(int)(ray->pos_x - ray->dir_y * move_speed)][(int)(ray->pos_y)] != 1)
+		ray->pos_x -= ray->dir_y * move_speed;
+	if (map[(int)(ray->pos_x)][(int)(ray->pos_y + ray->dir_x * move_speed)] != 1)
+		ray->pos_y += ray->dir_x * move_speed;
 }
 
-void	player_move_right(t_ray *ray, int **map, double moveSpeed)
+void	player_move_right(t_ray *ray, int **map, double move_speed)
 {
-	if (map[(int)(ray->posX + ray->dirY * moveSpeed)][(int)(ray->posY)] != 1)
-		ray->posX += ray->dirY * moveSpeed;
-	if (map[(int)(ray->posX)][(int)(ray->posY - ray->dirX * moveSpeed)] != 1)
-		ray->posY -= ray->dirX * moveSpeed;
+	if (map[(int)(ray->pos_x + ray->dir_y * move_speed)][(int)(ray->pos_y)] != 1)
+		ray->pos_x += ray->dir_y * move_speed;
+	if (map[(int)(ray->pos_x)][(int)(ray->pos_y - ray->dir_x * move_speed)] != 1)
+		ray->pos_y -= ray->dir_x * move_speed;
 }

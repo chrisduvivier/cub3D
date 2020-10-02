@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 12:22:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 22:28:28 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:07:48 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		**malloc_cub_map(t_vars *vars, int height, int width)
 {
-	int i;
-	int	**res;
+	int 	i;
+	int		**res;
 
 	i = 0;
 	if ((res = (int **)malloc(height * sizeof(int *))) == NULL)
@@ -37,10 +37,10 @@ int		**malloc_cub_map(t_vars *vars, int height, int width)
 
 void	set_player_position(t_vars *vars, int y, int x, char c)
 {
-	if (vars->ray.setupDone == 1)
+	if (vars->ray.setup_done == 1)
 		exit_cub3d(vars, ERROR_PLAYER_POS, __FILE__, __LINE__);
-	vars->ray.posX = x + 0.5;
-	vars->ray.posY = y + 0.5;
+	vars->ray.pos_x = x + 0.5;
+	vars->ray.pos_y = y + 0.5;
 	if (c == 'N')
 		player_rot_right(&(vars->ray), 6.3);
 	else if (c == 'W')
@@ -49,7 +49,32 @@ void	set_player_position(t_vars *vars, int y, int x, char c)
 		player_rot_right(&(vars->ray), 3.1);
 	else if (c == 'E')
 		player_rot_right(&(vars->ray), 1.6);
-	vars->ray.setupDone = 1;
+	vars->ray.setup_done = 1;
+}
+
+/*
+**	Set the map in vars.
+**	store sprite, player position.
+*/
+
+void	set_mapfile(t_vars *vars, int i, int j, char c)
+{
+	if (c == '0' || c == ' ')
+		vars->map.map[j][i] = 0;
+	else if (c == '1')
+		vars->map.map[j][i] = 1;
+	else if (c == '2')
+	{
+		add_sprite(vars, i, j, c);
+		vars->map.map[j][i] = 0;
+	}
+	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		set_player_position(vars, i, j, c);
+		vars->map.map[j][i] = 0;
+	}
+	else
+		exit_cub3d(vars, ERROR_INVALID_MAP_ELEM, __FILE__, __LINE__);
 }
 
 /*
@@ -69,38 +94,17 @@ void	parse_cub_map(t_vars *vars, int height, int width, t_list *head)
 	{
 		i = 0;
 		line = (char *)node->content;
-		printf("MAP: ");
 		while (i < width)
 		{
-			// printf("%c", line[i]);
-			if (line[i] == '0' || line[i] == ' ')
-				vars->map.map[j][i] = 0;
-			else if (line[i] == '1')
-				vars->map.map[j][i] = 1;
-			else if (line[i] == '2')
-			{
-				add_sprite(vars, i, j, line[i]);
-				vars->map.map[j][i] = 0;
-			}
-			else if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
-			{
-				set_player_position(vars, i, j, line[i]);
-				vars->map.map[j][i] = 0;
-			}
-			else if (!line[i])
+			if (line[i] == '\0')
 			{
 				while (i < width)
-				{
 					vars->map.map[j][i++] = 0;
-					printf("%i", vars->map.map[j][i]);
-				}
 			}
 			else
-				exit_cub3d(vars, ERROR_INVALID_MAP_ELEM, __FILE__, __LINE__);	
-			printf("%i", vars->map.map[j][i]);
+				set_mapfile(vars, i, j, line[i]);
 			i++;
 		}
-		printf("\n");
 		j++;
 		node = node->next;
 	}
@@ -132,7 +136,7 @@ void	check_neighbor(t_vars *vars, int x, int y)
 **	exist if invalid. 
 */
 
-void	check_map_validity(t_vars *vars, int **map, int max_height, int max_width)
+void	check_map_validity(t_vars *vars, int max_height, int max_width)
 {
 	int x;
 	int y;
@@ -150,8 +154,8 @@ void	check_map_validity(t_vars *vars, int **map, int max_height, int max_width)
 		}
 		y++;
 	}
-	x = vars->ray.posX;
-	y = vars->ray.posY;
+	x = vars->ray.pos_x;
+	y = vars->ray.pos_y;
 	
 	check_neighbor(vars, y, x);
 }
@@ -167,5 +171,5 @@ void    process_cub_map(t_vars *vars)
 	vars->map.map = malloc_cub_map(vars, vars->map.height, vars->map.width);
 	parse_cub_map(vars, vars->map.height, vars->map.width, vars->map.head);
 	set_up_sprite_array(vars, vars->map.head_sprite, vars->map.num_sprite);
-	check_map_validity(vars, vars->map.map, vars->map.height, vars->map.width);
+	check_map_validity(vars, vars->map.height, vars->map.width);
 }

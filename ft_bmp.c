@@ -6,21 +6,21 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 17:34:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/25 20:35:29 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/09/30 23:33:53 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_bmp_fill_header(t_vars *vars, 
-	t_byte file_header[FILE_HEADER_SIZE], 
+void	ft_bmp_fill_header(t_vars *vars,
+	t_byte file_header[FILE_HEADER_SIZE],
 	t_byte info_header[INFO_HEADER_SIZE])
 {
 	int bmpfile_size;
 
-	bmpfile_size = FILE_HEADER_SIZE + INFO_HEADER_SIZE + 
-		(BYTES_PER_PIXEL * vars->map.res_w + 
-		((4 - (vars->map.res_w * BYTES_PER_PIXEL) % 4) % 4))* vars->map.res_h;
+	bmpfile_size = FILE_HEADER_SIZE + INFO_HEADER_SIZE +
+		(BYTES_PER_PIXEL * vars->map.res_w +
+		((4 - (vars->map.res_w * BYTES_PER_PIXEL) % 4) % 4)) * vars->map.res_h;
 	ft_bzero(file_header, FILE_HEADER_SIZE);
 	ft_bzero(info_header, INFO_HEADER_SIZE);
 	file_header[0] = (unsigned char)('B');
@@ -43,15 +43,14 @@ void	ft_bmp_fill_header(t_vars *vars,
 	info_header[14] = (unsigned char)(BYTES_PER_PIXEL * 8);
 }
 
-void	ft_bmp_write_pixels(int	fd, t_vars *vars, t_byte *data)
+void	ft_bmp_write_pixels(int fd, t_vars *vars, t_byte *data)
 {
 	int				height;
 	int				width;
 	t_byte			padding[3];
 	int				padding_size;
-	unsigned int 	color;
+	unsigned int	color;
 
-	printf("==== ft_bmp_write_pixels ====\n");
 	ft_bzero(padding, 3);
 	padding_size = (4 - (vars->map.res_w * BYTES_PER_PIXEL) % 4) % 4;
 	height = vars->map.res_h;
@@ -60,7 +59,8 @@ void	ft_bmp_write_pixels(int	fd, t_vars *vars, t_byte *data)
 		width = -1;
 		while (++width < (int)vars->map.res_w)
 		{
-			color = my_mlx_pixel_get(vars->img[vars->current_img], width, height);
+			color = my_mlx_pixel_get(vars->img[vars->current_img],
+									width, height);
 			data[3 * width + 2] = color / (256 * 256);
 			data[3 * width + 1] = (color / 256) % 256;
 			data[3 * width + 0] = color % 256;
@@ -78,7 +78,7 @@ int		ft_bmp_write(t_vars *vars, t_byte file_header[FILE_HEADER_SIZE],
 
 	if ((fd = open(BMP_FILENAME, O_WRONLY | O_CREAT, 0644)) < 0)
 		return (-1);
-	if (!(data = malloc(sizeof(t_byte)*(vars->map.res_w * BYTES_PER_PIXEL))))
+	if (!(data = malloc(sizeof(t_byte) * (vars->map.res_w * BYTES_PER_PIXEL))))
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 	write(fd, file_header, FILE_HEADER_SIZE);
 	write(fd, info_header, INFO_HEADER_SIZE);
@@ -88,8 +88,8 @@ int		ft_bmp_write(t_vars *vars, t_byte file_header[FILE_HEADER_SIZE],
 	return (0);
 }
 
-void    ft_create_bmp_file(t_vars *vars)
-{	
+void	ft_create_bmp_file(t_vars *vars)
+{
 	t_byte	file_header[FILE_HEADER_SIZE];
 	t_byte	info_header[INFO_HEADER_SIZE];
 
@@ -108,11 +108,12 @@ void	ft_handle_bmp(int argc, char *argv[], t_vars *vars)
 {
 	if (argc > 2)
 	{
-		if (argc == 3 && ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) == 0)
+		if (argc == 3 && ft_strncmp(argv[2], "--save",
+			ft_strlen(argv[2])) == 0)
 		{
 			vars->bmp_done = 0;
 		}
 		else
 			exit_cub3d(vars, ERROR_ARG, __FILE__, __LINE__);
 	}
-} 
+}

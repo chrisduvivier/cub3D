@@ -12,8 +12,7 @@
 
 #include "cub3d.h"
 
-
-void	        my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
+void			my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
 	t_img	i;
@@ -23,34 +22,33 @@ void	        my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-unsigned int    my_mlx_pixel_get(t_img img, int x, int y)
+unsigned int	my_mlx_pixel_get(t_img img, int x, int y)
 {
-    unsigned int    color;
-    char            *ptr;
+	unsigned int	color;
+	char			*ptr;
 
-    ptr = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
-    color = *(unsigned int *)ptr;
-    return (color);
+	ptr = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
+	color = *(unsigned int *)ptr;
+	return (color);
 }
 
 /*
 **	Draws a vertical line, from top to bottom and put each pixel to img
 */
 
-void	ft_mlx_draw_line(t_vars *vars, int x, int drawStart, int drawEnd, unsigned int *buffer)
+void			ft_mlx_draw_line(t_vars *vars, int x, int draw_start,
+								int draw_end, unsigned int *buffer)
 {
-	int y;
+	int 	y;
+	int 	rgb_ceiling;
+	int 	rgb_floor;
 
 	y = 0;
-	int rgb_ceiling;
-	int rgb_floor;
-
 	rgb_ceiling = RGB_CEILING;
 	rgb_floor = RGB_FLOOR;
-	//draw ceiling
-	while (y < drawStart)
+	while (y < draw_start)
 		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
-	while (y <= drawEnd)
+	while (y <= draw_end)
 	{
 		my_mlx_pixel_put(vars, x, y, buffer[y]);
 		y++;

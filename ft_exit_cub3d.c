@@ -6,11 +6,28 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 21:43:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/01 10:57:26 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void		ft_free_2d_array(int **map, int size)
+{
+	int i;
+
+	i = 0;
+	if (map)
+	{
+		while (i < size)
+		{
+			if (map[i])
+				free(map[i]);
+			i++;
+		}
+		free(map);
+	}
+}
 
 void		free_t_map(t_map *map)
 {
@@ -24,20 +41,16 @@ void		free_t_map(t_map *map)
 		free(map->texture_west);
 	if (map->texture_sprite)
 		free(map->texture_sprite);
-	if (map->tab)
-		ft_split_free(map->tab);
-	// TODO
-	// FREE map.head the whole linked list
-
-	// FREE map->map[][]
-	
-	// FREE map->head_sprite the whole linked list
-	// 	->ft_lstclear will require you to have a ptr to a function taht  will
-	// 	handle the deletion of teh content in each node.
-
-	// FREE vars->map.sprites
-
-	// FREE vars->map.visited
+	if (map->head)
+		ft_lstclear(&(map->head), free);
+	if (map->map)
+		ft_free_2d_array(map->map, map->height);
+	if (map->visited)
+		ft_free_2d_array(map->visited, map->height);
+	if (map->head_sprite)
+		ft_lstclear(&(map->head), free);
+	if (map->sprites)
+		free(map->sprites);
 }
 
 void		free_t_vars(t_vars *vars)
@@ -53,7 +66,8 @@ void		free_t_vars(t_vars *vars)
 /*
 **	exit cub3d program after freeing allocated memory.
 **	@param vars: struct
-**	@param my_error_text: non 0 (null) string if specific error message to print.
+**	@param my_error_text: non 0 (null) string if specific
+**						  error message to print.
 */
 
 void		exit_cub3d(t_vars *vars, char *my_error_text, char *file, int line)
@@ -66,7 +80,7 @@ void		exit_cub3d(t_vars *vars, char *my_error_text, char *file, int line)
 	if (file && line)
 		ft_printf("Program exited in [%s] at line [%d]\n", file, line);
 	ft_printf("\033[0m");
-	free_t_vars(vars);
+	destroy_window_hook(vars);
 	system("leaks a.out > leaks.txt");
 	exit(0);
 }

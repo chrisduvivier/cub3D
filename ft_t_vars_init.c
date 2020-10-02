@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 14:09:02 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:06:25 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,27 @@
 /*
 **	t_ray contains the player's camera info, which is used to cast the ray
 **	params:
-**	@posX, posY: x and y starting position
-**	@dirX, dirY: initial direction vector
-**	@planeX, planeY: the 2d raycaster version of camera plane
-**	@moveSpeed, rotSpeed: speed in squares/second
+**	@pos_x, pos_y: x and y starting position
+**	@dir_x, dir_y: initial direction vector
+**	@plane_x, plane_y: the 2d raycaster version of camera plane
+**	@move_speed, rot_speed: speed in squares/second
 */
 
 t_ray		t_ray_init(void)
 {
 	t_ray	ray;
 
-	ray.posX = 0;
-	ray.posY = 0;
-	ray.dirX = -1;
-	ray.dirY = 0;
-	ray.planeX = 0;
-	ray.planeY = 0.66;
-	ray.moveSpeed = 0.3;
-	ray.rotSpeed = 0.15;
-	ray.setupDone = 0;
+	ray.pos_x = 0;
+	ray.pos_y = 0;
+	ray.dir_x = -1;
+	ray.dir_y = 0;
+	ray.plane_x = 0;
+	ray.plane_y = 0.66;
+	ray.move_speed = 0.3;
+	ray.rot_speed = 0.15;
+	ray.setup_done = 0;
+	ray.buffer_y = NULL;
+	ray.buffer_z = NULL;
 	return (ray);
 }
 
@@ -85,6 +87,7 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 		vars->map.head = NULL;
 		vars->map.head_sprite = NULL;
 		vars->map.num_sprite = 0;
+		vars->map.start_read_map = 0;
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
 		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *(vars->f_line))

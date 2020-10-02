@@ -16,7 +16,7 @@
 **	append sprite to the list. Count number of sprites in map.
 */
 
-void	add_sprite(t_vars *vars, int y, int x, char spriteNum)
+void	add_sprite(t_vars *vars, int y, int x, char sprite_num)
 {
 	t_list			*node;
 	t_sprite		*sprite;
@@ -25,7 +25,7 @@ void	add_sprite(t_vars *vars, int y, int x, char spriteNum)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 	sprite->x = x + 0.5;
 	sprite->y = y + 0.5;
-	sprite->texture = (int)(spriteNum - '0');
+	sprite->texture = (int)(sprite_num - '0');
 	if ((node = ft_lstnew(sprite)) == NULL)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 	ft_lstadd_back(&(vars->map.head_sprite), node);
@@ -38,9 +38,9 @@ void	add_sprite(t_vars *vars, int y, int x, char spriteNum)
 
 void	set_up_sprite_array(t_vars *vars, t_list *head, int size)
 {
-	t_list 		*node;
+	t_list		*node;
 	t_sprite	*sprite;
-	int 		i;
+	int			i;
 
 	if (!(vars->map.sprites = (t_sprite **)malloc(sizeof(t_sprite*) * size)))
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
@@ -59,21 +59,21 @@ void	set_up_sprite_array(t_vars *vars, t_list *head, int size)
 **	Insertion sort
 */
 
-void	sort_sprites(t_vars *vars, t_sprite **sprites, int size)
+void	sort_sprites(t_sprite **sprites, int size)
 {
-	t_sprite *tmp;
-	int i;
-	int j;
+	t_sprite	*tmp;
+	int			i;
+	int			j;
 
 	i = 0;
 	while (i < size)
 	{
 		j = i;
-		while (j-1 >= 0 && sprites[j]->distance > sprites[j-1]->distance)
+		while (j - 1 >= 0 && sprites[j]->distance > sprites[j - 1]->distance)
 		{
 			tmp = sprites[j];
-			sprites[j] = sprites[j-1];
-			sprites[j-1] = tmp;
+			sprites[j] = sprites[j - 1];
+			sprites[j - 1] = tmp;
 			j--;
 		}
 		i++;
@@ -86,15 +86,17 @@ void	sort_sprites(t_vars *vars, t_sprite **sprites, int size)
 
 void	ft_sprite_order(t_vars *vars, t_sprite **sprites, int size)
 {
-	int 	i;
+	int		i;
+	t_ray	ray;
 
 	i = 0;
+	ray = vars->ray;
 	while (i < size)
 	{
 		sprites[i]->distance = (
-			(vars->ray.posX - sprites[i]->x) * (vars->ray.posX - sprites[i]->x)
-	  		+ (vars->ray.posY - sprites[i]->y) * (vars->ray.posY - sprites[i]->y));
+			(ray.pos_x - sprites[i]->x) * (ray.pos_x - sprites[i]->x) +
+			(ray.pos_y - sprites[i]->y) * (ray.pos_y - sprites[i]->y));
 		i++;
 	}
-	sort_sprites(vars, sprites, size);
+	sort_sprites(sprites, size);
 }

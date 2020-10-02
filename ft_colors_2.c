@@ -45,7 +45,6 @@ int			add_shade(double distance, int color)
 
 int			get_color_from_mapfile(t_vars *vars, char *line)
 {
-	char	**tab;
 	int		r;
 	int		g;
 	int		b;

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 15:36:08 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:07:17 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char		*get_texture_filename(t_vars *vars, char *line, char type)
 {
 	char	*filename;
 
-	printf("==== get_texture_filename ====\n");
 	check_arg(vars, &(vars->map), type);
 	while (ft_isalpha(*line) && (*line != '.'))
 		line++;
@@ -55,8 +54,6 @@ void	sprite_load(t_vars *vars)
 	int		width;
 	int		height;
 
-	printf("Loading SPrite\n");
-
 	vars->map.walls[4].img = mlx_xpm_file_to_image(vars->mlx, 
 			vars->map.texture_sprite, &width, &height);
 	
@@ -66,9 +63,6 @@ void	sprite_load(t_vars *vars)
 	vars->map.walls[4].addr = mlx_get_data_addr(vars->map.walls[4].img,
 		&vars->map.walls[4].bits_per_pixel,
 		&vars->map.walls[4].line_length, &vars->map.walls[4].endian);
-
-	printf("Finished loading Sprites\n");
-	//load sprite
 }
 
 /*
@@ -83,8 +77,6 @@ void	texture_load(t_vars *vars)
 {
 	int		width;
 	int		height;
-
-	printf("Loading Textures\n");
 
 	vars->map.walls[0].img = mlx_xpm_file_to_image(vars->mlx, 
 			vars->map.texture_north, &width, &height);

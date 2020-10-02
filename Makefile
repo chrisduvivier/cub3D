@@ -6,11 +6,11 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/09/30 12:21:56 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/02 13:15:58 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := cub3d.a
+NAME := cub3d
 CC = gcc
 CFLAGS = -I. -c
 OPTIONS = -Wall -Wextra -Werror
@@ -23,14 +23,17 @@ FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
 	ft_hook.c ft_window.c \
 	ft_bmp.c ft_cub_map.c \
 	ft_player_rotation.c ft_player_movements.c \
-	ft_draw_helper.c ft_sprite.c
+	ft_draw_helper.c ft_sprite.c \
+	ft_dda.c
 
 OBJ	= $(FILES:%.c=%.o)
 
 all: $(NAME)
 
+#-o $(NAME)
+
 $(NAME): lib $(OBJ)
-	$(CC) $(MLX_DIR)libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES)
+	$(CC) $(OPTIONS) $(MLX_DIR)libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES)
 
 $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -Iminilibx_opengl_20191021 -Iinc
