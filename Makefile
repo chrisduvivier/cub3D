@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/04 02:18:18 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/05 00:39:17 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
 	ft_bmp.c ft_cub_map.c \
 	ft_player_rotation.c ft_player_movements.c \
 	ft_draw_helper.c ft_sprite.c \
-	ft_dda.c
+	ft_dda.c ft_check_map_validity.c \
+	ft_put_my_error_text.c
 
 OBJ	= $(FILES:%.c=%.o)
 

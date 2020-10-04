@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 00:12:29 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 02:22:37 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 23:49:39 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ void	ft_dda_setup(t_vars *vars, t_ray *r, int x)
 	if (r->dda.raydir_y == 0)
 		r->dda.delta_dist_x = 0;
 	else
-		r->dda.delta_dist_x = (r->dda.raydir_x == 0) ? 1 : fabs(1 / r->dda.raydir_x);
+		r->dda.delta_dist_x = (r->dda.raydir_x == 0) ?
+			1 : fabs(1 / r->dda.raydir_x);
 	if (r->dda.raydir_x == 0)
 		r->dda.delta_dist_y = 0;
 	else
-		r->dda.delta_dist_y = (r->dda.raydir_y == 0) ? 1 : fabs(1 / r->dda.raydir_y);		
+		r->dda.delta_dist_y = (r->dda.raydir_y == 0) ?
+			1 : fabs(1 / r->dda.raydir_y);
 	r->dda.hit = 0;
 }
 
@@ -52,7 +54,7 @@ void	ft_dda_side_distance(t_ray *r)
 	else
 	{
 		r->dda.step_x = 1;
-		r->dda.side_dist_x = 
+		r->dda.side_dist_x =
 			(r->dda.map_x + 1.0 - r->pos_x) * r->dda.delta_dist_x;
 	}
 	if (r->dda.raydir_y < 0)
@@ -63,7 +65,7 @@ void	ft_dda_side_distance(t_ray *r)
 	else
 	{
 		r->dda.step_y = 1;
-		r->dda.side_dist_y = 
+		r->dda.side_dist_y =
 			(r->dda.map_y + 1.0 - r->pos_y) * r->dda.delta_dist_y;
 	}
 }
@@ -137,25 +139,26 @@ void	ft_dda_wall_distance(t_vars *vars, t_ray *r, t_dda *d)
 **	3. Calculate texture_pos: starting texture coordinate.
 **	4. Loop over texture wall and store the color in buffer.
 **	   Cast the texture coordinate to integer, and mask with
-**	   (texHeight - 1) in case of overflow.
+**	   (TEXHEIGHT - 1) in case of overflow.
 */
 
 void	ft_dda_draw_wall(t_vars *vars, t_ray *r, t_dda *d)
 {
 	int y;
-	
+
 	y = d->draw_start;
-	d->texture_x = (int)(d->wall_x * (double)(texWidth));
+	d->texture_x = (int)(d->wall_x * (double)(TEXWIDTH));
 	if (d->side == 0 && d->raydir_x > 0)
-		d->texture_x = texWidth - d->texture_x - 1;
+		d->texture_x = TEXWIDTH - d->texture_x - 1;
 	if (d->side == 1 && d->raydir_y < 0)
-		d->texture_x = texWidth - d->texture_x - 1;
-	d->texture_step = 1.0 * texHeight / d->line_height;
+		d->texture_x = TEXWIDTH - d->texture_x - 1;
+	d->texture_step = 1.0 * TEXHEIGHT / d->line_height;
 	d->texture_pos =
-		(d->draw_start - vars->map.res_h / 2 + d->line_height / 2) * d->texture_step;
+		(d->draw_start - vars->map.res_h / 2 + d->line_height / 2) *
+			d->texture_step;
 	while (y < d->draw_end)
 	{
-		d->texture_y = (int)d->texture_pos & (texHeight - 1);
+		d->texture_y = (int)d->texture_pos & (TEXHEIGHT - 1);
 		d->texture_pos += d->texture_step;
 		d->color = my_mlx_pixel_get(vars->map.walls[d->texture_num],
 										d->texture_x, d->texture_y);

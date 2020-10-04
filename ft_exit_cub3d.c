@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:42:13 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 00:12:10 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void		free_t_vars(t_vars *vars)
 		if (vars->ray.buffer_z)
 			free(vars->ray.buffer_z);
 	}
-	
 	if (vars->f_line)
 		free(vars->f_line);
 }
@@ -75,13 +74,13 @@ void		free_t_vars(t_vars *vars)
 **						  error message to print.
 */
 
-void		exit_cub3d(t_vars *vars, char *my_error_text, char *file, int line)
+void		exit_cub3d(t_vars *vars, int my_error_text, char *file, int line)
 {
 	ft_printf("\033[0;31m");
 	if (!my_error_text)
 		ft_printf("Error\n%s\n", strerror(errno));
 	else
-		ft_putstr_fd(my_error_text, STDERR_FILENO);
+		ft_put_my_error_text(my_error_text);
 	if (file && line)
 		ft_printf("Program exited in [%s] at line [%d]\n", file, line);
 	ft_printf("\033[0m");

@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:44:10 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 02:36:44 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 #include "cub3d.h"
 
-int			main(int argc, char *argv[])
+int		main(int argc, char *argv[])
 {
-	t_vars      vars;
+	t_vars	vars;
 
 	vars = t_vars_init(argc, argv);
 	ft_handle_bmp(argc, argv, &vars);

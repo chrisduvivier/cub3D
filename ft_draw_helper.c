@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 10:17:39 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 02:10:31 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 00:30:29 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,16 @@ unsigned int	my_mlx_pixel_get(t_img img, int x, int y)
 void			ft_mlx_draw_line(t_vars *vars, int x, int draw_start,
 								int draw_end)
 {
-	int 	y;
-	int 	rgb_ceiling;
-	int 	rgb_floor;
+	int		y;
 
 	y = 0;
-	rgb_ceiling = RGB_CEILING;
-	rgb_floor = RGB_FLOOR;
 	while (y < draw_start)
-		my_mlx_pixel_put(vars, x, y++, rgb_ceiling);
+		my_mlx_pixel_put(vars, x, y++, vars->map.rgb_ceiling);
 	while (y <= draw_end)
 	{
 		my_mlx_pixel_put(vars, x, y, vars->ray.buffer_y[y]);
 		y++;
 	}
 	while (y < vars->map.res_h)
-		my_mlx_pixel_put(vars, x, y++, rgb_floor);
+		my_mlx_pixel_put(vars, x, y++, vars->map.rgb_floor);
 }

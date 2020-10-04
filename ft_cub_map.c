@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 12:22:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:48:30 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 15:19:42 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		**malloc_cub_map(t_vars *vars, int height, int width)
 {
-	int 	i;
-	int		**res;
+	int	i;
+	int	**res;
 
 	i = 0;
 	if ((res = (int **)malloc(height * sizeof(int *))) == NULL)
@@ -83,7 +83,7 @@ void	set_mapfile(t_vars *vars, int i, int j, char c)
 
 void	parse_cub_map(t_vars *vars, int height, int width, t_list *head)
 {
-	t_list 	*node;
+	t_list	*node;
 	char	*line;
 	int		i;
 	int		j;
@@ -111,63 +111,13 @@ void	parse_cub_map(t_vars *vars, int height, int width, t_list *head)
 }
 
 /*
-**	DFS algorithm
-*/
-
-void	check_neighbor(t_vars *vars, int x, int y)
-{	
-	if (x < 0 || x >= vars->map.width || y < 0 || y >= vars->map.height)
-		exit_cub3d(vars, ERROR_INVALID_MAP, __FILE__, __LINE__);
-	if (vars->map.visited[y][x] == 1)
-		return ;
-	vars->map.visited[y][x] = 1;
-	if (vars->map.map[y][x] == 1)
-		return ;
-	else if (vars->map.map[y][x] == 0)
-	{
-		check_neighbor(vars, x-1, y);
-		check_neighbor(vars, x+1, y);
-		check_neighbor(vars, x, y-1);
-		check_neighbor(vars, x, y+1);
-	}
-}
-
-/*
-**	exist if invalid. 
-*/
-
-void	check_map_validity(t_vars *vars, int max_height, int max_width)
-{
-	int x;
-	int y;
-	
-	vars->map.visited = malloc_cub_map(vars, max_height, max_width);
-	x = 0;
-	y = 0;
-	while (y < max_height)
-	{
-		x = 0;
-		while (x < max_width)
-		{
-			vars->map.visited[y][x] = 0;
-			x++;
-		}
-		y++;
-	}
-	x = vars->ray.pos_x;
-	y = vars->ray.pos_y;
-	
-	check_neighbor(vars, y, x);
-}
-
-/*
 **	- Create the map (malloc).
 **	- Copy map content from cub.file (stored in the linked list).
 **	- Check for valid map content.
 **	- malloc buffer fo the coming raycasting.
 */
 
-void    process_cub_map(t_vars *vars)
+void	process_cub_map(t_vars *vars)
 {
 	vars->map.map = malloc_cub_map(vars, vars->map.height, vars->map.width);
 	parse_cub_map(vars, vars->map.height, vars->map.width, vars->map.head);
@@ -176,6 +126,7 @@ void    process_cub_map(t_vars *vars)
 	if ((vars->ray.buffer_y = (unsigned int*)malloc(sizeof(unsigned int) *
 		vars->map.res_h)) == NULL)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
-	if ((vars->ray.buffer_z = (double*)malloc(sizeof(double) * vars->map.res_w)) == NULL)
+	if ((vars->ray.buffer_z = (double*)malloc(sizeof(double) *
+								vars->map.res_w)) == NULL)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 }

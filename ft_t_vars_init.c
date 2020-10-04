@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:06:25 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 23:45:29 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_img		t_img_init(t_vars vars)
 **	Initialize map argument to 0. Used to check if all args are passed.
 */
 
-void	s_map_arg_init(t_map *map)
+void		s_map_arg_init(t_map *map)
 {
 	map->map_arg.r = 0;
 	map->map_arg.no = 0;
@@ -117,7 +117,8 @@ t_vars		t_vars_init(int argc, char *argv[])
 	vars.ray = t_ray_init();
 	process_cub_map(&vars);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, vars.map.res_w, vars.map.res_h, "ray_cast");
+	vars.win = mlx_new_window(vars.mlx, vars.map.res_w,
+							vars.map.res_h, "ray_cast");
 	vars.img[0] = t_img_init(vars);
 	vars.img[1] = t_img_init(vars);
 	vars.current_img = 0;
