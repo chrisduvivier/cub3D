@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 20:10:50 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 01:05:08 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ char		*get_texture_filename(t_vars *vars, char *line, char type)
 	return (filename);
 }
 
+void		check_texture_image(t_vars *vars, int i)
+{
+	if (vars->map.walls[i].img == NULL)
+		exit_cub3d(vars, ERROR_TEXTURE_FILE, __FILE__, __LINE__);
+}
+
 void		sprite_load(t_vars *vars)
 {
 	int		width;
@@ -55,6 +61,7 @@ void		sprite_load(t_vars *vars)
 
 	vars->map.walls[4].img = mlx_xpm_file_to_image(vars->mlx,
 			vars->map.texture_sprite, &width, &height);
+	check_texture_image(vars, 4);
 	vars->map.walls[4].addr = mlx_get_data_addr(vars->map.walls[4].img,
 		&vars->map.walls[4].bits_per_pixel,
 		&vars->map.walls[4].line_length, &vars->map.walls[4].endian);
@@ -86,6 +93,7 @@ void		texture_load(t_vars *vars)
 			vars->map.texture_east, &width, &height);
 	while (num < 4)
 	{
+		check_texture_image(vars, num);
 		vars->map.walls[num].addr = mlx_get_data_addr(vars->map.walls[num].img,
 			&vars->map.walls[num].bits_per_pixel,
 			&vars->map.walls[num].line_length, &vars->map.walls[num].endian);

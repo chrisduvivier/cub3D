@@ -6,15 +6,9 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:00 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 02:36:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 00:54:22 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-**  How the command with libmlx is used:
-**	gcc -Wextra -Wall libmlx.a -framework OpenGl -framework AppKit -lz -L
-**		minilibx_opengl_20191021/ cub3d.c draw.c colors_1.c colors_2.c
-*/
 
 #include "cub3d.h"
 
