@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/05 00:39:17 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/05 01:56:41 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,8 @@ clean:
 
 fclean: clean
 	@ $(RM) $(NAME)
+	@ $(RM) libft.a
+	@ $(RM) output.bmp
 	@ $(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all

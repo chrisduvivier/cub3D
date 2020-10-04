@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/05 00:12:10 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 01:57:41 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void		free_t_vars(t_vars *vars)
 **	@param vars: struct
 **	@param my_error_text: non 0 (null) string if specific
 **						  error message to print.
+**	To check for leaks, add line:
+**	system("leaks a.out > leaks.txt");
 */
 
 void		exit_cub3d(t_vars *vars, int my_error_text, char *file, int line)
@@ -85,6 +87,5 @@ void		exit_cub3d(t_vars *vars, int my_error_text, char *file, int line)
 		ft_printf("Program exited in [%s] at line [%d]\n", file, line);
 	ft_printf("\033[0m");
 	destroy_window_hook(vars);
-	system("leaks a.out > leaks.txt");
 	exit(0);
 }
