@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 00:12:29 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 13:16:46 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 02:22:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,6 @@ void	ft_dda_draw_wall(t_vars *vars, t_ray *r, t_dda *d)
 		d->texture_pos += d->texture_step;
 		d->color = my_mlx_pixel_get(vars->map.walls[d->texture_num],
 										d->texture_x, d->texture_y);
-		// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-		// if (side == 1) color = (color >> 1) & 8355711;
 		r->buffer_y[y] = d->color;
 		y++;
 	}

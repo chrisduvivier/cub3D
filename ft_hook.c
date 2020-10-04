@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:59 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/09/30 23:54:10 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 00:53:59 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int			key_press_hook(int keycode, t_vars *vars)
 		player_rot_left(r, r->rot_speed);
 	else if (keycode == KEY_LOOK_RIGHT)
 		player_rot_right(r, r->rot_speed);
-	ft_draw(vars);
+	ft_raycasting(vars);
 	return (0);
 }

@@ -9,8 +9,6 @@
 
 
 # TODOs
-- Quit the program CLEANLY through ESC KEY, RED CROSS
-- COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 - NORM
 
 # DONE
@@ -35,3 +33,5 @@
     - Map's validity (DONE)
     - Sprite position (DONE)
 - Colision: walking towards wall sometime leads to go over them and to see the outside. (SEEMS TO BE RESOLVED)
+- Quit the program CLEANLY through ESC KEY, RED CROSS
+- COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.

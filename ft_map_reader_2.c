@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:07:17 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 02:25:44 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char		*get_texture_filename(t_vars *vars, char *line, char type)
 	return (filename);
 }
 
-
 void	sprite_load(t_vars *vars)
 {
 	int		width;
@@ -56,10 +55,6 @@ void	sprite_load(t_vars *vars)
 
 	vars->map.walls[4].img = mlx_xpm_file_to_image(vars->mlx, 
 			vars->map.texture_sprite, &width, &height);
-	
-	// TODO 
-	// FREE THESE TEXTURES
-
 	vars->map.walls[4].addr = mlx_get_data_addr(vars->map.walls[4].img,
 		&vars->map.walls[4].bits_per_pixel,
 		&vars->map.walls[4].line_length, &vars->map.walls[4].endian);
@@ -77,7 +72,9 @@ void	texture_load(t_vars *vars)
 {
 	int		width;
 	int		height;
+	int		num;
 
+	num = 0;
 	vars->map.walls[0].img = mlx_xpm_file_to_image(vars->mlx, 
 			vars->map.texture_north, &width, &height);
 	vars->map.walls[1].img = mlx_xpm_file_to_image(vars->mlx, 
@@ -86,27 +83,12 @@ void	texture_load(t_vars *vars)
 			vars->map.texture_west, &width, &height);
 	vars->map.walls[3].img = mlx_xpm_file_to_image(vars->mlx, 
 			vars->map.texture_east, &width, &height);
-	
-	// TODO 
-	// FREE THESE TEXTURES
-
-	vars->map.walls[0].addr = mlx_get_data_addr(vars->map.walls[0].img,
-		&vars->map.walls[0].bits_per_pixel,
-		&vars->map.walls[0].line_length, &vars->map.walls[0].endian);
-
-	vars->map.walls[1].addr = mlx_get_data_addr(vars->map.walls[1].img,
-		&vars->map.walls[1].bits_per_pixel,
-		&vars->map.walls[1].line_length, &vars->map.walls[1].endian);
-
-	vars->map.walls[2].addr = mlx_get_data_addr(vars->map.walls[2].img,
-		&vars->map.walls[2].bits_per_pixel,
-		&vars->map.walls[2].line_length, &vars->map.walls[2].endian);
-		
-	vars->map.walls[3].addr = mlx_get_data_addr(vars->map.walls[3].img,
-		&vars->map.walls[3].bits_per_pixel,
-		&vars->map.walls[3].line_length, &vars->map.walls[3].endian);
-
-	printf("Finished loading textures\n");
+	while (num < 4)
+	{
+		vars->map.walls[num].addr = mlx_get_data_addr(vars->map.walls[num].img,
+			&vars->map.walls[num].bits_per_pixel,
+			&vars->map.walls[num].line_length, &vars->map.walls[num].endian);
+		num++;
+	}
 	sprite_load(vars);
-	//load sprite
 }

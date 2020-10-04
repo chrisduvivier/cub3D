@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 13:28:16 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/04 00:50:26 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ walls\n"
 typedef unsigned char t_byte;
 
 /*
-**	DDA
+**	DDA and variables needed for drawing walls, sprite.
 */
 
 typedef struct  	s_dda {
@@ -108,6 +108,20 @@ typedef struct  	s_dda {
 	double			texture_step;
 	double			texture_pos;
 	unsigned int 	color;
+	double			sprite_x;
+	double			sprite_y;
+	double			inv_det;
+	double			transform_x;
+	double			transform_y;
+	int				sprite_screen_x;
+	int				sprite_height;
+	int				sprite_width;
+	int				draw_start_x;
+	int				draw_end_x;
+	int				draw_start_y;
+	int				draw_end_y;
+	int				tex_x;
+	int				tex_y;
 }               	t_dda;
 
 /*
@@ -254,8 +268,11 @@ int			get_color_from_mapfile(t_vars *vars, char *line);
 void			my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
 unsigned int 	my_mlx_pixel_get(t_img img, int x, int y);
 void			ft_mlx_draw_line(t_vars *vars, int x, 
-					int drawStart, int drawEnd, unsigned int *buffer);
-int				ft_draw(t_vars *vars);
+								int drawStart, int drawEnd);
+
+int				ft_raycasting(t_vars *vars);
+void			ft_draw_walls(t_vars *vars, t_ray *ray);
+void			ft_draw_sprites(t_vars *vars, t_ray *ray);
 
 /*
 **	DDA

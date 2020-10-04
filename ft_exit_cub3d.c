@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:27:52 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/01 10:57:26 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:42:13 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ void		free_t_vars(t_vars *vars)
 	if (vars)
 	{
 		free_t_map(&(vars->map));
+		if (vars->ray.buffer_y)
+			free(vars->ray.buffer_y);
+		if (vars->ray.buffer_z)
+			free(vars->ray.buffer_z);
 	}
+	
 	if (vars->f_line)
 		free(vars->f_line);
 }

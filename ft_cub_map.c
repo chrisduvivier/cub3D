@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 12:22:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:07:48 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/02 14:48:30 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,10 @@ void	check_map_validity(t_vars *vars, int max_height, int max_width)
 }
 
 /*
-**	- Create the map (malloc)
-**	- Copy map content from cub.file (stored in the linked list)
-**		- Check for valid map content
+**	- Create the map (malloc).
+**	- Copy map content from cub.file (stored in the linked list).
+**	- Check for valid map content.
+**	- malloc buffer fo the coming raycasting.
 */
 
 void    process_cub_map(t_vars *vars)
@@ -172,4 +173,9 @@ void    process_cub_map(t_vars *vars)
 	parse_cub_map(vars, vars->map.height, vars->map.width, vars->map.head);
 	set_up_sprite_array(vars, vars->map.head_sprite, vars->map.num_sprite);
 	check_map_validity(vars, vars->map.height, vars->map.width);
+	if ((vars->ray.buffer_y = (unsigned int*)malloc(sizeof(unsigned int) *
+		vars->map.res_h)) == NULL)
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	if ((vars->ray.buffer_z = (double*)malloc(sizeof(double) * vars->map.res_w)) == NULL)
+		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
 }
