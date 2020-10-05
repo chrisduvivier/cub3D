@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/05 01:56:41 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/05 02:04:59 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,16 @@ OBJ	= $(FILES:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): lib $(OBJ)
+$(NAME): setup lib $(OBJ)
 	$(CC) $(OPTIONS) $(MLX_DIR)libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES) -o $(NAME)
 
 $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -Iminilibx_opengl_20191021 -Iinc
 
 setup:
+	@ tar -xvzf minilibx_opengl.tgz
 	@ $(MAKE) -C $(MLX_DIR)
+	@ cp $(MLX_DIR)/mlx.h ./
 
 lib:
 	@ $(MAKE) -C $(LIBFT_DIR) all

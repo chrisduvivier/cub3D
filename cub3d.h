@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/05 00:57:19 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 02:13:11 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,6 +318,6 @@ void				player_rot_left(t_ray *ray, double rot_speed);
 void				exit_cub3d(t_vars *vars, int my_error_text, char *file,
 							int line);
 void				free_t_vars(t_vars *vars);
-void                ft_put_my_error_text(int my_error_text);
+void				ft_put_my_error_text(int my_error_text);
 
 #endif
