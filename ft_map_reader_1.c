@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/05 11:54:10 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 18:53:28 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 		exit_cub3d(vars, ERROR_CUB_RES_NUM_PARAM, __FILE__, __LINE__);
 	if ((*map)->res_w > MAX_SCREEN_WIDTH)
 		(*map)->res_w = MAX_SCREEN_WIDTH;
-	if ((*map)->res_w > MAX_SCREEN_HEIGHT)
-		(*map)->res_w = MAX_SCREEN_HEIGHT;
+	if ((*map)->res_h > MAX_SCREEN_HEIGHT)
+		(*map)->res_h = MAX_SCREEN_HEIGHT;
 }
 
 /*
