@@ -9,7 +9,6 @@
 
 
 # TODOs
-- NORM
 
 # DONE
 - Display different wall textures (the choice is yours) that vary depending on which side the wall is facing (North, South, East, West).
@@ -35,3 +34,5 @@
 - Colision: walking towards wall sometime leads to go over them and to see the outside. (SEEMS TO BE RESOLVED)
 - Quit the program CLEANLY through ESC KEY, RED CROSS
 - COVER ALL ERROR: If any misconfiguration of any kind is encountered in the file, the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
+- NORM
+- Reject negative RGB valuess

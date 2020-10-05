@@ -4,10 +4,10 @@ SO./textures/bluestone.xpm
 WE./textures/colorstone.xpm
 EA./textures/eagle.xpm
 S./textures/barrel.xpm
-F110,100,100
-C30,30,30
+F0,0,0
+C0,0,0
 1111111111
-1000000001
-1000000001
+1222222221
+1222222221
 100000N001
 1111111111

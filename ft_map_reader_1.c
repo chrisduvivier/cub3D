@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:11:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/02 14:07:00 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 11:54:10 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ void		get_map_resolution(t_vars *vars, t_map **map, char *line)
 	ft_skip_space(&line);
 	if (!(*line) || !(ft_isdigit(*line)))
 		exit_cub3d(vars, ERROR_CUB_RES, __FILE__, __LINE__);
-	if (((*map)->res_w = ft_atoi_w_p((const char **)&line)) == 0)
+	if (((*map)->res_w = ft_atoi_w_p((const char **)&line)) <= 0)
 		exit_cub3d(vars, ERROR_CUB_RES, __FILE__, __LINE__);
 	ft_skip_space(&line);
 	if (!(*line) || !(ft_isdigit(*line)))
 		exit_cub3d(vars, ERROR_CUB_RES, __FILE__, __LINE__);
-	if (((*map)->res_h = ft_atoi_w_p((const char **)&line)) == 0)
+	if (((*map)->res_h = ft_atoi_w_p((const char **)&line)) <= 0)
 		exit_cub3d(vars, ERROR_CUB_RES, __FILE__, __LINE__);
 	ft_skip_space(&line);
 	if (*line)

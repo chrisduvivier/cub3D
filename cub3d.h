@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:32:30 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/05 02:13:11 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/05 12:48:55 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "keys.h"
 # include "libft/libft.h"
 
-# define MAX_SCREEN_WIDTH 5120
-# define MAX_SCREEN_HEIGHT 2880
+# define MAX_SCREEN_WIDTH 1920
+# define MAX_SCREEN_HEIGHT 1080
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40
 # define BYTES_PER_PIXEL 3
