@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/05 02:04:59 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/09 11:16:01 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ clean:
 fclean: clean
 	@ $(RM) $(NAME)
 	@ $(RM) libft.a
+	@ $(RM) mlx.h
+	@ $(RM) -rf minilibx_opengl_20191021/
 	@ $(RM) output.bmp
 	@ $(MAKE) -C $(LIBFT_DIR) fclean
 
