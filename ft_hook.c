@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 10:47:59 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 02:35:27 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 12:48:32 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int		destroy_window_hook(t_vars *vars)
 {
-	t_ray *r;
-
-	r = &(vars->ray);
 	clear_window(vars);
 	free_t_vars(vars);
 	exit(0);

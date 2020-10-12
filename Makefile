@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/12 11:26:14 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/12 19:02:01 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ RM = /bin/rm -f
 
 MLX_TAR_FILE = minilibx_opengl.tgz
 MLX_DIR = minilibx_opengl_20191021/
+MLX_DIR_LINUX = minilibx-linux/
+
 LIBFT_DIR = libft/
 FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
 	ft_map_reader_1.c ft_map_reader_2.c \
@@ -38,7 +40,18 @@ $(NAME): setup lib $(OBJ)
 	$(CC) $(OPTIONS) $(MLX_DIR)libmlx.a libft.a $(FRAMEWORK) -lz -L $(MLX_DIR) $(FILES) -o $(NAME)
 
 $(OBJ): $(FILES)
-	@ $(CC) $(CFLAGS) $(FILES) -Iminilibx_opengl_20191021 -Iinc
+	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR) -Iinc
+
+
+linux: linux_setup lib $(OBJ_LINUX)
+	$(CC) $(OPTIONS) $(MLX_DIR_LINUX)libmlx.a libft.a  -lz -L $(MLX_DIR_LINUX) $(FILES) -o $(NAME)
+
+$(OBJ_LINUX): $(FILES)
+	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR_LINUX) -Iinc
+
+linux_setup:
+	@ $(MAKE) -C $(MLX_DIR_LINUX)
+	@ cp $(MLX_DIR_LINUX)/mlx.h ./
 
 setup:
 	@ tar -xvzf $(MLX_TAR_FILE)

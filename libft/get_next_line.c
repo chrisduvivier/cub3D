@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 13:34:15 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/02/25 12:39:56 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 12:45:54 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ static int	ft_read_gnl(char **stack, int fd)
 
 int			get_next_line(int fd, char **line)
 {
-	static char	*stack[OPEN_MAX];
+	static char	*stack[_SC_OPEN_MAX];
 	int			cursor;
 
-	if (fd < 0 || fd >= OPEN_MAX || !line || BUFFER_SIZE < 1)
+	if (fd < 0 || fd >= _SC_OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (-1);
 	if ((cursor = ft_read_gnl(stack, fd)) < 0)
 		return (free_and_exit(&stack[fd]));

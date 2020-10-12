@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 16:03:47 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/03/03 01:37:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 12:46:17 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <limits.h>
+# include <stdint.h>
 
 # include "ft_printf/ft_printf.h"
 # include "get_next_line.h"
