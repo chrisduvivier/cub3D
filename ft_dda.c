@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 00:12:29 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 23:49:39 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 11:03:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ void	ft_dda_wall_distance(t_vars *vars, t_ray *r, t_dda *d)
 		d->draw_end = vars->map.res_h - 1;
 	if (d->side == 1)
 	{
-		d->texture_num = (d->step_y > 0) ? 0 : 1;
+		d->texture_num = (d->step_y > 0) ? 3 : 2;
 		d->wall_x = r->pos_x + d->perp_wall_dist * d->raydir_x;
 	}
 	else
 	{
-		d->texture_num = (d->step_x > 0) ? 2 : 3;
+		d->texture_num = (d->step_x > 0) ? 1 : 0;
 		d->wall_x = r->pos_y + d->perp_wall_dist * d->raydir_y;
 	}
 	d->wall_x -= floor((d->wall_x));
