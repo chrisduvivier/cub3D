@@ -6,7 +6,7 @@
 #    By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/07 21:00:40 by cduvivie          #+#    #+#              #
-#    Updated: 2020/10/09 11:16:01 by cduvivie         ###   ########.fr        #
+#    Updated: 2020/10/12 11:26:14 by cduvivie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,10 @@ NAME := cub3d
 CC = gcc
 CFLAGS = -I. -c
 OPTIONS = -Wall -Wextra -Werror
+FRAMEWORK = -framework OpenGl -framework AppKit
 RM = /bin/rm -f
+
+MLX_TAR_FILE = minilibx_opengl.tgz
 MLX_DIR = minilibx_opengl_20191021/
 LIBFT_DIR = libft/
 FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
@@ -32,13 +35,13 @@ OBJ	= $(FILES:%.c=%.o)
 all: $(NAME)
 
 $(NAME): setup lib $(OBJ)
-	$(CC) $(OPTIONS) $(MLX_DIR)libmlx.a libft.a -framework OpenGl -framework AppKit -lz -L $(MLX_DIR) $(FILES) -o $(NAME)
+	$(CC) $(OPTIONS) $(MLX_DIR)libmlx.a libft.a $(FRAMEWORK) -lz -L $(MLX_DIR) $(FILES) -o $(NAME)
 
 $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -Iminilibx_opengl_20191021 -Iinc
 
 setup:
-	@ tar -xvzf minilibx_opengl.tgz
+	@ tar -xvzf $(MLX_TAR_FILE)
 	@ $(MAKE) -C $(MLX_DIR)
 	@ cp $(MLX_DIR)/mlx.h ./
 
