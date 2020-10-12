@@ -18,8 +18,9 @@ FRAMEWORK = -framework OpenGl -framework AppKit
 RM = /bin/rm -f
 
 MLX_TAR_FILE = minilibx_opengl.tgz
+MLX_TAR_LINUX_FILE = minilibx-linux-master
 MLX_DIR = minilibx_opengl_20191021/
-MLX_DIR_LINUX = minilibx-linux/
+MLX_DIR_LINUX = minilibx-linux-master
 
 LIBFT_DIR = libft/
 FILES = cub3d.c ft_draw.c ft_colors_1.c ft_colors_2.c ft_t_vars_init.c \
@@ -43,15 +44,19 @@ $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR) -Iinc
 
 
-linux: linux_setup lib $(OBJ_LINUX)
-	$(CC) $(OPTIONS) $(MLX_DIR_LINUX)libmlx.a libft.a  -lz -L $(MLX_DIR_LINUX) $(FILES) -o $(NAME)
+# linux: linux_setup lib $(OBJ_LINUX)
+# 	$(CC) $(OPTIONS) $(MLX_DIR_LINUX)/libmlx.a libft.a  -lz -L $(MLX_DIR_LINUX) $(FILES) -o $(NAME)
 
-$(OBJ_LINUX): $(FILES)
-	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR_LINUX) -Iinc
+# $(OBJ_LINUX): $(FILES)
+# 	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR_LINUX)/ -Iinc
 
-linux_setup:
-	@ $(MAKE) -C $(MLX_DIR_LINUX)
-	@ cp $(MLX_DIR_LINUX)/mlx.h ./
+# linux_setup:
+# 	@ unzip -o -q $(MLX_TAR_LINUX_FILE).zip
+# 	@ cd ./$(MLX_TAR_LINUX_FILE)/
+# 	@ bash ./configure
+# 	@ $(MAKE)
+# 	@ cp ./mlx.h ../
+# 	@ cd ../
 
 setup:
 	@ tar -xvzf $(MLX_TAR_FILE)
