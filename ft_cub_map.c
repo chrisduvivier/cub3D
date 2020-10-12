@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 12:22:42 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 15:19:42 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/13 00:08:37 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,6 @@ void	process_cub_map(t_vars *vars)
 	if ((vars->ray.buffer_z = (double*)malloc(sizeof(double) *
 								vars->map.res_w)) == NULL)
 		exit_cub3d(vars, ERROR_MALLOC, __FILE__, __LINE__);
+	if (vars->ray.setup_done == 0)
+		exit_cub3d(vars, ERROR_PLAYER_POS, __FILE__, __LINE__);
 }
