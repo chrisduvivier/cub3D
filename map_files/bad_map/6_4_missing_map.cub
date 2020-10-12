@@ -1,0 +1,8 @@
+R 800 400
+NO ./textures/purplestone.xpm
+SO ./textures/bluestone.xpm
+WE ./textures/colorstone.xpm
+EA ./textures/eagle.xpm
+S ./textures/barrel.xpm
+F 110,100,100
+C 30,30,30

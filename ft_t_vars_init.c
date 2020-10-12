@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:07:20 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/04 23:45:29 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:54:21 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ void		s_map_arg_init(t_map *map)
 	map->map_arg.f = 0;
 }
 
+void		t_map_param_init(t_vars *vars)
+{
+	vars->map.res_h = -1;
+	vars->map.res_w = -1;
+	vars->map.head = NULL;
+	vars->map.head_sprite = NULL;
+	vars->map.num_sprite = 0;
+	vars->map.start_read_map = 0;
+}
+
 /*
 **	map initializer. proceed if given argument has `.cub` filename
 **	FLOW: read cub_param -> cub_map
@@ -84,10 +94,7 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 	if (argc >= 2 && argv[1] && ft_check_file_extension(argv[1], ".cub"))
 	{
 		s_map_arg_init(&(vars->map));
-		vars->map.head = NULL;
-		vars->map.head_sprite = NULL;
-		vars->map.num_sprite = 0;
-		vars->map.start_read_map = 0;
+		t_map_param_init(vars);
 		if (!((fd = open(argv[1], O_RDONLY)) >= 0))
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
 		while ((res = get_next_line(fd, &vars->f_line)) > 0 || *(vars->f_line))
@@ -100,6 +107,8 @@ void		t_map_init(t_vars *vars, int argc, char *argv[])
 		}
 		if (res < 0)
 			exit_cub3d(vars, 0, __FILE__, __LINE__);
+		else if (vars->map.start_read_map == 0)
+			exit_cub3d(vars, ERROR_CUB_FILE, __FILE__, __LINE__);
 	}
 	else
 		exit_cub3d(vars, ERROR_RUN, __FILE__, __LINE__);

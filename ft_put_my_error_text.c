@@ -6,7 +6,7 @@
 /*   By: cduvivie <cduvivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 00:07:29 by cduvivie          #+#    #+#             */
-/*   Updated: 2020/10/05 00:38:44 by cduvivie         ###   ########.fr       */
+/*   Updated: 2020/10/12 09:45:38 by cduvivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_put_my_error_text(int my_error_text)
 	else if (my_error_text == ERROR_BMP_WRITE)
 		ft_putstr_fd("failed to write to bmp file\n", STDERR_FILENO);
 	else if (my_error_text == ERROR_INVALID_MAP_ELEM)
-		ft_putstr_fd("nvalid character found in the map:\n", STDERR_FILENO);
+		ft_putstr_fd("Invalid character found in the map:\n", STDERR_FILENO);
 	else if (my_error_text == ERROR_PLAYER_POS)
 		ft_putstr_fd("Player position has to be unique\n", STDERR_FILENO);
 	else if (my_error_text == ERROR_INVALID_MAP)
