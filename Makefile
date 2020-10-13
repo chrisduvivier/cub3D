@@ -44,19 +44,12 @@ $(OBJ): $(FILES)
 	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR) -Iinc
 
 
-# linux: linux_setup lib $(OBJ_LINUX)
-# 	$(CC) $(OPTIONS) $(MLX_DIR_LINUX)/libmlx.a libft.a  -lz -L $(MLX_DIR_LINUX) $(FILES) -o $(NAME)
+# linux: lib $(OBJ_LINUX)
+# 	make -C mlx
+	# $(CC) -o $(NAME) $(OBJ) -Lmlx -lmlx -lXext -lX11 -lm libft.a 
 
-# $(OBJ_LINUX): $(FILES)
-# 	@ $(CC) $(CFLAGS) $(FILES) -I$(MLX_DIR_LINUX)/ -Iinc
-
-# linux_setup:
-# 	@ unzip -o -q $(MLX_TAR_LINUX_FILE).zip
-# 	@ cd ./$(MLX_TAR_LINUX_FILE)/
-# 	@ bash ./configure
-# 	@ $(MAKE)
-# 	@ cp ./mlx.h ../
-# 	@ cd ../
+# $(OBJ): $(FILES)
+# 	@ $(CC) $(CFLAGS) $(FILES) -Imlx -I.
 
 setup:
 	@ tar -xvzf $(MLX_TAR_FILE)
